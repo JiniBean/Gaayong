@@ -1,0 +1,40 @@
+.drawer {
+    --drawer-width: 288px;
+    --drawer-background-color: var(--color-base-1);
+
+    --drawer-z-index: 1200;
+}
+
+.drawer {
+    position: fixed;
+    background-color: var(--drawer-background-color);
+    z-index: var(--drawer-z-index);
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform;
+}
+
+.drawer, /* default position */
+.drawer-position\:right,
+.drawer-pos\:right {
+    width: var(--drawer-width);
+    height: 100vh;
+    top: 0;
+    right: 0;
+    box-shadow: -5px 0px 15px 0px rgba(0, 0, 0, 0.1);
+    transform: translateX(100%);
+}
+.drawer.active, /* default position */
+.drawer-position\:right.active,
+.drawer-pos\:right.active {
+    transform: translateX(0);
+}
+
+.drawer-position\:left,
+.drawer-pos\:left {
+    width: var(--drawer-width);
+    height: 100vh;
+    top: 0;
+    left: 0;
+    box-shadow: 5px 0px 15px 0px rgba(0, 0, 0, 0.1);
+    transform: translateX(-100%);
+}

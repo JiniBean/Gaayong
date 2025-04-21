@@ -1,0 +1,87 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
+*{
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+body{
+    font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+
+    width: 100%;
+    min-height: 100vh; /* 전체 화면 높이를 최소한으로 설정 */
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    font-size: var(--font-size-6);
+    color: var(--color-base-9);
+
+    background-color: var(--color-base-2);
+}
+
+ main{
+     width: 100%;
+     display:flex;
+     flex-direction: column;
+     flex-grow: 1;
+     gap: var(--gap-10);
+     padding-left: 20px;
+     padding-right: 20px;
+
+ }
+
+@media (min-width: 780px) {
+    body {
+        font-size: var(--font-size-8);
+    }
+
+    main{
+        padding-left: 0;
+        padding-right: 0;
+        gap: var(--gap-12);
+        max-width: 1240px;
+    }
+
+    footer{
+        max-width: 1240px;
+    }
+
+}
+
+ /*인풋박스 커서 투명*/
+ input{
+     caret-color: transparent;
+ }
+
+
+ .scroll\:hidden{
+     scrollbar-width: none; /* Firefox */
+     -ms-overflow-style: none; /* Internet Explorer 및 Edge */
+     background-color: rgba(0, 0, 0, 0);
+ }
+ .scroll\:hidden::-webkit-scrollbar { /* Chrome, Safari, Opera */
+     display: none;
+     background-color: rgba(0, 0, 0, 0);
+ }
+
+.scroll\:thin::-webkit-scrollbar {
+    width: 4px; /* 스크롤바 너비 */
+    height: 4px; /* 스크롤바 높이 (수평 스크롤바용) */
+}
+
+.scroll\:thin::-webkit-scrollbar-button {
+    display: none;
+}
+
+.scroll\:thin::-webkit-scrollbar-thumb { /* 스크롤바 손잡이 색상 */
+    background-color: var(--color-base-5);
+}
+
+.scroll\:thin::-webkit-scrollbar-track { /* 스크롤바 트랙 색상 */
+    background-color: rgba(var(--color-base-2), 0.05)
+}
+
+.scroll-x\:none::-webkit-scrollbar:horizontal {
+    display: none;
+}
+
