@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/home.css">
+</head>
+<body>
+    <main layout:fragment="main">
+        <section class="grid mt:8">
+            <h1>2024년 4월 21일</h1>
+            <div class="card">
+                <div class="title">가용금액</div>
+                <div class="value">430,000원</div>
+                <div class="desc">통장 잔고 - (지출 예정 비용 + 카드대금)</div>
+                <div><button class="btn">변동 수입/지출 관리</button></div>
+            </div>
+
+            <div class="card">
+                <div class="title">미지출 고정비용</div>
+                <div class="value">430,000원</div>
+                <div class="desc">지출 예정인 고정 비용</div>
+                <div><button class="btn">고정지출 관리</button></div>
+            </div>
+
+            <div class="card">
+                <div class="title">미결제 카드대금</div>
+                <div class="value">430,000원</div>
+                <div class="desc">지난 달 + 이번달 카드 대금 총합</div>
+                <div><button class="btn">카드 관리</button></div>
+            </div>
+
+            <div class="card">
+                <div class="title">통장 잔고</div>
+                <div class="value">430,000원</div>
+                <div class="desc">모든 통장 잔고 총합</div>
+                <div><button class="btn">통장 관리</button></div>
+            </div>
+        </section>
+
+        <section class="grid">
+            <h1>수입/지출 정보</h1>
+            <div class="card">
+                <div class="title">총 수입</div>
+                <div class="value">430,000원</div>
+                <div class="desc">예산 + 그 외 수입</div>
+            </div>
+            <div class="card">
+                <div class="title">총 지출</div>
+                <div class="value">430,000원</div>
+                <div class="desc">고정 비용 + 이번 달 변동 지출</div>
+            </div>
+
+        </section>
+
+        <section class="grid">
+            <h1>예산 정보</h1>
+            <div class="card">
+                <div class="title">예산</div>
+                <div class="value">430,000원</div>
+                <div class="desc">예산 총합</div>
+                <div><button class="btn">예산 관리</button></div>
+            </div>
+            <div class="card">
+                <div class="title">예상 가용금액</div>
+                <div class="value">430,000원</div>
+                <div class="desc">예산 총합</div>
+                <div><button class="btn">예산 - 고정지출</button></div>
+            </div>
+            <div class="card">
+                <div class="title">차이</div>
+                <div class="value">430,000원</div>
+                <div class="desc">가용금액 - 예상 가용금액</div>
+                <div><button class="btn">예산 관리</button></div>
+            </div>
+        </section>
+
+
+    </main>
+</body>
+</html>

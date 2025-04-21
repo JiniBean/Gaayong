@@ -1,0 +1,22 @@
+.grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.grid > h1 {
+    font-size: var(--font-size-10);
+    font-weight: bold;
+}
+
+@media (min-width: 780px) {
+    .grid{
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+
+    .grid > h1{
+        grid-column: 1 / -1;
+        font-size: var(--font-size-11);
+    }
+}
