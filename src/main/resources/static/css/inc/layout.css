@@ -1,0 +1,36 @@
+.card{
+    border-radius: 8px;
+    padding: var(--gap-8);
+    background-color: var(--color-base-1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-6);
+}
+
+.card > .title{
+    font-size: var(--font-size-8);
+}
+
+.card .value{
+    font-size: var(--font-size-9);
+    font-weight: bold;
+}
+
+.card .desc{
+    color: var(--color-base-5);
+}
+
+@media (min-width: 780px) {
+    .card{
+        gap: var(--gap-7);
+    }
+
+    .card > .title{
+        font-size: var(--font-size-9);
+    }
+
+    .card .value{
+        font-size: var(--font-size-10);
+    }
+}
