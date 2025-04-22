@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/budget.css">
+</head>
+<body>
+<main layout:fragment="main">
+    <section class="grid mt:8">
+        <h1 class="d:flex jc:space-between">4월 총 예산 : 2,300,000원 <span class="btn btn-size:1 bg-color:sub-1 fs:7">예산추가</span></h1>
+        <div class="card">
+            <div class="title">월급</div>
+            <div class="value">2,300,000원</div>
+            <div class="desc">근로소득</div>
+            <div class="d:flex jc:end gap:2">
+                <div><button class="btn btn-size:1 bg-color:base-4">수정</button></div>
+                <div><button class="btn btn-size:1 bg-color:accent-1">삭제</button></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="card">
+        <h1 class="title">예산수정</h1>
+        <form action="/budget" method="post" class="form form:underline grid">
+            <label>
+                <span>이름</span>
+                <input type="text" name="name">
+            </label>
+            <label>
+                <span>설명</span>
+                <input type="text" name="des">
+            </label>
+            <label>
+                <span>금액</span>
+                <input type="text" name="amt">
+            </label>
+            <div class="d:flex gap:8">
+                <label class="fl-grow:1">
+                    <span>일자</span>
+                    <span class="d:flex fl-grow:1 ai:center">
+                    <span class="mr:2 color:base-6 fw:2">매달</span>
+                    <select name="incDd">
+                        <option value="1">1일</option>
+                        <option value="2">2일</option>
+                        <option value="3">3일</option>
+                        <option value="4">4일</option>
+                        <option value="5">5일</option>
+                        <option value="6">6일</option>
+                        <option value="7">7일</option>
+                        <option value="8">8일</option>
+                        <option value="9">9일</option>
+                        <option value="10">10일</option>
+                        <option value="11">11일</option>
+                        <option value="12">12일</option>
+                        <option value="13">13일</option>
+                        <option value="14">14일</option>
+                        <option value="15">15일</option>
+                        <option value="16">16일</option>
+                        <option value="17">17일</option>
+                        <option value="18">18일</option>
+                        <option value="19">19일</option>
+                        <option value="20">20일</option>
+                        <option value="21">21일</option>
+                        <option value="22">22일</option>
+                        <option value="23">23일</option>
+                        <option value="24">24일</option>
+                        <option value="25">25일</option>
+                        <option value="26">26일</option>
+                        <option value="27">27일</option>
+                        <option value="28">28일</option>
+                        <option value="29">29일</option>
+                        <option value="30">30일</option>
+                        <option value="31">31일</option>
+                    </select>
+                </span>
+                </label>
+                <label class="fl-grow:1">
+                    <span>카테고리</span>
+                    <select name="ctgId">
+                    </select>
+                </label>
+            </div>
+        </form>
+    </section>
+
+
+</main>
+</body>
+</html>
