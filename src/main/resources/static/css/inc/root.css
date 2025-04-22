@@ -7,7 +7,7 @@
   --color-main-2: #4e6db7;
   --color-main-3: #7ba9e1;
 
-  --color-sub-1: #a3adc5;
+  --color-sub-1: #74B94C;
   --color-sub-2: #1f2e5d ;
   --color-sub-3: #1f2e5d ;
 
@@ -18,7 +18,7 @@
   --color-base-1: #FFFFFF;
   --color-base-2: #F5F5F5;
   --color-base-3: #EEEEEE;
-  --color-base-4: #C4C8CC;
+  --color-base-4: #cfd3d6;
   --color-base-5: #A0A0A0;
   --color-base-6: #9C9999;
   --color-base-7: #7D7D7D;
@@ -298,9 +298,9 @@
 
 
   /* font-weight */
-  --font-weight-1: normal;
-  --font-weight-2: bold;
-  --font-weight-3: bolder;
+  --font-weight-1: 400;
+  --font-weight-2: 500;
+  --font-weight-3: 700;
   --font-weight-ex: 0;
 
   /* opacity */
