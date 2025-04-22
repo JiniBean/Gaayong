@@ -1,0 +1,179 @@
+.form {
+    /* form style */
+    --form-border-radius: 5px;
+    --form-padding: 24px;
+
+    /* textbox style */
+    --textbox-padding-x: 12px;
+    --textbox-input-height: 36px;
+    --textbox-border-radius: 5px;
+    --textbox-border-color: var(--color-base-4);
+    --textbox-underline-border-width: 1.6px;
+    --textbox-border-color-focus: var(--color-accent-1);
+
+    --textbox-border-color-success: #37b24d;
+    --textbox-color-warning: var(--color-accent-1);
+    --textbox-border-color-warning: var(--color-accent-1);
+
+}
+
+/*.form {*/
+/*    background-color: var(--color-base-1);*/
+/*    border: 1px solid var(--color-base-3);*/
+/*    border-radius: var(--form-border-radius);*/
+/*    padding: var(--form-padding);*/
+/*}*/
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+/* ---- textbox ----------------------------------------- */
+
+.form input[type="email"],
+.form input[type="number"],
+.form input[type="password"],
+.form input[type="search"],
+.form input[type="tel"],
+.form input[type="text"],
+.form input[type="url"],
+.form select{
+    color: rgba(var(--rgb-base-10), 0.85);
+    height: var(--textbox-input-height);
+    line-height: 150%;
+    border: 1px solid var(--textbox-border-color);
+    border-radius: var(--textbox-border-radius);
+    box-shadow: 0px 1px 1.5px 0px rgba(0, 0, 0, 0.05);
+    padding: 4px var(--textbox-padding-x);
+    flex-grow: 1;
+    transition: border 0.12s;
+}
+
+/* ------- form-style ---------------------------- */
+
+/* underline */
+.form\:underline input[type="email"],
+.form\:underline input[type="number"],
+.form\:underline input[type="password"],
+.form\:underline input[type="search"],
+.form\:underline input[type="tel"],
+.form\:underline input[type="text"],
+.form\:underline input[type="url"]{
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-width: var(--textbox-underline-border-width);
+    border-radius: 0px;
+    box-shadow: none;
+    background-color: transparent;
+    width: 100%;
+    transition-property: border-color;
+    transition-duration: 200ms;
+}
+
+/* label:left */
+.form label {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.form.label\:left label {
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+}
+
+.form\:underline.label\:left label {
+    align-items: end;
+}
+
+.form.label\:left label > span:first-child {
+    font-weight: 500;
+    flex-shrink: 0;
+}
+
+.form label > input[type="email"],
+.form label > input[type="number"],
+.form label > input[type="password"],
+.form label > input[type="search"],
+.form label > input[type="tel"],
+.form label > input[type="text"],
+.form label > input[type="url"],
+.form label > select {
+    flex-grow: 1;
+    min-width: 0;
+}
+
+
+/* ---- textbox status ------------------------------------------------- */
+.form input[type="email"]:focus,
+.form input[type="number"]:focus,
+.form input[type="password"]:focus,
+.form input[type="search"]:focus,
+.form input[type="tel"]:focus,
+.form input[type="text"]:focus,
+.form input[type="url"]:focus {
+    border-color: var(--textbox-border-color-focus);
+}
+
+
+/* ---- input, textbox placeholder ------------------------------------------------- */
+.form input[type="email"]::placeholder,
+.form input[type="number"]::placeholder,
+.form input[type="password"]::placeholder,
+.form input[type="search"]::placeholder,
+.form input[type="tel"]::placeholder,
+.form input[type="text"]::placeholder,
+.form input[type="url"]::placeholder,
+.form textarea::placeholder {
+    font-size: var(--font-size-2);
+    font-weight: var(--font-weight-1);
+    line-height: 150%;
+    letter-spacing: -0.02em;
+    color: var(--color-base-5);
+}
+
+
+/* -------- remove autofill style -------------------------------- */
+.form input[type="email"]:-webkit-autofill,
+.form input[type="email"]:-webkit-autofill:hover,
+.form input[type="email"]:-webkit-autofill:focus,
+.form input[type="email"]:-webkit-autofill:active,
+.form input[type="number"]:-webkit-autofill,
+.form input[type="number"]:-webkit-autofill:hover,
+.form input[type="number"]:-webkit-autofill:focus,
+.form input[type="number"]:-webkit-autofill:active,
+.form input[type="password"]:-webkit-autofill,
+.form input[type="password"]:-webkit-autofill:hover,
+.form input[type="password"]:-webkit-autofill:focus,
+.form input[type="password"]:-webkit-autofill:active,
+.form input[type="search"]:-webkit-autofill,
+.form input[type="search"]:-webkit-autofill:hover,
+.form input[type="search"]:-webkit-autofill:focus,
+.form input[type="search"]:-webkit-autofill:active,
+.form input[type="tel"]:-webkit-autofill,
+.form input[type="tel"]:-webkit-autofill:hover,
+.form input[type="tel"]:-webkit-autofill:focus,
+.form input[type="tel"]:-webkit-autofill:active,
+.form input[type="text"]:-webkit-autofill,
+.form input[type="text"]:-webkit-autofill:hover,
+.form input[type="text"]:-webkit-autofill:focus,
+.form input[type="text"]:-webkit-autofill:active,
+.form input[type="url"]:-webkit-autofill,
+.form input[type="url"]:-webkit-autofill:hover,
+.form input[type="url"]:-webkit-autofill:focus,
+.form input[type="url"]:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px var(--color-base-1) inset !important;
+}
+
+.form input[type="email"]:-webkit-autofill,
+.form input[type="number"]:-webkit-autofill,
+.form input[type="password"]:-webkit-autofill,
+.form input[type="search"]:-webkit-autofill,
+.form input[type="tel"]:-webkit-autofill,
+.form input[type="text"]:-webkit-autofill,
+.form input[type="url"]:-webkit-autofill {
+    -webkit-text-fill-color: var(--color-base-9) !important;
+}
