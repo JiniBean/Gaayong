@@ -3,11 +3,11 @@
 
   --theme-color:dark;
 
-  --color-main-1: #FD7E14;
-  --color-main-2: #4e6db7;
-  --color-main-3: #7ba9e1;
+  --color-main-1: #FFF3F7;
+  --color-main-2: #E9A6B0;
+  --color-main-3: #C86B85;
 
-  --color-sub-1: #74B94C;
+  --color-sub-1: #FFF3F7 ;
   --color-sub-2: #1f2e5d ;
   --color-sub-3: #1f2e5d ;
 
@@ -18,12 +18,12 @@
   --color-base-1: #FFFFFF;
   --color-base-2: #F5F5F5;
   --color-base-3: #EEEEEE;
-  --color-base-4: #cfd3d6;
+  --color-base-4: #c6cacc;
   --color-base-5: #A0A0A0;
   --color-base-6: #9C9999;
-  --color-base-7: #7D7D7D;
-  --color-base-8: #616063;
-  --color-base-9: #333333;
+  --color-base-7: #6e6d6d;
+  --color-base-8: #333333;
+  --color-base-9: #292929;
   --color-base-10: #000000;
   --color-base-ex: transparent;
 
@@ -93,7 +93,7 @@
   --deco-size-9: 48px;
   --deco-size-ex: 0;
 
-  --icon-color : var(--color-base-9);
+
 
   /* gap */
   --gap-0: 0;

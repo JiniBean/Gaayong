@@ -15,8 +15,13 @@ body{
 
     font-size: var(--font-size-6);
     color: var(--color-base-9);
-
     background-color: var(--color-base-2);
+
+}
+
+.dark{
+    color: var(--color-base-2);
+    background-color: var(--color-base-9);
 }
 
  main{

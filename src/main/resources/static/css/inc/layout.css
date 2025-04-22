@@ -2,10 +2,16 @@ header{
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: var(--color-base-1);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     position: sticky;
     top: 0;
     z-index: 100;
+}
+
+.dark header {
+    background-color: var(--color-base-9);
+    border-bottom: var(--color-base-8) solid 1px;
 }
 
 header > div{
@@ -22,6 +28,9 @@ header > div{
     gap: var(--gap-6);
 }
 
+.dark .card{
+    background-color: var(--color-base-8);
+}
 .card > .title{
     font-size: var(--font-size-8);
 }
@@ -34,6 +43,10 @@ header > div{
 .card .desc{
     color: var(--color-base-5);
 }
+
+/*.dark .card .desc{*/
+/*    color: var(--color-base-4);*/
+/*}*/
 
 @media (min-width: 780px) {
     .card{

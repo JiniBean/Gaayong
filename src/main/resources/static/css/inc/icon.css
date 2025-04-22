@@ -12,6 +12,8 @@
 /* ---- icon ------------------------------------------------- */
 
 .icon {
+  --icon-color : var(--color-base-9);
+
   display: inline-block;
   width: var(--icon-size-4);
   min-width: var(--deco-size-4);
@@ -25,6 +27,10 @@
   border: none;
   background-color: transparent;
   vertical-align: middle;
+}
+
+.dark .icon{
+  --icon-color : var(--color-base-2);
 }
 
 .icon\:btn {
