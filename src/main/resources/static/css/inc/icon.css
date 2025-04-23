@@ -468,6 +468,18 @@
   mask-image: url("../../icon/caret-down.svg");
 }
 
+.icon\:caret-left::before,
+.icon\:caret-left::after {
+  -webkit-mask-image: url("../../icon/caret-left.svg");
+  mask-image: url("../../icon/caret-left.svg");
+}
+
+.icon\:caret-right::before,
+.icon\:caret-right::after {
+  -webkit-mask-image: url("../../icon/caret-right.svg");
+  mask-image: url("../../icon/caret-right.svg");
+}
+
 .icon\:menu::before,
 .icon\:menu::after {
   -webkit-mask-image: url("../../icon/menu.svg");

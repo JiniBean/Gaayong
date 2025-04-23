@@ -6,7 +6,7 @@
     box-shadow: 0 2px 8px -1px rgba(18, 22, 33, 0.1);
     cursor: pointer;
     border-radius: 5px;
-
+    background-color: var(--color-base-4);
     color: var(--color-base-1);
     font-weight: 500;
 }

@@ -9,7 +9,7 @@
     --textbox-border-radius: 5px;
     --textbox-border-color: var(--color-base-4);
     --textbox-underline-border-width: 1.6px;
-    --textbox-border-color-focus: var(--color-accent-1);
+    --textbox-border-color-focus: var(--color-main-2);
 
     --textbox-border-color-success: #37b24d;
     --textbox-color-warning: var(--color-accent-1);
@@ -39,7 +39,6 @@
 .form input[type="text"],
 .form input[type="url"],
 .form select{
-    color: rgba(var(--rgb-base-10), 0.85);
     height: var(--textbox-input-height);
     line-height: 150%;
     border: 1px solid var(--textbox-border-color);
@@ -50,6 +49,18 @@
     transition: border 0.12s;
 }
 
+.dark .form input[type="date"]{
+    background-color: var(--color-base-8);
+}
+
+.dark .form input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(252deg);
+}
+
+.dark .form select {
+    color: var(--color-base-9);
+    background-color: var(--color-base-3);
+}
 /* ------- form-style ---------------------------- */
 
 /* underline */
