@@ -9,14 +9,23 @@
 </head>
 <body>
 <main layout:fragment="main">
-    <section class="grid mt:8">
-        <h1 class="d:flex jc:space-between">4월 총 예산 : 2,300,000원 <span class="btn btn-size:1 bg-color:main-2 fs:7">예산추가</span></h1>
+    <div class="d:flex jc:space-between mt:8">
+        <h1 class="page-title">4월 예산</h1>
+        <div class="btn btn-size:1 bg-color:main-2 fs:7">예산추가</div>
+    </div>
+
+    <section class="grid">
+       <h1 class="d:none">예산 현황</h1>
+        <div class="card">
+            <div class="title">총 예산</div>
+            <div class="value">2,300,000원</div>
+        </div>
         <div class="card">
             <div class="title">월급</div>
             <div class="value">2,300,000원</div>
             <div class="desc">근로소득</div>
             <div class="d:flex jc:end gap:2">
-                <div><button class="btn btn-size:1 bg-color:base-4">수정</button></div>
+                <div><button class="btn btn-size:1">수정</button></div>
                 <div><button class="btn btn-size:1 bg-color:accent-1">삭제</button></div>
             </div>
         </div>
