@@ -15,6 +15,10 @@
     will-change: transform;
 }
 
+.drawer *{
+    color: var(--drawer-color);
+}
+
 .dark .drawer {
     background-color: var(--color-base-9);
 }
