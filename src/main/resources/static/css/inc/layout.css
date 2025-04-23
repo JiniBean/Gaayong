@@ -1,4 +1,4 @@
-header{
+header {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -9,16 +9,18 @@ header{
     z-index: 100;
 }
 
-.dark header {
+.dark header,
+.dark footer {
     background-color: var(--color-base-9);
     border-bottom: var(--color-base-8) solid 1px;
 }
 
-header > div{
+header > div {
     max-width: 1280px;
 }
 
-.card{
+
+.card {
     border-radius: 8px;
     padding: var(--gap-8);
     background-color: var(--color-base-1);
@@ -31,16 +33,16 @@ header > div{
 .dark .card{
     background-color: var(--color-base-8);
 }
-.card > .title{
+.card .title {
     font-size: var(--font-size-8);
 }
 
-.card .value{
+.card .value {
     font-size: var(--font-size-9);
     font-weight: bold;
 }
 
-.card .desc{
+.card .desc {
     color: var(--color-base-5);
 }
 
@@ -48,16 +50,24 @@ header > div{
 /*    color: var(--color-base-4);*/
 /*}*/
 
+.page-title {
+    font-size: var(--font-size-10);
+    font-weight: bold;
+}
 @media (min-width: 780px) {
-    .card{
+    .card {
         gap: var(--gap-7);
     }
 
-    .card > .title{
+    .card .title {
         font-size: var(--font-size-9);
     }
 
-    .card .value{
+    .card .value {
         font-size: var(--font-size-10);
+    }
+
+    .page-title {
+        font-size: var(--font-size-11);
     }
 }
