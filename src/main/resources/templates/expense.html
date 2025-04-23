@@ -38,11 +38,14 @@
 
     <section class="d:flex fl-dir:column gap:8">
         <h1 class="d:none">지출 내역</h1>
-        <div class="card p:6 fl-dir:row gap:2 fs:5">
-            <div class="p:1 pl:4 pr:4 bd bd-color:base-3 bd-radius:1">전체</div>
-            <div class="p:1 pl:4 pr:4 bd bd-color:base-3 bd-radius:1">식비</div>
-            <div class="p:1 pl:4 pr:4 bd bd-color:base-3 bd-radius:1">데이트</div>
-            <div class="p:1 pl:4 pr:4 bd bd-color:base-3 bd-radius:1">선물</div>
+        <div class="card p:6 fs:5">
+            <div class="d:flex gap:2">
+                <div class="btn btn-size:1 btn-color:main-2">전체</div>
+                <div class="btn btn-size:1 btn:outline">식비</div>
+                <div class="btn btn-size:1 btn:outline">데이트</div>
+                <div class="btn btn-size:1 btn:outline">선물</div>
+            </div>
+            <div class="as:end fs:9">총 60,000원</div>
         </div>
         <div class="d:flex fl-dir:column gap:2">
             <div class="card p:4 fl-dir:row ai:center w:10p">
@@ -86,7 +89,7 @@
             </label>
             <label>
                 <span>결제일</span>
-                <input type="date" name="pmtDd" style="cursor: pointer" onclick="this.showPicker()" th:value="${#temporals.format(#temporals.createToday(), 'yyyy-MM-dd')}">
+                <input type="date" name="dd" style="cursor: pointer" onclick="this.showPicker()" th:value="${#temporals.format(#temporals.createToday(), 'yyyy-MM-dd')}">
             </label>
             <div class="d:flex gap:8">
                 <label class="fl-grow:1">
