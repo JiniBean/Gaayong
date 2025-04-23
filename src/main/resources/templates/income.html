@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/budget.css">
+</head>
+<body>
+<main layout:fragment="main">
+    <div class="d:flex jc:space-between mt:8">
+        <div class="d:flex ai:center gap:6">
+            <div class="icon icon:caret-left icon-color:base-5"><</div>
+            <h1 class="page-title">4월 수입</h1>
+            <div class="icon icon:caret-right icon-color:base-5"><</div>
+        </div>
+        <div class="btn btn-size:1 bg-color:main-2 fs:7">수입추가</div>
+    </div>
+
+    <section class="grid">
+       <h1 class="d:none">수입 현황</h1>
+        <div class="card">
+            <div class="title">총 수입</div>
+            <div class="value">2,300,000원</div>
+            <div class="d:flex jc:space-between bd-bottom bd-color:base-3 p:2">
+                <span>추가수입</span>
+                <span>300,000원</span>
+            </div>
+            <a href="/budget">
+                <div class="d:flex jc:space-between bd-bottom bd-color:base-3 p:2">
+                    <span>예산</span>
+                    <span>300,000원</span>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <section class="d:flex fl-dir:column gap:8">
+        <h1 class="d:none">수입 내역</h1>
+        <div class="card p:6 fl-dir:row gap:2 fs:5">
+            <div class="p:1 pl:4 pr:4 bd bd-color:base-3 bd-radius:1">전체</div>
+            <div class="p:1 pl:4 pr:4 bd bd-color:base-3 bd-radius:1">급여</div>
+            <div class="p:1 pl:4 pr:4 bd bd-color:base-3 bd-radius:1">용돈</div>
+            <div class="p:1 pl:4 pr:4 bd bd-color:base-3 bd-radius:1">기타</div>
+        </div>
+        <div class="d:flex fl-dir:column gap:2">
+            <div class="card p:4 fl-dir:row ai:center w:10p">
+                <div class="d:flex fl-dir:column ai:center gap:2" style="width: 12%; max-width: 90px">
+                    <div>04/21</div>
+                    <div class="fs:4">월</div>
+                </div>
+                <div class="fl-grow:1 d:flex fl-dir:column gap:4">
+                    <div class=""><span class="p:1 pl:2 pr:2 bg-color:main-1 bd-radius:3 fs:3 color:base-7">급여</span></div>
+                    <div class="title fw:2">월급</div>
+                    <div class="desc fs:5">OK 저축은행</div>
+                </div>
+                <div class="title fw:2">2,000,000원</div>
+            </div>
+
+            <div class="card p:4 fl-dir:row ai:center w:10p">
+                <div class="d:flex fl-dir:column ai:center gap:2" style="width: 12%; max-width: 90px">
+                    <div>04/21</div>
+                    <div class="fs:4">월</div>
+                </div>
+                <div class="fl-grow:1 d:flex fl-dir:column gap:4">
+                    <div class=""><span class="p:1 pl:2 pr:2 bg-color:main-1 bd-radius:3 fs:3 color:base-7">용돈</span></div>
+                    <div class="title fw:2">오빠</div>
+                    <div class="desc fs:5">토스</div>
+                </div>
+                <div class="title fw:2">100,000원</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="card">
+        <h1 class="title">수입 추가</h1>
+        <form action="/expense" method="post" class="form form:underline grid">
+            <label>
+                <span>내역</span>
+                <input type="text" name="name">
+            </label>
+            <label>
+                <span>금액</span>
+                <input type="text" name="amt">
+            </label>
+            <label>
+                <span>일자</span>
+                <input type="date" name="incDd" style="cursor: pointer" onclick="this.showPicker()" th:value="${#temporals.format(#temporals.createToday(), 'yyyy-MM-dd')}">
+            </label>
+            <div class="d:flex gap:8">
+                <label class="fl-grow:1">
+                    <span>통장</span>
+                    <select name="cardId">
+                    </select>
+                </label>
+                <label class="fl-grow:1">
+                    <span>카테고리</span>
+                    <select name="ctgId">
+                    </select>
+                </label>
+            </div>
+        </form>
+    </section>
+
+
+</main>
+</body>
+</html>
