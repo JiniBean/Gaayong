@@ -29,7 +29,8 @@
     <script type="module" src="/js/layout.js" defer></script>
 
 </head>
-<body >
+<body>
+<!--<body class="dark">-->
     <!-- header -->
     <header class="h:2 md:h:3 w:10p">
         <div class="d:flex gap:11 jc:space-between ai:center w:10p p:8">
@@ -44,13 +45,14 @@
                         <li sec:authorize="isAuthenticated()"><a href="/signout">로그아웃</a></li>
                     </ul>
                 </nav>
-                <nav>
+                <nav class="w:7p">
                     <h1 class="d:none">down</h1>
-                    <ul class="d:flex gap:11 fs:10">
+                    <ul class="d:flex jc:space-between fs:10">
                         <li><a href="/">대시보드</a></li>
-                        <li><a href="/ledger">수입/지출</a></li>
-                        <li><a href="/budget">예산</a></li>
+                        <li><a href="/expense">지출</a></li>
+                        <li><a href="/income">수입</a></li>
                         <li><a href="/fixed">고정지출</a></li>
+                        <li><a href="/budget">예산</a></li>
                         <li><a href="/account">통장</a></li>
                         <li><a href="/card">카드</a></li>
                         <li><a href="/category">카테고리</a></li>
@@ -75,9 +77,10 @@
         </div>
         <ul class="d:flex fl-dir:column gap:6 fs:9">
             <li><a href="/">대시보드</a></li>
-            <li><a href="/ledger">수입/지출</a></li>
-            <li><a href="/budget">예산</a></li>
+            <li><a href="/expense">지출</a></li>
+            <li><a href="/income">수입</a></li>
             <li><a href="/fixed">고정지출</a></li>
+            <li><a href="/budget">예산</a></li>
             <li><a href="/account">통장</a></li>
             <li><a href="/card">카드</a></li>
             <li><a href="/category">카테고리</a></li>
@@ -86,8 +89,8 @@
     <!-- main -->
     <div layout:fragment="main">메인</div>
     <!-- footer -->
-    <footer class="w:10p p:8 bg-color:base-9 color:base-2">
-        가용. All rights reserved.
+    <footer class="w:10p p:8 ">
+        ©가용. All rights reserved.
     </footer>
 </body>
 </html>
