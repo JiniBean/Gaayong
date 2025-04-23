@@ -23,6 +23,37 @@
     transition: opacity 0.2s;
 }
 
+/* ------- size ---------------------------- */
 .btn-size\:1 {
     height: 26px;
+}
+
+/* ------- type ---------------------------- */
+.btn\:outline {
+    background-color: var(--color-base-1);
+    color: var(--color-base-9);
+    border: 1px solid var(--color-base-4);
+}
+
+.dark .btn\:outline {
+    background-color: var(--color-base-8);
+    color: var(--color-base-2);
+    border: 1px solid var(--color-base-6);
+}
+
+
+/* ------- color ---------------------------- */
+.btn-color\:main-1 {
+    background-color: var(--color-main-1);
+    color: var(--color-main-3);
+}
+
+.btn-color\:main-2 {
+    background-color: var(--color-main-2);
+    color: var(--color-base-1);
+}
+
+.btn-color\:main-1 {
+    background-color: var(--color-main-3);
+    color: var(--color-base-1);
 }
