@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/budget.css">
+</head>
+<body>
+<main layout:fragment="main">
+    <div class="d:flex jc:space-between mt:8">
+        <h1 class="page-title">통장</h1>
+        <div class="btn btn-size:1 bg-color:main-2 fs:7">통장추가</div>
+    </div>
+
+    <section class="grid">
+       <h1 class="d:none">통장 현황</h1>
+        <div class="card">
+            <div class="title">총 잔액</div>
+            <div class="value">2,300,000원</div>
+        </div>
+    </section>
+
+    <section class="d:flex fl-dir:column gap:8">
+        <h1 class="d:none">통장 잔고 내역</h1>
+        <div class="d:flex fl-dir:column gap:2">
+            <div class="card p:4 fl-dir:row ai:center w:10p">
+                <div class="fl-grow:1 d:flex fl-dir:column gap:4">
+                    <div class="title fw:2">토스</div>
+                    <div class="d:flex fl-dir:column gap:1">
+                        <div class="desc fs:5">토스뱅크</div>
+                        <div class="desc fs:5">100-146-15487</div>
+                    </div>
+                </div>
+                <div class="title fw:2">300,000원</div>
+            </div>
+            <div class="card p:4 fl-dir:row ai:center w:10p">
+                <div class="fl-grow:1 d:flex fl-dir:column gap:4">
+                    <div class="title fw:2">카카오페이</div>
+                    <div class="d:flex fl-dir:column gap:1">
+                        <div class="desc fs:5">카카오페이증권</div>
+                        <div class="desc fs:5">100-146-15487</div>
+                    </div>
+                </div>
+                <div class="title fw:2">300,000원</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="card">
+        <h1 class="title">통장 추가</h1>
+        <form action="/expense" method="post" class="form form:underline grid">
+            <label>
+                <span>은행</span>
+                <input type="text" name="bank">
+            </label>
+            <label>
+                <span>계좌번호</span>
+                <input type="text" name="accNum">
+            </label>
+            <label>
+                <span>이름</span>
+                <input type="text" name="name">
+            </label>
+            <label>
+                <span>잔고</span>
+                <input type="text" name="amt">
+            </label>
+        </form>
+    </section>
+
+
+</main>
+</body>
+</html>
