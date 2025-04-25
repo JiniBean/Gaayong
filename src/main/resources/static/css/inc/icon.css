@@ -74,10 +74,10 @@
   height: var(--deco-size-3);
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
-  -webkit-mask-size: inherit;
-  mask-size: inherit;
-  /* -webkit-mask-position: center;
-  mask-position: center; */
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-position: center;
+  mask-position: center;
   background-color: var(--icon-color);
   margin-right: 8px;
 }
@@ -484,4 +484,10 @@
 .icon\:menu::after {
   -webkit-mask-image: url("../../icon/menu.svg");
   mask-image: url("../../icon/menu.svg");
+}
+
+.icon\:favicon::before,
+.icon\:favicon::after {
+  -webkit-mask-image: url("../../icon/favicon.svg");
+  mask-image: url("../../icon/favicon.svg");
 }
