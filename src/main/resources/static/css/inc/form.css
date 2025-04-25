@@ -5,7 +5,7 @@
 
     /* textbox style */
     --textbox-padding-x: 12px;
-    --textbox-input-height: 36px;
+    --textbox-input-height: 20px;
     --textbox-border-radius: 5px;
     --textbox-border-color: var(--color-base-4);
     --textbox-underline-border-width: 1.6px;
@@ -37,8 +37,7 @@
 .form input[type="search"],
 .form input[type="tel"],
 .form input[type="text"],
-.form input[type="url"],
-.form select{
+.form input[type="url"] {
     height: var(--textbox-input-height);
     line-height: 150%;
     border: 1px solid var(--textbox-border-color);
@@ -47,6 +46,12 @@
     padding: 4px var(--textbox-padding-x);
     flex-grow: 1;
     transition: border 0.12s;
+}
+
+.form select {
+    border: 1px solid var(--textbox-border-color);
+    border-radius: var(--textbox-border-radius);
+    padding: 4px var(--textbox-padding-x);
 }
 
 .dark .form input[type="date"]{

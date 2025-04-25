@@ -71,3 +71,10 @@ header > div {
         font-size: var(--font-size-11);
     }
 }
+.card:has(form){
+    gap: 20px;
+}
+
+.form.form\:underline {
+    gap:16px;
+}
