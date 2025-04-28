@@ -15,20 +15,14 @@ body{
 
     background-color: var(--color-base-2);
     font-size: var(--font-size-6);
-}
-
-* {
     color: var(--color-base-9);
 }
 
 .dark {
     background-color: var(--color-base-9);
-}
-
-.dark *{
     color: var(--color-base-2);
-
 }
+
 
  main{
      width: 100%;
@@ -63,6 +57,52 @@ body{
  }
 
 
+option:checked{
+    background: var(--color-base-4) !important;
+    background-color: var(--color-base-4) !important;
+    color: #000 !important;
+    text-shadow: none !important;
+    -webkit-appearance: none !important;
+}
+
+select::-webkit-scrollbar {
+    width: 4px; /* 스크롤바 너비 */
+    height: 4px; /* 스크롤바 높이 (수평 스크롤바용) */
+}
+
+select::-webkit-scrollbar-button {
+    display: none;
+}
+
+select::-webkit-scrollbar-thumb { /* 스크롤바 손잡이 색상 */
+    background-color: var(--color-base-5);
+}
+
+select::-webkit-scrollbar-track { /* 스크롤바 트랙 색상 */
+    background-color: rgba(var(--color-base-2), 0.05)
+}
+
+
+
+/*기본스크롤:thin*/
+body::-webkit-scrollbar {
+    width: 4px; /* 스크롤바 너비 */
+    height: 4px; /* 스크롤바 높이 (수평 스크롤바용) */
+}
+
+body::-webkit-scrollbar-button {
+    display: none;
+}
+
+*::-webkit-scrollbar-thumb { /* 스크롤바 손잡이 색상 */
+    background-color: var(--color-base-5);
+}
+
+body::-webkit-scrollbar-track { /* 스크롤바 트랙 색상 */
+    background-color: rgba(var(--color-base-2), 0.05)
+}
+
+/*스크롤 커스텀*/
  .scroll\:hidden{
      scrollbar-width: none; /* Firefox */
      -ms-overflow-style: none; /* Internet Explorer 및 Edge */

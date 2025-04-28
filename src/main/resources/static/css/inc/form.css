@@ -8,7 +8,7 @@
     --textbox-input-height: 20px;
     --textbox-border-radius: 5px;
     --textbox-border-color: var(--color-base-4);
-    --textbox-underline-border-width: 1.6px;
+    --textbox-underline-border-width: 1px;
     --textbox-border-color-focus: var(--color-main-2);
 
     --textbox-border-color-success: #37b24d;
@@ -58,13 +58,38 @@
     background-color: var(--color-base-8);
 }
 
+.dark .form input{
+    color: var(--color-base-2);
+}
+
 .dark .form input[type="date"]::-webkit-calendar-picker-indicator {
     filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(252deg);
 }
 
 .dark .form select {
-    color: var(--color-base-9);
-    background-color: var(--color-base-3);
+    color: var(--color-base-2);
+    background-color: var(--color-base-8);
+}
+
+.dark .form option{
+    background-color: var(--color-base-9);
+    color: var(--color-base-2);
+}
+
+.form option:checked{
+    background: var(--color-base-4) !important;
+    background-color: var(--color-base-4) !important;
+    color: #000 !important;
+    text-shadow: none !important;
+    -webkit-appearance: none !important;
+}
+
+.dark .form option:checked{
+    background: var(--color-base-8) !important;
+    background-color: var(--color-base-8) !important;
+    color: var(--color-base-2) !important;
+    text-shadow: none !important;
+    -webkit-appearance: none !important;
 }
 /* ------- form-style ---------------------------- */
 
@@ -181,7 +206,10 @@
 .form input[type="url"]:-webkit-autofill:hover,
 .form input[type="url"]:-webkit-autofill:focus,
 .form input[type="url"]:-webkit-autofill:active {
-    -webkit-box-shadow: 0 0 0 30px var(--color-base-1) inset !important;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: var(--color-base-9);
+    transition: background-color 5000s ease-in-out 0s;
+    box-shadow: inset 0 0 0 1000px transparent !important;
 }
 
 .form input[type="email"]:-webkit-autofill,
@@ -192,4 +220,14 @@
 .form input[type="text"]:-webkit-autofill,
 .form input[type="url"]:-webkit-autofill {
     -webkit-text-fill-color: var(--color-base-9) !important;
+}
+
+.dark .form input[type="email"]:-webkit-autofill,
+.dark .form input[type="number"]:-webkit-autofill,
+.dark .form input[type="password"]:-webkit-autofill,
+.dark .form input[type="search"]:-webkit-autofill,
+.dark .form input[type="tel"]:-webkit-autofill,
+.dark .form input[type="text"]:-webkit-autofill,
+.dark .form input[type="url"]:-webkit-autofill{
+    -webkit-text-fill-color: var(--color-base-2) !important;
 }
