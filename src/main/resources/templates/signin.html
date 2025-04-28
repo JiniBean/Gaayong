@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/sign.css">
+</head>
+<body>
+<main layout:fragment="main" class="pt:10">
+        <section class="mt:8 d:flex fl-dir:column ai:center gap:10">
+            <h1 class="page-title">로그인</h1>
+            <div th:if="${param.error}" class="error-message">
+                아이디 또는 비밀번호가 올바르지 않습니다.
+            </div>
+            <div th:if="${param.registered}" class="success-message">
+                회원가입이 완료되었습니다. 로그인해주세요.
+            </div>
+            <div th:if="${param.logout}" class="success-message">
+                로그아웃 되었습니다.
+            </div>
+            
+            <form action="/signin" method="post" class="form mt:8 form:underline d:flex fl-dir:column gap:10 w:9">
+                <label>
+                    <span>아이디</span>
+                    <input type="text" name="userNm" placeholder="아이디를 입력하세요" required>
+                </label>
+                <label>
+                    <span>비밀번호</span>
+                    <input type="password" name="pwd" placeholder="비밀번호를 입력하세요" required>
+                </label>
+
+                    <ul class="link">
+                        <li><a href="">아이디 찾기</a></li>
+                        <li><a href="">비밀번호 찾기</a></li>
+                        <li><a href="/signup">회원가입</a></li>
+                    </ul>
+                <div><button type="submit" class="btn btn-color:main-2 w:10p h:1">로그인</button></div>
+            </form>
+        </section>
+</main>
+</body>
+</html> 

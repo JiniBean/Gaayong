@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gaayong.repository.UserRepository">
+    
+    <!-- 사용자 이름으로 사용자 찾기 -->
+    <select id="findByUserNm" parameterType="String" resultType="User">
+        SELECT
+            ID as id,
+            USER_NM as userNm,
+            NAME as name,
+            PWD as pwd,
+            EMAIL as email,
+            JOIN_DT as joinDt,
+            CXL_DT as cxlDt
+        FROM
+            USER
+        WHERE
+            USER_NM = #{userNm}
+    </select>
+    
+    <!-- 새 사용자 저장 -->
+    <insert id="saveUser" parameterType="Map">
+        INSERT INTO USER (
+            USER_NM,
+            NAME,
+            PWD,
+            EMAIL,
+            JOIN_DT
+        ) VALUES (
+            #{userNm},
+            #{name},
+            #{pwd},
+            #{email},
+            NOW()
+        )
+    </insert>
+    
+</mapper> 
