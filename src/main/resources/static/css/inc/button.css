@@ -57,3 +57,18 @@
     background-color: var(--color-main-3);
     color: var(--color-base-1);
 }
+
+.dark .btn-color\:main-1 {
+    background-color: var(--color-main-1);
+    color: var(--color-main-3);
+}
+
+.dark .btn-color\:main-2 {
+    background-color: var(--color-main-2);
+    color: var(--color-base-1);
+}
+
+.dark .btn-color\:main-1 {
+    background-color: var(--color-main-3);
+    color: var(--color-base-1);
+}
