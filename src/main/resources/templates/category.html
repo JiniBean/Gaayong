@@ -5,16 +5,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/budget.css">
+    <link rel="stylesheet" href="/css/category.css">
+    <script type="module"  src="/js/category.js" defer></script>
 </head>
 <body>
 <main layout:fragment="main">
     <div class="d:flex jc:space-between mt:8">
         <h1 class="page-title">카테고리</h1>
-        <div class="btn btn-size:1 bg-color:main-2 fs:7">카테고리 추가</div>
+        <div class="addBtn btn btn-size:1 bg-color:main-2 fs:7">카테고리 추가</div>
     </div>
 
-
+    <section class="add card d:none">
+        <h1 class="title">카테고리 추가</h1>
+        <form action="/category?m=add" method="post" class="form form:underline grid">
+            <label>
+                <span>이름</span>
+                <input type="text" name="name">
+            </label>
+            <label>
+                <span>설명</span>
+                <input type="text" name="des">
+            </label>
+            <label>
+                <span>유형</span>
+                <select name="ctgCd" class="mt:1">
+                    <option th:each="c:${codeList}" value="c" th:text="${c['DETAIL_NM']}" th:value="${c['DETAIL_CD']}">수입</option>
+                </select>
+            </label>
+            <div class="d:flex gap:4 mt:4">
+                <span class="cnclBtn btn btn:outline fl-grow:1">취소</span>
+                <button class="btn fl-grow:1">저장</button>
+            </div>
+        </form>
+    </section>
 
     <!-- 카테고리 목록 -->
     <section class="d:flex fl-dir:column gap:6">
@@ -22,98 +45,129 @@
 
         <!-- 카테고리 유형 선택 탭 -->
         <div class="d:flex fl-dir:row gap:2 fs:5">
-            <div class="btn btn-size:1 btn-color:main-2">전체</div>
-            <div class="btn btn-size:1 btn:outline">수입</div>
-            <div class="btn btn-size:1 btn:outline">지출</div>
-            <div class="btn btn-size:1 btn:outline">예산</div>
+            <div class="btn btn-size:1 btn:outline" th:classappend="${{param.c}} eq null ? 'btn-color:main-2' :''">
+                <a href="/category"> 전체</a></div>
+            <div th:each="c:${codeList}" class="btn btn-size:1 btn:outline" th:classappend="${{param.c}} eq ${c['DETAIL_CD']} ? 'btn-color:main-2' :''">
+                <a th:href="@{/category(c=${c['DETAIL_CD']})}" th:text="${c['DETAIL_NM']}">수입</a>
+            </div>
         </div>
-       <div class="d:flex fl-dir:column gap:2">
+       <div class="grid gap:2">
            <!-- 수입 카테고리 그룹 -->
-           <div class="card">
-               <div class="title">수입</div>
+           <div th:if="${param.c == null || param.c[0] == c['DETAIL_CD']}" th:each="c:${codeList}" class="card">
+               <div class="title" th:text="${c['DETAIL_NM']}">수입</div>
                <div class="d:flex fl-dir:column gap:2">
-                   <div class="card p:4 fl-dir:row ai:center w:10p">
-                       <div class="fl-grow:1 d:flex fl-dir:column gap:2">
-                           <div class="title fw:2">월급</div>
-                           <div class="desc fs:5">정기 근로소득</div>
+                   <div th:each="i:${list}" th:if="${c['DETAIL_CD'] eq i['CTG_CD']}" class="modDiv">
+                       <div class="card p:4 fl-dir:row ai:center w:10p">
+                           <div class="fl-grow:1 d:flex fl-dir:column gap:2">
+                               <div class="title fw:2" th:text="${i['NAME']}">월급</div>
+                               <div class="desc fs:5" th:text="${i['DES']}">정기 근로소득</div>
+                           </div>
+                           <div class="d:flex jc:end gap:2">
+                               <div><button class="modBtn btn btn-size:1">수정</button></div>
+                               <div><button class="delBtn btn btn-size:1 bg-color:accent-1" th:data-id="${i[ID]}">삭제</button></div>
+                           </div>
                        </div>
-                       <div class="d:flex jc:end gap:2">
-                           <div><button class="btn btn-size:1">수정</button></div>
-                           <div><button class="btn btn-size:1 bg-color:accent-1">삭제</button></div>
-                       </div>
+                       <section class="mod card d:none">
+                           <h1 class="title">카테고리 수정</h1>
+                           <form action="/category?m=mod" method="post" class="form form:underline grid">
+                               <label>
+                                   <span>이름</span>
+                                   <input type="text" name="name" th:value="${i['NAME']}">
+                               </label>
+                               <label>
+                                   <span>설명</span>
+                                   <input type="text" name="des" th:value="${i['DES']}">
+                               </label>
+                               <label>
+                                   <span>유형</span>
+                                   <select name="ctgCd" class="mt:1">
+                                       <option th:each="c:${codeList}" th:text="${c['DETAIL_NM']}" th:value="${c['DETAIL_CD']}" th:selected="${i['CTG_CD']} eq ${c['DETAIL_CD']}">수입</option>
+                                   </select>
+                               </label>
+                               <label class="d:none"> id
+                                   <input type="hidden" name="id" th:value="${i[ID]}">
+                               </label>
+                               <div class="d:flex gap:4 mt:4">
+                                   <span class="cnclBtn btn btn:outline fl-grow:1">취소</span>
+                                   <button class="btn fl-grow:1">저장</button>
+                               </div>
+                           </form>
+                       </section>
                    </div>
-                   <div class="card p:4 fl-dir:row ai:center w:10p">
-                       <div class="fl-grow:1 d:flex fl-dir:column gap:2">
-                           <div class="title fw:2">부수입</div>
-                           <div class="desc fs:5">추가 근로소득</div>
-                       </div>
-                       <div class="d:flex jc:end gap:2">
-                           <div><button class="btn btn-size:1">수정</button></div>
-                           <div><button class="btn btn-size:1 bg-color:accent-1">삭제</button></div>
-                       </div>
-                   </div>
+
+
+<!--                   <div class="card p:4 fl-dir:row ai:center w:10p">-->
+<!--                       <div class="fl-grow:1 d:flex fl-dir:column gap:2">-->
+<!--                           <div class="title fw:2">부수입</div>-->
+<!--                           <div class="desc fs:5">추가 근로소득</div>-->
+<!--                       </div>-->
+<!--                       <div class="d:flex jc:end gap:2">-->
+<!--                           <div><button class="btn btn-size:1">수정</button></div>-->
+<!--                           <div><button class="btn btn-size:1 bg-color:accent-1">삭제</button></div>-->
+<!--                       </div>-->
+<!--                   </div>-->
                </div>
            </div>
 
-           <!-- 지출 카테고리 그룹 -->
-           <div class="card">
-               <div class="title">지출</div>
-               <div class="d:flex fl-dir:column gap:2">
-                   <div class="card p:4 fl-dir:row ai:center w:10p">
-                       <div class="fl-grow:1 d:flex fl-dir:column gap:2">
-                           <div class="title fw:2">식비</div>
-                           <div class="desc fs:5">식사, 식료품</div>
-                       </div>
-                       <div class="d:flex jc:end gap:2">
-                           <div><button class="btn btn-size:1">수정</button></div>
-                           <div><button class="btn btn-size:1 bg-color:accent-1">삭제</button></div>
-                       </div>
-                   </div>
-                   <div class="card p:4 fl-dir:row ai:center w:10p">
-                       <div class="fl-grow:1 d:flex fl-dir:column gap:2">
-                           <div class="title fw:2">교통비</div>
-                           <div class="desc fs:5">대중교통, 택시</div>
-                       </div>
-                       <div class="d:flex jc:end gap:2">
-                           <div><button class="btn btn-size:1">수정</button></div>
-                           <div><button class="btn btn-size:1 bg-color:accent-1">삭제</button></div>
-                       </div>
-                   </div>
-               </div>
-           </div>
+<!--           &lt;!&ndash; 지출 카테고리 그룹 &ndash;&gt;-->
+<!--           <div class="card">-->
+<!--               <div class="title">지출</div>-->
+<!--               <div class="d:flex fl-dir:column gap:2">-->
+<!--                   <div class="card p:4 fl-dir:row ai:center w:10p">-->
+<!--                       <div class="fl-grow:1 d:flex fl-dir:column gap:2">-->
+<!--                           <div class="title fw:2">식비</div>-->
+<!--                           <div class="desc fs:5">식사, 식료품</div>-->
+<!--                       </div>-->
+<!--                       <div class="d:flex jc:end gap:2">-->
+<!--                           <div><button class="btn btn-size:1">수정</button></div>-->
+<!--                           <div><button class="btn btn-size:1 bg-color:accent-1">삭제</button></div>-->
+<!--                       </div>-->
+<!--                   </div>-->
+<!--                   <div class="card p:4 fl-dir:row ai:center w:10p">-->
+<!--                       <div class="fl-grow:1 d:flex fl-dir:column gap:2">-->
+<!--                           <div class="title fw:2">교통비</div>-->
+<!--                           <div class="desc fs:5">대중교통, 택시</div>-->
+<!--                       </div>-->
+<!--                       <div class="d:flex jc:end gap:2">-->
+<!--                           <div><button class="btn btn-size:1">수정</button></div>-->
+<!--                           <div><button class="btn btn-size:1 bg-color:accent-1">삭제</button></div>-->
+<!--                       </div>-->
+<!--                   </div>-->
+<!--               </div>-->
+<!--           </div>-->
 
-           <!-- 예산 카테고리 그룹 -->
-           <div class="card">
-               <div class="title">예산</div>
-               <div class="d:flex fl-dir:column gap:2">
-                   <div class="card p:4 fl-dir:row ai:center w:10p">
-                       <div class="fl-grow:1 d:flex fl-dir:column gap:2">
-                           <div class="title fw:2">월 급여</div>
-                           <div class="desc fs:5">정기 급여</div>
-                       </div>
-                       <div class="d:flex jc:end gap:2">
-                           <div><button class="btn btn-size:1">수정</button></div>
-                           <div><button class="btn btn-size:1 bg-color:accent-1">삭제</button></div>
-                       </div>
-                   </div>
-                   <div class="card p:4 fl-dir:row ai:center w:10p">
-                       <div class="fl-grow:1 d:flex fl-dir:column gap:2">
-                           <div class="title fw:2">보너스</div>
-                           <div class="desc fs:5">성과급, 보너스</div>
-                       </div>
-                       <div class="d:flex jc:end gap:2">
-                           <div><button class="btn btn-size:1">수정</button></div>
-                           <div><button class="btn btn-size:1 bg-color:accent-1">삭제</button></div>
-                       </div>
-                   </div>
-               </div>
-           </div>
+<!--           &lt;!&ndash; 예산 카테고리 그룹 &ndash;&gt;-->
+<!--           <div class="card">-->
+<!--               <div class="title">예산</div>-->
+<!--               <div class="d:flex fl-dir:column gap:2">-->
+<!--                   <div class="card p:4 fl-dir:row ai:center w:10p">-->
+<!--                       <div class="fl-grow:1 d:flex fl-dir:column gap:2">-->
+<!--                           <div class="title fw:2">월 급여</div>-->
+<!--                           <div class="desc fs:5">정기 급여</div>-->
+<!--                       </div>-->
+<!--                       <div class="d:flex jc:end gap:2">-->
+<!--                           <div><button class="btn btn-size:1">수정</button></div>-->
+<!--                           <div><button class="btn btn-size:1 bg-color:accent-1">삭제</button></div>-->
+<!--                       </div>-->
+<!--                   </div>-->
+<!--                   <div class="card p:4 fl-dir:row ai:center w:10p">-->
+<!--                       <div class="fl-grow:1 d:flex fl-dir:column gap:2">-->
+<!--                           <div class="title fw:2">보너스</div>-->
+<!--                           <div class="desc fs:5">성과급, 보너스</div>-->
+<!--                       </div>-->
+<!--                       <div class="d:flex jc:end gap:2">-->
+<!--                           <div><button class="btn btn-size:1">수정</button></div>-->
+<!--                           <div><button class="btn btn-size:1 bg-color:accent-1">삭제</button></div>-->
+<!--                       </div>-->
+<!--                   </div>-->
+<!--               </div>-->
+<!--           </div>-->
        </div>
     </section>
 
-    <!-- 카테고리 추가 폼 -->
+    <!-- 카테고리 수정 폼 -->
     <section class="card">
-        <h1 class="title">카테고리 추가</h1>
+        <h1 class="title">카테고리 수정</h1>
         <form action="/category" method="post" class="form form:underline grid">
             <label>
                 <span>이름</span>
@@ -125,12 +179,17 @@
             </label>
             <label>
                 <span>유형</span>
-                <select name="ctgCd">
-                    <option value="income">수입</option>
-                    <option value="expense">지출</option>
-                    <option value="budget">예산</option>
+                <select name="ctgCd" class="mt:1">
+                    <option th:each="c:${codeList}" th:text="${c['detail_nm']}" th:value="${c['detail_cd']}">수입</option>
                 </select>
             </label>
+            <label class="d:none"> id
+                <input type="hidden" name="id">
+            </label>
+            <div class="d:flex jc:end gap:2">
+                <div><button class="btn btn-size:1">수정</button></div>
+                <div><button class="btn btn-size:1 bg-color:accent-1">삭제</button></div>
+            </div>
         </form>
     </section>
 </main>
