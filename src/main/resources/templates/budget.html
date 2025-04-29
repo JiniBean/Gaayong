@@ -15,6 +15,9 @@
         <h1 class="page-title">4월 예산</h1>
         <div class="addBtn btn btn-size:1 btn-color:main-2 fs:7">예산추가</div>
     </div>
+    <div th:if="${param.error}" class="error-message" th:text="${param.error}">
+        오류가 발생했습니다.
+    </div>
     <section class="add card d:none">
         <h1 class="title">예산 추가</h1>
         <form action="/budget?m=add" method="post" class="form form:underline grid">
@@ -110,7 +113,7 @@
                 <div class="delBtn icon icon:x icon-size:1 as:self-start cursor:pointer pos:absolute top:1 right:1" th:data-id="${i['ID']}">삭제</div>
             </div>
             <section class="mod card d:none">
-                <h1 class="title">예산 수정</h1>
+                <h1 class="d:none">예산 수정</h1>
                 <form action="/budget?m=mod" method="post" class="form form:underline grid">
                     <label>
                         <span>이름</span>

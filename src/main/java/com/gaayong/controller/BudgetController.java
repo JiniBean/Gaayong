@@ -42,8 +42,12 @@ public class BudgetController {
                        @AuthenticationPrincipal User user){
 
         map.put("userId", user.getId());
-        boolean isValid = service.edit(map, method);
-
-        return "redirect:budget";
+        try {
+            boolean isValid = service.edit(map, method);
+            if(isValid) return "redirect:budget";
+            else return "redirect:budget/error=" + "예산 변경에 실패했습니다.";
+        } catch (Exception e) {
+            return "redirect:budget/error=" + e.getMessage();
+        }
     }
 }
