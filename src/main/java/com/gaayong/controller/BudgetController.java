@@ -2,6 +2,7 @@ package com.gaayong.controller;
 
 import com.gaayong.entity.User;
 import com.gaayong.service.BudgetService;
+import com.gaayong.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -20,13 +21,18 @@ public class BudgetController {
     @Autowired
     private BudgetService service;
 
+    @Autowired
+    private CategoryService categoryService;
+
     @GetMapping()
     public String page(@AuthenticationPrincipal User user, Model model){
         Integer total = service.getTotal(user.getId());
         List<Map<String, Object>> list = service.getList(user.getId());
+        List<Map<String, Object>> categoryList = categoryService.getList(user.getId(), "B");
 
         model.addAttribute("total", total);
         model.addAttribute("list", list);
+        model.addAttribute("categoryList", categoryList);
         return "budget";
     }
 

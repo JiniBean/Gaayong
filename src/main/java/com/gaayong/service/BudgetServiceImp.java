@@ -24,13 +24,18 @@ public class BudgetServiceImp implements BudgetService{
 
     @Override
     public boolean edit(Map<String, String> map, String method) {
-        if(method.equals("add")){       
-            return repository.save(map);
-        }else if(method.equals("del")){
-            return repository.del(map);
-        }else if(method.equals("mod")){
-            return repository.mod(map);
+        try {
+            if(method.equals("add")){
+                return repository.save(map);
+            }else if(method.equals("del")){
+                return repository.del(map);
+            }else if(method.equals("mod")){
+                return repository.mod(map);
+            }
+            return false;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
-        return false;
     }
 }

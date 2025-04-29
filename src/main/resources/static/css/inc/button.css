@@ -59,16 +59,35 @@
 }
 
 .dark .btn-color\:main-1 {
-    background-color: var(--color-main-1);
-    color: var(--color-main-3);
+    background-color: var(--color-sub-2);
+    color: var(--color-base-2);
 }
 
 .dark .btn-color\:main-2 {
-    background-color: var(--color-main-2);
+    background-color: var(--color-sub-3);
+    color: var(--color-base-2);
+}
+
+/* ------- tag ---------------------------- */
+.tag {
+    border-radius: 20px;
+    padding: 4px 8px;
+    font-size: 10px;
+    background-color: var(--color-base-4);
     color: var(--color-base-1);
 }
 
-.dark .btn-color\:main-1 {
-    background-color: var(--color-main-3);
-    color: var(--color-base-1);
+.dark .tag {
+    background-color: var(--color-base-7);
+    color: var(--color-base-3);
+}
+
+.tag\:main-1 {
+    background-color: var(--color-main-1);
+    color: var(--color-base-7);
+}
+
+.dark .tag\:main-1 {
+    background-color: var(--color-sub-2);
+    color: var(--color-base-3);
 }
