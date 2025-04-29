@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gaayong.repository.CardRepository">
+    
+    <select id="findList" parameterType="String" resultType="Map">
+        SELECT *, PMT_DD DD
+        FROM CARD
+        WHERE
+            USER_ID = #{id}
+    </select>
+    
+    <insert id="save" parameterType="Map">
+        INSERT INTO CARD (
+            ISSUER, NAME, PMT_DD, USER_ID
+        ) VALUES (
+            #{issuer}, #{name}, #{dd}, #{userId}
+        )
+    </insert>
+    
+    <!-- 카드 수정 -->
+    <update id="mod" parameterType="Map">
+        UPDATE CARD
+        SET 
+            ISSUER = #{issuer},
+            NAME = #{name},
+            PMT_DD = #{dd},
+            MOD_DT = CURRENT_TIMESTAMP
+        WHERE
+            ID = #{id} AND USER_ID = #{userId}
+    </update>
+    
+    <!-- 카드 삭제 -->
+    <delete id="del" parameterType="Map">
+        DELETE FROM CARD
+        WHERE
+            ID = #{id} AND USER_ID = #{userId}
+    </delete>
+    
+</mapper> 
