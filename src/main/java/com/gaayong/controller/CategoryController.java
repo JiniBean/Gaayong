@@ -42,8 +42,12 @@ public class CategoryController {
                        @AuthenticationPrincipal User user){
 
         map.put("userId", user.getId());
-        boolean isValid = service.edit(map, method);
-
-        return "redirect:category";
+        try {
+            boolean isValid = service.edit(map, method);
+            if(isValid) return "redirect:category";
+            else return "redirect:category?error=처리 중 오류가 발생했습니다.";
+        } catch (Exception e) {
+            return "redirect:category?error=" + e.getMessage();
+        }
     }
 }

@@ -15,6 +15,10 @@
         <div class="addBtn btn btn-size:1 btn-color:main-2 fs:7">카테고리 추가</div>
     </div>
 
+    <div th:if="${param.error}" class="error-message" th:text="${param.error}">
+        오류가 발생했습니다.
+    </div>
+
     <section class="add card d:none">
         <h1 class="title">카테고리 추가</h1>
         <form action="/category?m=add" method="post" class="form form:underline grid">
