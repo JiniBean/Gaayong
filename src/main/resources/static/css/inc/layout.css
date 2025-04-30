@@ -78,3 +78,8 @@ header > div {
 .form.form\:underline {
     gap:16px;
 }
+
+.error-message {
+    color: var(--color-accent-1);
+    text-align: center;
+}

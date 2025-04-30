@@ -5,7 +5,7 @@
 
     /* textbox style */
     --textbox-padding-x: 12px;
-    --textbox-input-height: 20px;
+    --textbox-input-height: 24px;
     --textbox-border-radius: 5px;
     --textbox-border-color: var(--color-base-4);
     --textbox-underline-border-width: 1px;
