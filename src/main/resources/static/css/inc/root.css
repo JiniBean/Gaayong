@@ -8,8 +8,8 @@
   --color-main-3: #C86B85;
 
   --color-sub-1: #f6a728;
-  --color-sub-2: #1f2e5d ;
-  --color-sub-3: #1f2e5d ;
+  --color-sub-2: #554046;;
+  --color-sub-3: #aa6d77;
 
   --color-accent-1: #F67676;
   --color-accent-2: #ff9205;
@@ -21,7 +21,7 @@
   --color-base-4: #c6cacc;
   --color-base-5: #A0A0A0;
   --color-base-6: #9C9999;
-  --color-base-7: #6e6d6d;
+  --color-base-7: #515151;
   --color-base-8: #333333;
   --color-base-9: #292929;
   --color-base-10: #000000;
@@ -352,7 +352,7 @@
 
   
   /* position */
-  --pos-1: 10px;
+  --pos-1: 4px;
   --pos-2: 20px;
   --pos-3: 40px;
   --pos-4: 80px;
@@ -362,16 +362,16 @@
   --pos-8: 800px;
   --pos-9: 900px;
   --pos-10: 1000px;
-  --pos-1p: 10%;
-  --pos-2p: 20%;
-  --pos-3p: 30%;
-  --pos-4p: 40%;
-  --pos-5p: 50%;
-  --pos-6p: 60%;
-  --pos-7p: 70%;
-  --pos-8p: 80%;
-  --pos-9p: 90%;
-  --pos-10p: 100%;
-  --pos-ex: 0;
+  --pos-percent-1: 10%;
+  --pos-percent-2: 20%;
+  --pos-percent-3: 30%;
+  --pos-percent-4: 40%;
+  --pos-percent-5: 50%;
+  --pos-percent-6: 60%;
+  --pos-percent-7: 70%;
+  --pos-percent-8: 80%;
+  --pos-percent-9: 90%;
+  --pos-percent-10: 100%;
+  --pos-percent-ex: 0;
 
 }
