@@ -45,7 +45,7 @@ public class SecurityConfig {
                         .requestMatchers("/", "/signin", "/signup", "/css/**", "/js/**", "/icon/**")
                         .permitAll()
                         .anyRequest()
-                        .permitAll())
+                        .authenticated())
                 .formLogin(form -> form
                         .loginPage("/signin")
                         .loginProcessingUrl("/signin")
