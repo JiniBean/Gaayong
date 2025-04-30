@@ -6,71 +6,98 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/budget.css">
+    <script type="module"  src="/js/account.js" defer></script>
 </head>
 <body>
 <main layout:fragment="main">
     <div class="d:flex jc:space-between mt:8">
-        <h1 class="page-title">통장</h1>
-        <div class="btn btn-size:1 bg-color:main-2 fs:7">통장추가</div>
+        <h1 class="page-title">통장 관리</h1>
+        <div class="addBtn btn btn-size:1 btn-color:main-2 fs:7">통장추가</div>
+    </div>
+    <div th:if="${param.error}" class="error-message" th:text="${param.error}">
+        오류가 발생했습니다.
     </div>
 
-    <section class="grid">
-       <h1 class="d:none">통장 현황</h1>
-        <div class="card">
-            <div class="title">총 잔액</div>
-            <div class="value">2,300,000원</div>
-        </div>
-    </section>
-
-    <section class="d:flex fl-dir:column gap:8">
-        <h1 class="d:none">통장 잔고 내역</h1>
-        <div class="d:flex fl-dir:column gap:2">
-            <div class="card p:4 fl-dir:row ai:center w:10p">
-                <div class="fl-grow:1 d:flex fl-dir:column gap:4">
-                    <div class="title fw:2">토스</div>
-                    <div class="d:flex fl-dir:column gap:1">
-                        <div class="desc fs:5">토스뱅크</div>
-                        <div class="desc fs:5">100-146-15487</div>
-                    </div>
-                </div>
-                <div class="title fw:2">300,000원</div>
-            </div>
-            <div class="card p:4 fl-dir:row ai:center w:10p">
-                <div class="fl-grow:1 d:flex fl-dir:column gap:4">
-                    <div class="title fw:2">카카오페이</div>
-                    <div class="d:flex fl-dir:column gap:1">
-                        <div class="desc fs:5">카카오페이증권</div>
-                        <div class="desc fs:5">100-146-15487</div>
-                    </div>
-                </div>
-                <div class="title fw:2">300,000원</div>
-            </div>
-        </div>
-    </section>
-
-    <section class="card">
+    <section class="add card d:none">
         <h1 class="title">통장 추가</h1>
-        <form action="/expense" method="post" class="form form:underline grid">
+        <form action="/account?m=add" method="post" class="form form:underline grid">
             <label>
                 <span>은행</span>
-                <input type="text" name="bank">
+                <input type="text" name="bank" required>
+            </label>
+            <label>
+                <span>통장명</span>
+                <input type="text" name="name">
             </label>
             <label>
                 <span>계좌번호</span>
                 <input type="text" name="accNum">
             </label>
             <label>
-                <span>이름</span>
-                <input type="text" name="name">
+                <span>금액</span>
+                <span class="d:flex ai:end gap:1">
+                    <input type="text" name="amt">
+                    <span class="desc">원</span>
+                </span>
             </label>
-            <label>
-                <span>잔고</span>
-                <input type="text" name="amt">
-            </label>
+            <div class="d:flex gap:4 mt:4">
+                <span class="cnclBtn btn btn:outline fl-grow:1">취소</span>
+                <button class="btn fl-grow:1">저장</button>
+            </div>
         </form>
     </section>
+    <section class="grid">
+        <h1 class="d:none">통장 현황</h1>
+        <div class="card">
+            <div class="title">총 잔액</div>
+            <div class="value" th:text="${#numbers.formatDecimal(total, 0, 'COMMA', 0, 'POINT') + '원'}">2,300,000원</div>
+        </div>
+    </section>
 
-
+    <section class="d:flex fl-dir:column gap:8">
+        <h1 class="d:none">통장 잔고 내역</h1>
+        <div th:each="i:${list}" class="modDiv d:flex fl-dir:column gap:2">
+            <div class="list card p:4 fl-dir:row ai:center w:10p pos:relative">
+                <div class="fl-grow:1 d:flex fl-dir:column gap:4">
+                    <div class="desc fs:5" th:text="${i['BANK']}">국민은행</div>
+                    <div class="title fw:2 fl-grow:1" th:text="${i['NAME']}">급여통장</div>
+                    <div class="desc fs:5" th:text="${i['ACC_NUM']}">000-000-00000</div>
+                </div>
+                <div class="title fw:2" th:text="${#numbers.formatDecimal(i['AMT'], 0, 'COMMA', 0, 'POINT')} + '원'">2,500,000원</div>
+                <div></div>
+                <div class="delBtn icon icon:x icon-size:1 as:self-start cursor:pointer pos:absolute top:1 right:1" th:data-id="${i['ID']}">삭제</div>
+            </div>
+            <section class="mod card d:none">
+                <h1 class="d:none">통장 수정</h1>
+                <form action="/account?m=mod" method="post" class="form form:underline grid">
+                    <label>
+                        <span>은행</span>
+                        <input type="text" name="bank" th:value="${i['BANK']}" required>
+                    </label>
+                    <label>
+                        <span>통장명</span>
+                        <input type="text" name="name" th:value="${i['NAME']}">
+                    </label>
+                    <label>
+                        <span>계좌번호</span>
+                        <input type="text" name="accNum" th:value="${i['ACC_NUM']}">
+                    </label>
+                    <label>
+                        <span>금액</span>
+                        <span class="d:flex ai:end gap:1">
+                            <input type="text" name="amt" th:value="${#numbers.formatDecimal(i['AMT'], 0, 'COMMA', 0, 'POINT')}" >
+                            <span class="desc">원</span>
+                        </span>
+                    </label>
+                    <label class="d:none">id <input type="hidden" name="id" th:value="${i['ID']}"></label>
+                    <div class="d:flex gap:4 mt:4">
+                        <span class="cnclBtn btn btn:outline fl-grow:1">취소</span>
+                        <button class="btn fl-grow:1">저장</button>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </section>
 </main>
 </body>
 </html>
