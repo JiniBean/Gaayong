@@ -5,59 +5,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/budget.css">
+    <link rel="stylesheet" href="/css/fixed.css">
+    <script type="module" src="/js/fixed.js" defer></script>
 </head>
 <body>
 <main layout:fragment="main">
     <div class="d:flex jc:space-between mt:8">
         <h1 class="page-title">고정 비용</h1>
-        <div class="btn btn-size:1 bg-color:main-2 fs:7">비용추가</div>
+        <div class="addBtn btn btn-size:1 btn-color:main-2 fs:7">비용추가</div>
     </div>
-
-    <section class="grid">
-       <h1 class="d:none">비용 현황</h1>
-        <div class="card">
-            <div class="title">총 고정비용</div>
-            <div class="value">2,300,000원</div>
-            <div class="d:flex jc:space-between bd-bottom bd-color:base-3 p:2">
-                <span>미결제 비용</span>
-                <span>300,000원</span>
-            </div>
-        </div>
-    </section>
-
-    <section class="d:flex fl-dir:column gap:8">
-        <h1 class="d:none">비용 내역</h1>
-        <div class="d:flex fl-dir:row gap:2 fs:5">
-            <div class="btn btn-size:1 btn-color:main-2">전체</div>
-            <div class="btn btn-size:1 btn:outline">미결제</div>
-            <div class="btn btn-size:1 btn:outline">결제완료</div>
-        </div>
-        <div class="d:flex fl-dir:column gap:2">
-            <div class="card p:4 fl-dir:row ai:center w:10p">
-                <div class="fl-grow:1 d:flex fl-dir:column gap:4">
-                    <div class=""><span class="p:1 pl:2 pr:2 bg-color:main-1 bd-radius:3 fs:3 color:base-7">저축</span></div>
-                    <div class="title fw:2">국민 적금</div>
-                    <div class="desc fs:5">매월 30일</div>
-                </div>
-                <div class="title fw:2">300,000원</div>
-                <div class="btn btn-size:1 fs:5" style="width: 65px">미결제</div>
-            </div>
-            <div class="card p:4 fl-dir:row ai:center w:10p">
-                <div class="fl-grow:1 d:flex fl-dir:column gap:4">
-                    <div class=""><span class="p:1 pl:2 pr:2 bg-color:main-1 bd-radius:3 fs:3 color:base-7">주거비</span></div>
-                    <div class="title fw:2">월세</div>
-                    <div class="desc fs:5">매월 14일</div>
-                </div>
-                <div class="title fw:2">250,000원</div>
-                <div class="btn btn-size:1 fs:5 bg-color:sub-1 color:base-2">결제완료</div>
-            </div>
-        </div>
-    </section>
-
-    <section class="card">
+    <div th:if="${param.error}" class="error-message" th:text="${param.error}">
+        오류가 발생했습니다.
+    </div>
+    <section class="add card d:none">
         <h1 class="title">고정 비용 추가</h1>
-        <form action="/expense" method="post" class="form form:underline grid">
+        <form action="/fixed?m=add" method="post" class="form form:underline">
             <label>
                 <span>내역</span>
                 <input type="text" name="name">
@@ -70,52 +32,167 @@
                 <label class="fl-grow:1">
                     <span>일자</span>
                     <span class="d:flex fl-grow:1 ai:center">
-                    <span class="mr:2 desc fw:2">매달</span>
-                    <select name="dd">
-                        <option value="">선택안함</option>
-                        <option value="1">1일</option>
-                        <option value="2">2일</option>
-                        <option value="3">3일</option>
-                        <option value="4">4일</option>
-                        <option value="5">5일</option>
-                        <option value="6">6일</option>
-                        <option value="7">7일</option>
-                        <option value="8">8일</option>
-                        <option value="9">9일</option>
-                        <option value="10">10일</option>
-                        <option value="11">11일</option>
-                        <option value="12">12일</option>
-                        <option value="13">13일</option>
-                        <option value="14">14일</option>
-                        <option value="15">15일</option>
-                        <option value="16">16일</option>
-                        <option value="17">17일</option>
-                        <option value="18">18일</option>
-                        <option value="19">19일</option>
-                        <option value="20">20일</option>
-                        <option value="21">21일</option>
-                        <option value="22">22일</option>
-                        <option value="23">23일</option>
-                        <option value="24">24일</option>
-                        <option value="25">25일</option>
-                        <option value="26">26일</option>
-                        <option value="27">27일</option>
-                        <option value="28">28일</option>
-                        <option value="29">29일</option>
-                        <option value="30">30일</option>
-                        <option value="31">31일</option>
-                    </select>
-                </span>
+                        <span class="mr:2 desc fw:2">매달</span>
+                        <select name="dd">
+                            <option value="">선택안함</option>
+                            <option value="1">1일</option>
+                            <option value="2">2일</option>
+                            <option value="3">3일</option>
+                            <option value="4">4일</option>
+                            <option value="5">5일</option>
+                            <option value="6">6일</option>
+                            <option value="7">7일</option>
+                            <option value="8">8일</option>
+                            <option value="9">9일</option>
+                            <option value="10">10일</option>
+                            <option value="11">11일</option>
+                            <option value="12">12일</option>
+                            <option value="13">13일</option>
+                            <option value="14">14일</option>
+                            <option value="15">15일</option>
+                            <option value="16">16일</option>
+                            <option value="17">17일</option>
+                            <option value="18">18일</option>
+                            <option value="19">19일</option>
+                            <option value="20">20일</option>
+                            <option value="21">21일</option>
+                            <option value="22">22일</option>
+                            <option value="23">23일</option>
+                            <option value="24">24일</option>
+                            <option value="25">25일</option>
+                            <option value="26">26일</option>
+                            <option value="27">27일</option>
+                            <option value="28">28일</option>
+                            <option value="29">29일</option>
+                            <option value="30">30일</option>
+                            <option value="31">31일</option>
+                        </select>
+                    </span>
                 </label>
                 <label class="fl-grow:1">
                     <span>카테고리</span>
                     <select name="ctgId">
+                        <option th:each="c:${categoryList}" th:text="${c['NAME']}" th:value="${c['ID']}">저축</option>
                     </select>
                 </label>
+            </div>
+            <label>
+                <input type="checkbox" name="isPaid">이번 달 결제 완료된 내역이에요
+            </label>
+            <div class="d:flex gap:4 mt:4">
+                <span class="cnclBtn btn btn:outline fl-grow:1">취소</span>
+                <button class="btn fl-grow:1">저장</button>
             </div>
         </form>
     </section>
 
+    <section class="grid">
+       <h1 class="d:none">비용 현황</h1>
+        <div class="card">
+            <div class="title">총 고정비용</div>
+            <div class="value" th:text="${#numbers.formatDecimal(total, 0, 'COMMA', 0, 'POINT') + '원'}">2,300,000원</div>
+            <div class="d:flex jc:space-between bd-bottom bd-color:base-3 p:2">
+                <span>미결제 비용</span>
+                <span th:text="${#numbers.formatDecimal(unpaid, 0, 'COMMA', 0, 'POINT') + '원'}">300,000원</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="d:flex fl-dir:column gap:8">
+        <h1 class="d:none">비용 내역</h1>
+        <div class="d:flex fl-dir:row gap:2 fs:5">
+            <div class="btn btn-size:1 btn:outline" th:classappend="${{param.f}} eq null ? 'btn-color:main-2' :''"><a href="/fixed" >전체</a></div>
+            <div class="btn btn-size:1 btn:outline" th:classappend="${{param.f}} eq 'false' ? 'btn-color:main-2' :''"><a href="/fixed?f=false">미결제</a></div>
+            <div class="btn btn-size:1 btn:outline" th:classappend="${{param.f}} eq 'true' ? 'btn-color:main-2' :''"><a href="/fixed?f=true">결제완료</a></div>
+        </div>
+        <div class="d:flex fl-dir:column gap:2">
+            <div th:each="i:${list}" class="modDiv">
+                <div class="list card p:4 fl-dir:row ai:center w:10p pos:relative">
+                    <div class="fl-grow:1 d:flex fl-dir:column gap:4">
+                        <div><span class="p:1 pl:2 pr:2 bg-color:main-1 bd-radius:3 fs:3 color:base-7" th:text="${i['CTG']}">저축</span></div>
+                        <div class="title fw:2" th:text="${i['NAME']}">국민 적금</div>
+                        <div class="desc fs:5"  th:text="${'매달 '+ i['DD']} + '일'">매월 30일</div>
+                    </div>
+                    <div class="title fw:2" th:text="${#numbers.formatDecimal(i['AMT'], 0, 'COMMA', 0, 'POINT')} + '원'">300,000원</div>
+                    <div class="delBtn icon icon:x icon-size:1 as:self-start cursor:pointer pos:absolute top:1 right:1" th:data-id="${i['ID']}">삭제</div>
+                    <div class="btn btn-size:1 fs:5" style="width: 65px" th:text="${i['IS_PAID'] == false ? '미결제' : '결제'}"
+                         th:classappend="${i['IS_PAID'] == false ? 'btn-color:sub-1' :''}" >미결제
+                    </div>
+                </div>
+                <section class="mod card d:none">
+                    <h1 class="title">고정 비용 수정</h1>
+                    <form action="/fixed?m=mod" method="post" class="form form:underline">
+                        <label>
+                            <span>내역</span>
+                            <input type="text" name="name" th:value="${i['NAME']}">
+                        </label>
+                        <label>
+                            <span>금액</span>
+                            <input type="text" name="amt" th:value="${#numbers.formatDecimal(i['AMT'], 0, 'COMMA', 0, 'POINT')}">
+                        </label>
+                        <div class="d:flex gap:8">
+                            <label class="fl-grow:1">
+                                <span>일자</span>
+                                <span class="d:flex fl-grow:1 ai:center">
+                                <span class="mr:2 desc fw:2">매달</span>
+                                <select name="dd">
+                                    <option value="">선택안함</option>
+                                    <option value="1" th:selected="${i['DD'] eq 1}" >1일</option>
+                                    <option value="2" th:selected="${i['DD'] eq 2}">2일</option>
+                                    <option value="3" th:selected="${i['DD'] eq 3}">3일</option>
+                                    <option value="4" th:selected="${i['DD'] eq 4}">4일</option>
+                                    <option value="5" th:selected="${i['DD'] eq 5}">5일</option>
+                                    <option value="6" th:selected="${i['DD'] eq 6}">6일</option>
+                                    <option value="7" th:selected="${i['DD'] eq 7}">7일</option>
+                                    <option value="8" th:selected="${i['DD'] eq 8}">8일</option>
+                                    <option value="9" th:selected="${i['DD'] eq 9}">9일</option>
+                                    <option value="10" th:selected="${i['DD'] eq 10}">10일</option>
+                                    <option value="11" th:selected="${i['DD'] eq 11}">11일</option>
+                                    <option value="12" th:selected="${i['DD'] eq 12}">12일</option>
+                                    <option value="13" th:selected="${i['DD'] eq 13}">13일</option>
+                                    <option value="14" th:selected="${i['DD'] eq 14}">14일</option>
+                                    <option value="15" th:selected="${i['DD'] eq 15}">15일</option>
+                                    <option value="16" th:selected="${i['DD'] eq 16}">16일</option>
+                                    <option value="17" th:selected="${i['DD'] eq 17}">17일</option>
+                                    <option value="18" th:selected="${i['DD'] eq 18}">18일</option>
+                                    <option value="19" th:selected="${i['DD'] eq 19}">19일</option>
+                                    <option value="20" th:selected="${i['DD'] eq 20}">20일</option>
+                                    <option value="21" th:selected="${i['DD'] eq 21}">21일</option>
+                                    <option value="22" th:selected="${i['DD'] eq 22}">22일</option>
+                                    <option value="23" th:selected="${i['DD'] eq 23}">23일</option>
+                                    <option value="24" th:selected="${i['DD'] eq 24}">24일</option>
+                                    <option value="25" th:selected="${i['DD'] eq 25}">25일</option>
+                                    <option value="26" th:selected="${i['DD'] eq 26}">26일</option>
+                                    <option value="27" th:selected="${i['DD'] eq 27}">27일</option>
+                                    <option value="28" th:selected="${i['DD'] eq 28}">28일</option>
+                                    <option value="29" th:selected="${i['DD'] eq 29}">29일</option>
+                                    <option value="30" th:selected="${i['DD'] eq 30}">30일</option>
+                                    <option value="31" th:selected="${i['DD'] eq 31}">31일</option>
+                                </select>
+                            </span>
+                            </label>
+                            <label class="fl-grow:1">
+                                <span>카테고리</span>
+                                <select name="ctgId">
+                                    <option th:each="c:${categoryList}" th:text="${c['NAME']}" th:value="${c['ID']}" th:selected="${i['CTG_ID'] == c['ID']}">저축</option>
+                                </select>
+                            </label>
+                        </div>
+                        <label>
+                            <input type="checkbox" name="isPaid" th:checked="${i['IS_PAID']}"/>이번 달 결제 완료된 내역이에요
+                        </label>
+                        <label class="d:none"> id
+                            <input type="hidden" name="id" th:value="${i[ID]}">
+                        </label>
+                        <div class="d:flex gap:4 mt:4">
+                            <span class="cnclBtn btn btn:outline fl-grow:1">취소</span>
+                            <button class="btn fl-grow:1">저장</button>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </div>
+    </section>
 
 </main>
 </body>
