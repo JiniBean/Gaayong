@@ -19,6 +19,7 @@ public class User implements UserDetails {
     private String email;
     private String joinDt;
     private String cxlDt;
+    private String theme;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -32,7 +33,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.userNm;
+        return this.name;
     }
 
     public String getId() {
@@ -41,10 +42,6 @@ public class User implements UserDetails {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getUserNm() {
-        return userNm;
     }
 
     public void setUserNm(String userNm) {
@@ -91,4 +88,11 @@ public class User implements UserDetails {
         this.cxlDt = cxlDt;
     }
 
+    public String getTheme() {
+        return theme;
+    }
+
+    public void setTheme(String theme) {
+        this.theme = theme;
+    }
 }

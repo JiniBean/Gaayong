@@ -3,7 +3,7 @@
     align-items: center;
     justify-content: center;
     padding: 4px 12px;
-    box-shadow: 0 2px 8px -1px rgba(18, 22, 33, 0.1);
+    box-shadow: 0 1.5px 2px -1px rgba(18, 22, 33, 0.1);
     cursor: pointer;
     border-radius: 5px;
     background-color: var(--color-base-4);
@@ -47,24 +47,33 @@
     background-color: var(--color-main-1);
     color: var(--color-main-3);
 }
+.dark .btn-color\:main-1 {
+    background-color: var(--color-main-4);
+    color: var(--color-base-2);
+}
 
 .btn-color\:main-2 {
     background-color: var(--color-main-2);
     color: var(--color-base-1);
 }
 
-.btn-color\:main-1 {
+.dark .btn-color\:main-2 {
+    background-color: var(--color-main-5);
+    color: var(--color-base-2);
+}
+
+.btn-color\:main-3 {
     background-color: var(--color-main-3);
     color: var(--color-base-1);
 }
 
-.dark .btn-color\:main-1 {
-    background-color: var(--color-sub-2);
-    color: var(--color-base-2);
+.btn-color\:sub-1 {
+    background-color: var(--color-sub-1);
+    color: var(--color-base-1);
 }
 
-.dark .btn-color\:main-2 {
-    background-color: var(--color-sub-3);
+.dark .btn-color\:sub-1 {
+    background-color: var(--color-sub-2);
     color: var(--color-base-2);
 }
 

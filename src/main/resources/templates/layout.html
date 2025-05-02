@@ -29,8 +29,7 @@
     <script type="module" src="/js/layout.js" defer></script>
 
 </head>
-<body>
-<!--<body class="dark">-->
+<body th:class="${#authorization.expression('isAuthenticated()') ? #authentication.principal.theme : 'light'}">
     <!-- header -->
     <header class="h:2 md:h:3 w:10p">
         <div class="d:flex gap:11 jc:space-between ai:center w:10p p:8">
@@ -41,7 +40,7 @@
                     <ul class="d:flex gap:5">
                         <li sec:authorize="isAnonymous()"><a href="/signin">로그인</a></li>
                         <li sec:authorize="isAnonymous()"><a href="/signup">회원가입</a></li>
-                        <li sec:authorize="isAuthenticated()">Jini님</li>
+                        <li sec:authorize="isAuthenticated()" th:text="${#authentication.name + '님'}">Jini님</li>
                         <li sec:authorize="isAuthenticated()"><a href="/signout">로그아웃</a></li>
                     </ul>
                 </nav>
@@ -62,7 +61,7 @@
             <div class="d:flex gap:6 md:d:none">
                 <div class="d:flex gap:2">
                     <div sec:authorize="isAnonymous()"><a href="/signin" class="icon icon:signin">로그인</a></div>
-                    <div sec:authorize="isAuthenticated()" class="fs:9">Jini님</div>
+                    <div sec:authorize="isAuthenticated()" th:text="${#authentication.name + '님'}" class="fs:9">Jini님</div>
                     <div sec:authorize="isAuthenticated()"><a href="/signout" class="icon icon:signout">로그아웃</a></div>
                 </div>
                 <div class="drawer-btn icon icon:menu icon-size:7">메뉴</div>
@@ -85,6 +84,7 @@
             <li><a href="/card">카드</a></li>
             <li><a href="/category">카테고리</a></li>
         </ul>
+        <div class="theme">테마</div>
     </aside>
     <!-- main -->
     <div layout:fragment="main">메인</div>

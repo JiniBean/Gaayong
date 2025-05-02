@@ -491,3 +491,30 @@
   -webkit-mask-image: url("../../icon/favicon.svg");
   mask-image: url("../../icon/favicon.svg");
 }
+
+.icon\:moon ::before,
+.icon\:moon::after {
+  -webkit-mask-image: url("../../icon/moon.svg");
+  mask-image: url("../../icon/moon.svg");
+}
+
+.icon\:sun::before,
+.icon\:sun::after {
+  -webkit-mask-image: url("../../icon/sun.svg");
+  mask-image: url("../../icon/sun.svg");
+}
+
+.icon\:toggle-left::before,
+.icon\:toggle-left::after {
+  -webkit-mask-image: url("../../icon/toggle-left.svg");
+  mask-image: url("../../icon/toggle-left.svg");
+}
+
+
+.icon\:toggle-right::before,
+.icon\:toggle-right::after {
+  -webkit-mask-image: url("../../icon/toggle-right.svg");
+  mask-image: url("../../icon/toggle-right.svg");
+}
+
+
