@@ -28,8 +28,8 @@
                 <span>금액</span>
                 <input type="text" name="amt">
             </label>
-            <div class="d:flex gap:8">
-                <label class="fl-grow:1">
+            <div class="grid-fixed">
+                <label>
                     <span>일자</span>
                     <span class="d:flex fl-grow:1 ai:center">
                         <span class="mr:2 desc fw:2">매달</span>
@@ -69,10 +69,31 @@
                         </select>
                     </span>
                 </label>
-                <label class="fl-grow:1">
+                <label>
                     <span>카테고리</span>
                     <select name="ctgId">
                         <option th:each="c:${categoryList}" th:text="${c['NAME']}" th:value="${c['ID']}">저축</option>
+                    </select>
+                </label>
+            </div>
+            <div class="pmt grid-fixed">
+                <label>
+                    <span>결제유형</span>
+                    <select name="pmtType">
+                        <option value="a">통장</option>
+                        <option value="c">카드</option>
+                    </select>
+                </label>
+                <label>
+                    <span>통장</span>
+                    <select name="acctId">
+                        <option th:each="a:${accountList}" th:text="${a['NAME']}" th:value="${a['ID']}">통장</option>
+                    </select>
+                </label>
+                <label class="d:none">
+                    <span>카드</span>
+                    <select name="cardId">
+                        <option th:each="c:${cardList}" th:text="${c['NAME']}" th:value="${c['ID']}">카드</option>
                     </select>
                 </label>
             </div>
@@ -111,7 +132,7 @@
                     <div class="fl-grow:1 d:flex fl-dir:column gap:4">
                         <div><span class="p:1 pl:2 pr:2 bg-color:main-1 bd-radius:3 fs:3 color:base-7" th:text="${i['CTG']}">저축</span></div>
                         <div class="title fw:2" th:text="${i['NAME']}">국민 적금</div>
-                        <div class="desc fs:5"  th:text="${'매달 '+ i['DD']} + '일'">매월 30일</div>
+                        <div class="desc fs:5"  th:text="${i['DD'] != null ? '매달 '+ i['DD'] + '일' : '일자 지정 안함'}">매월 30일</div>
                     </div>
                     <div class="title fw:2" th:text="${#numbers.formatDecimal(i['AMT'], 0, 'COMMA', 0, 'POINT')} + '원'">300,000원</div>
                     <div class="delBtn icon icon:x icon-size:1 as:self-start cursor:pointer pos:absolute top:1 right:1" th:data-id="${i['ID']}">삭제</div>
@@ -134,47 +155,70 @@
                             <label class="fl-grow:1">
                                 <span>일자</span>
                                 <span class="d:flex fl-grow:1 ai:center">
-                                <span class="mr:2 desc fw:2">매달</span>
-                                <select name="dd">
-                                    <option value="">선택안함</option>
-                                    <option value="1" th:selected="${i['DD'] eq 1}" >1일</option>
-                                    <option value="2" th:selected="${i['DD'] eq 2}">2일</option>
-                                    <option value="3" th:selected="${i['DD'] eq 3}">3일</option>
-                                    <option value="4" th:selected="${i['DD'] eq 4}">4일</option>
-                                    <option value="5" th:selected="${i['DD'] eq 5}">5일</option>
-                                    <option value="6" th:selected="${i['DD'] eq 6}">6일</option>
-                                    <option value="7" th:selected="${i['DD'] eq 7}">7일</option>
-                                    <option value="8" th:selected="${i['DD'] eq 8}">8일</option>
-                                    <option value="9" th:selected="${i['DD'] eq 9}">9일</option>
-                                    <option value="10" th:selected="${i['DD'] eq 10}">10일</option>
-                                    <option value="11" th:selected="${i['DD'] eq 11}">11일</option>
-                                    <option value="12" th:selected="${i['DD'] eq 12}">12일</option>
-                                    <option value="13" th:selected="${i['DD'] eq 13}">13일</option>
-                                    <option value="14" th:selected="${i['DD'] eq 14}">14일</option>
-                                    <option value="15" th:selected="${i['DD'] eq 15}">15일</option>
-                                    <option value="16" th:selected="${i['DD'] eq 16}">16일</option>
-                                    <option value="17" th:selected="${i['DD'] eq 17}">17일</option>
-                                    <option value="18" th:selected="${i['DD'] eq 18}">18일</option>
-                                    <option value="19" th:selected="${i['DD'] eq 19}">19일</option>
-                                    <option value="20" th:selected="${i['DD'] eq 20}">20일</option>
-                                    <option value="21" th:selected="${i['DD'] eq 21}">21일</option>
-                                    <option value="22" th:selected="${i['DD'] eq 22}">22일</option>
-                                    <option value="23" th:selected="${i['DD'] eq 23}">23일</option>
-                                    <option value="24" th:selected="${i['DD'] eq 24}">24일</option>
-                                    <option value="25" th:selected="${i['DD'] eq 25}">25일</option>
-                                    <option value="26" th:selected="${i['DD'] eq 26}">26일</option>
-                                    <option value="27" th:selected="${i['DD'] eq 27}">27일</option>
-                                    <option value="28" th:selected="${i['DD'] eq 28}">28일</option>
-                                    <option value="29" th:selected="${i['DD'] eq 29}">29일</option>
-                                    <option value="30" th:selected="${i['DD'] eq 30}">30일</option>
-                                    <option value="31" th:selected="${i['DD'] eq 31}">31일</option>
-                                </select>
-                            </span>
+                                    <span class="mr:2 desc fw:2">매달</span>
+                                    <select name="dd">
+                                        <option value="">선택안함</option>
+                                        <option value="1" th:selected="${i['DD'] eq 1}" >1일</option>
+                                        <option value="2" th:selected="${i['DD'] eq 2}">2일</option>
+                                        <option value="3" th:selected="${i['DD'] eq 3}">3일</option>
+                                        <option value="4" th:selected="${i['DD'] eq 4}">4일</option>
+                                        <option value="5" th:selected="${i['DD'] eq 5}">5일</option>
+                                        <option value="6" th:selected="${i['DD'] eq 6}">6일</option>
+                                        <option value="7" th:selected="${i['DD'] eq 7}">7일</option>
+                                        <option value="8" th:selected="${i['DD'] eq 8}">8일</option>
+                                        <option value="9" th:selected="${i['DD'] eq 9}">9일</option>
+                                        <option value="10" th:selected="${i['DD'] eq 10}">10일</option>
+                                        <option value="11" th:selected="${i['DD'] eq 11}">11일</option>
+                                        <option value="12" th:selected="${i['DD'] eq 12}">12일</option>
+                                        <option value="13" th:selected="${i['DD'] eq 13}">13일</option>
+                                        <option value="14" th:selected="${i['DD'] eq 14}">14일</option>
+                                        <option value="15" th:selected="${i['DD'] eq 15}">15일</option>
+                                        <option value="16" th:selected="${i['DD'] eq 16}">16일</option>
+                                        <option value="17" th:selected="${i['DD'] eq 17}">17일</option>
+                                        <option value="18" th:selected="${i['DD'] eq 18}">18일</option>
+                                        <option value="19" th:selected="${i['DD'] eq 19}">19일</option>
+                                        <option value="20" th:selected="${i['DD'] eq 20}">20일</option>
+                                        <option value="21" th:selected="${i['DD'] eq 21}">21일</option>
+                                        <option value="22" th:selected="${i['DD'] eq 22}">22일</option>
+                                        <option value="23" th:selected="${i['DD'] eq 23}">23일</option>
+                                        <option value="24" th:selected="${i['DD'] eq 24}">24일</option>
+                                        <option value="25" th:selected="${i['DD'] eq 25}">25일</option>
+                                        <option value="26" th:selected="${i['DD'] eq 26}">26일</option>
+                                        <option value="27" th:selected="${i['DD'] eq 27}">27일</option>
+                                        <option value="28" th:selected="${i['DD'] eq 28}">28일</option>
+                                        <option value="29" th:selected="${i['DD'] eq 29}">29일</option>
+                                        <option value="30" th:selected="${i['DD'] eq 30}">30일</option>
+                                        <option value="31" th:selected="${i['DD'] eq 31}">31일</option>
+                                    </select>
+                                    <span class="mr:2 desc fw:2">일</span>
+                                </span>
                             </label>
                             <label class="fl-grow:1">
                                 <span>카테고리</span>
                                 <select name="ctgId">
+                                    <option value="">선택안함</option>
                                     <option th:each="c:${categoryList}" th:text="${c['NAME']}" th:value="${c['ID']}" th:selected="${i['CTG_ID'] == c['ID']}">저축</option>
+                                </select>
+                            </label>
+                        </div>
+                        <div class="d:flex gap:8 pmt">
+                            <label class="fl-grow:1">
+                                <span>결제유형</span>
+                                <select name="pmtType">
+                                    <option value="a">통장</option>
+                                    <option value="c">카드</option>
+                                </select>
+                            </label>
+                            <label class="fl-grow:1">
+                                <span>통장</span>
+                                <select name="acctId">
+                                    <option th:each="a:${accountList}" th:text="${a['NAME']}" th:value="${a['ID']}" th:selected="${i['ACCT_ID'] == a['ID']}">통장</option>
+                                </select>
+                            </label>
+                            <label class="fl-grow:1 d:none">
+                                <span>카드</span>
+                                <select name="cardId">
+                                    <option th:each="c:${cardList}" th:text="${c['NAME']}" th:value="${c['ID']}" th:selected="${i['CARD_ID'] == c['ID']}">카드</option>
                                 </select>
                             </label>
                         </div>

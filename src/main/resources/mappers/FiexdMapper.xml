@@ -30,11 +30,19 @@
    
     <insert id="save" parameterType="Map">
         INSERT INTO FIXED (
-            NAME, AMT, PMT_DD, CTG_ID, USER_ID, IS_PAID
+            NAME, AMT, CTG_ID, USER_ID, PMT_DD, IS_PAID
+            <if test="cardId != null">, CARD_ID</if>
+            <if test="acctId != null">, ACCT_ID</if>
         ) VALUES (
-            #{name}, #{amt}, #{dd}, #{ctgId}, #{userId}
-            <if test="isPaid != null">, #{isPaid}</if>
+            #{name}, #{amt}, #{ctgId}, #{userId}
+            <choose>
+                <when test="dd == null or dd == '' or dd.length() == 0">, NULL</when>
+                <otherwise>, #{dd}</otherwise>
+            </choose>
+            <if test="isPaid != null">, true</if>
             <if test="isPaid == null">, false</if>
+            <if test="cardId != null">, #{cardId}</if>
+            <if test="acctId != null">, #{acctId}</if>
         )
     </insert>
     
@@ -43,10 +51,17 @@
         SET 
             NAME = #{name},
             AMT = #{amt},
-            IS_PAID = #{isPaid},
-            PMT_DD = #{dd},
             CTG_ID = #{ctgId},
             MOD_DT = CURRENT_TIMESTAMP
+        <if test="dd != null or dd != '' or dd.length() > 0">
+            , PMT_DD = #{dd}
+        </if>
+        <if test="cardId != null">, CARD_ID = #{cardId}</if>
+        <if test="acctId != null">, ACCT_ID = #{acctId}</if>
+        <choose>
+            <when test="isPaid != null">, IS_PAID = true</when>
+            <otherwise>, IS_PAID = false</otherwise>
+        </choose>
         WHERE
             ID = #{id} AND USER_ID = #{userId}
     </update>

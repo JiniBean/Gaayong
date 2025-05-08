@@ -32,3 +32,9 @@ input[name="isPaid"]:checked::after {
     font-size: 12px;
     color: white;
 }
+
+.grid-fixed {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--gap-8);
+}

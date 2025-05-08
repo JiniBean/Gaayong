@@ -11,4 +11,10 @@ public interface FixedService {
     List<Map<String, Object>> getList(String id, Boolean flag);
 
     boolean edit(Map<String, String> map, String method);
+
+    boolean add(Map<String, String> map);
+
+    boolean del(Map<String, String> map);
+
+    boolean mod(Map<String, String> map);
 }

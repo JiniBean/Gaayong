@@ -1,6 +1,8 @@
 package com.gaayong.controller;
 
 import com.gaayong.entity.User;
+import com.gaayong.service.AccountService;
+import com.gaayong.service.CardService;
 import com.gaayong.service.CategoryService;
 import com.gaayong.service.FixedService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,12 @@ public class FixedController {
     
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private AccountService accountService;
+
+    @Autowired
+    private CardService cardService;
     
     @GetMapping()
     public String page(@RequestParam(name = "error", required = false) String error,
@@ -32,12 +40,16 @@ public class FixedController {
         Integer unpaid = service.getUnpaid(user.getId());
         List<Map<String, Object>> list = service.getList(user.getId(), flag);
         List<Map<String, Object>> categoryList = categoryService.getList(user.getId(), "E");
+        List<Map<String, String>> accountList = accountService.getList(user.getId());
+        List<Map<String, String>> cardList = cardService.getList(user.getId());
 
         model.addAttribute("error", error);
         model.addAttribute("total", total);
         model.addAttribute("unpaid", unpaid);
         model.addAttribute("list", list);
         model.addAttribute("categoryList", categoryList);
+        model.addAttribute("accountList", accountList);
+        model.addAttribute("cardList", cardList);
         return "fixed";
     }
 
@@ -51,7 +63,12 @@ public class FixedController {
 
         System.out.println(map);
         try {
-            boolean isValid = service.edit(map, method);
+            boolean isValid = false;
+
+            if(method.equals("add")) isValid = service.add(map);
+            else if(method.equals("del")) isValid = service.del(map);
+            else if(method.equals("mod")) isValid = service.mod(map);
+
             if(isValid) return "redirect:fixed";
             else return "redirect:fixed/error=" + "고정비용 변경에 실패했습니다.";
         } catch (Exception e) {

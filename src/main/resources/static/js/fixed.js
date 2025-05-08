@@ -63,4 +63,21 @@ window.addEventListener("load", function () {
             form.submit();
         }
     });
+
+    // -------------- 결제수단 ----------------------
+
+    const pmtType = document.querySelectorAll('select[name=pmtType]');
+    pmtType.forEach(i => i.onchange = function() {
+        const pmtDiv = i.closest('.pmt');
+        const cardList = pmtDiv.querySelector('label:has(select[name=cardId])');
+        const acctList = pmtDiv.querySelector('label:has(select[name=acctId])');
+        if(i.value === 'a') {
+            cardList.classList.add('d:none');
+            acctList.classList.remove('d:none');
+        } else {
+            cardList.classList.remove('d:none');
+            acctList.classList.add('d:none');
+        }
+    })
+
 });
