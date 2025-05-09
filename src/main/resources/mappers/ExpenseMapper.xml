@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gaayong.repository.ExpenseRepository">
+    
+    <select id="findList" parameterType="String" resultType="Map">
+        SELECT e.*, e.PMT_DD DD, c.NAME CTG, ca.NAME METHOD, a.NAME METHOD
+        FROM EXP e
+        LEFT JOIN CTG c ON c.ID = e.CTG_ID
+        LEFT JOIN CARD ca ON ca.ID = e.CARD_ID
+        LEFT JOIN ACCT a ON a.ID = e.ACCT_ID
+        WHERE
+            e.USER_ID = #{id}
+        <choose>
+            <when test="month != null">AND MONTH(e.PMT_DD) = #{month}</when>
+            <otherwise>AND MONTH(e.PMT_DD) = MONTH(CURRENT_DATE)</otherwise>
+        </choose>
+        <choose>
+            <when test="year != null">AND YEAR(e.PMT_DD) = #{year}</when>
+            <otherwise>AND YEAR(e.PMT_DD) = YEAR(CURRENT_DATE)</otherwise>
+        </choose>
+        <if test="category != null">
+            AND e.CTG_ID = #{category}
+        </if>
+    </select>
+
+    <select id="findTotal" parameterType="String" resultType="Integer">
+        SELECT IFNULL(sum(AMT),0)
+        FROM EXP
+        WHERE
+            USER_ID = #{id}
+        <choose>
+            <when test="month != null">AND MONTH(PMT_DD) = #{month}</when>
+            <otherwise>AND MONTH(PMT_DD) = MONTH(CURRENT_DATE)</otherwise>
+        </choose>
+        <choose>
+            <when test="year != null">AND YEAR(PMT_DD) = #{year}</when>
+            <otherwise>AND YEAR(PMT_DD) = YEAR(CURRENT_DATE)</otherwise>
+        </choose>
+    </select>
+
+    <select id="findVarTotal" parameterType="String" resultType="Integer">
+        SELECT IFNULL(sum(AMT),0)
+        FROM EXP
+        WHERE
+            USER_ID = #{id}
+            AND IS_FIXED = FALSE
+        <choose>
+            <when test="month != null">AND MONTH(PMT_DD) = #{month}</when>
+            <otherwise>AND MONTH(PMT_DD) = MONTH(CURRENT_DATE)</otherwise>
+        </choose>
+        <choose>
+            <when test="year != null">AND YEAR(PMT_DD) = #{year}</when>
+            <otherwise>AND YEAR(PMT_DD) = YEAR(CURRENT_DATE)</otherwise>
+        </choose>
+    </select>
+
+    <select id="findFixedTotal" parameterType="String" resultType="Integer">
+        SELECT IFNULL(sum(AMT),0)
+        FROM EXP
+        WHERE
+            USER_ID = #{id}
+            AND IS_FIXED = TRUE
+        <choose>
+            <when test="month != null">AND MONTH(PMT_DD) = #{month}</when>
+            <otherwise>AND MONTH(PMT_DD) = MONTH(CURRENT_DATE)</otherwise>
+        </choose>
+        <choose>
+            <when test="year != null">AND YEAR(PMT_DD) = #{year}</when>
+            <otherwise>AND YEAR(PMT_DD) = YEAR(CURRENT_DATE)</otherwise>
+        </choose>
+    </select>
+
+    <select id="findCategoryTotal" parameterType="String" resultType="Integer">
+        SELECT IFNULL(sum(AMT),0)
+        FROM EXP
+        WHERE
+            USER_ID = #{id}
+            AND CTG_ID = #{category}
+        <choose>
+            <when test="month != null">AND MONTH(PMT_DD) = #{month}</when>
+            <otherwise>AND MONTH(PMT_DD) = MONTH(CURRENT_DATE)</otherwise>
+        </choose>
+        <choose>
+            <when test="year != null">AND YEAR(PMT_DD) = #{year}</when>
+            <otherwise>AND YEAR(PMT_DD) = YEAR(CURRENT_DATE)</otherwise>
+        </choose>
+    </select>
+
+</mapper> 
