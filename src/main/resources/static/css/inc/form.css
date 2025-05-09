@@ -4,7 +4,7 @@
     --form-padding: 24px;
 
     /* textbox style */
-    --textbox-padding-x: 12px;
+    --textbox-padding-x: 8px;
     --textbox-input-height: 24px;
     --textbox-border-radius: 5px;
     --textbox-border-color: var(--color-base-4);
