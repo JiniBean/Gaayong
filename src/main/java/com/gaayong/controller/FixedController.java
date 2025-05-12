@@ -5,6 +5,7 @@ import com.gaayong.service.AccountService;
 import com.gaayong.service.CardService;
 import com.gaayong.service.CategoryService;
 import com.gaayong.service.FixedService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Controller
 @RequestMapping("fixed")
 public class FixedController {
@@ -61,18 +63,27 @@ public class FixedController {
 
         map.put("userId", user.getId());
 
-        System.out.println(map);
         try {
             boolean isValid = false;
 
-            if(method.equals("add")) isValid = service.add(map);
-            else if(method.equals("del")) isValid = service.del(map);
-            else if(method.equals("mod")) isValid = service.mod(map);
+            if(method.equals("add")) {
+                isValid = service.add(map);
+                method = "저장";
+            }
+            else if(method.equals("del")) {
+                isValid = service.del(map);
+                method = "삭제";
+            }
+            else if(method.equals("mod")) {
+                isValid = service.mod(map);
+                method = "수정";
+            }
 
             if(isValid) return "redirect:fixed";
-            else return "redirect:fixed/error=" + "고정비용 변경에 실패했습니다.";
+            else return "redirect:fixed?error=" + "고정비용 "+ method + "에 실패했습니다.";
         } catch (Exception e) {
-            return "redirect:fixed/error=" + e.getMessage();
+            log.error("Error occurred: {}", e.getMessage(), e);
+            return "redirect:fixed?error=" + e.getMessage();
         }
     }
 }

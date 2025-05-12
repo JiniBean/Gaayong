@@ -3,6 +3,7 @@ package com.gaayong.controller;
 import com.gaayong.entity.User;
 import com.gaayong.service.BudgetService;
 import com.gaayong.service.CategoryService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Controller
 @RequestMapping("budget")
 public class BudgetController {
@@ -45,9 +47,10 @@ public class BudgetController {
         try {
             boolean isValid = service.edit(map, method);
             if(isValid) return "redirect:budget";
-            else return "redirect:budget/error=" + "예산 변경에 실패했습니다.";
+            else return "redirect:budget?error=" + "예산 변경에 실패했습니다.";
         } catch (Exception e) {
-            return "redirect:budget/error=" + e.getMessage();
+            log.error("Error occurred: {}", e.getMessage(), e);
+            return "redirect:budget?error=" + e.getMessage();
         }
     }
 }

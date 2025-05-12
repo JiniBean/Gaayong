@@ -37,12 +37,18 @@
         WHERE
             ID = #{id} AND USER_ID = #{userId}
     </update>
-    
+
     <!-- 통장 삭제 -->
     <delete id="del" parameterType="Map">
         DELETE FROM ACCT
         WHERE
             ID = #{id} AND USER_ID = #{userId}
     </delete>
+
+    <select id="updateAmount">
+        UPDATE ACCT
+        SET AMT = AMT + #{amt}
+        WHERE ID = #{id}
+    </select>
     
 </mapper> 

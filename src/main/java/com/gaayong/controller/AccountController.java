@@ -2,6 +2,7 @@ package com.gaayong.controller;
 
 import com.gaayong.entity.User;
 import com.gaayong.service.AccountService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Controller
 @RequestMapping("account")
 public class AccountController {
@@ -41,6 +43,7 @@ public class AccountController {
             if(isValid) return "redirect:account";
             else return "redirect:account?error=처리 중 오류가 발생했습니다.";
         } catch (Exception e) {
+            log.error("Error occurred: {}", e.getMessage(), e);
             return "redirect:account?error=" + e.getMessage();
         }
     }
