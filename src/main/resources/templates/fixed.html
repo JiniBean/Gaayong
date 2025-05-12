@@ -120,9 +120,9 @@
     <section class="d:flex fl-dir:column gap:8">
         <h1 class="d:none">비용 내역</h1>
         <div class="d:flex fl-dir:row gap:2 fs:5">
-            <div class="btn btn-size:1 btn:outline" th:classappend="${{param.f}} eq null ? 'btn-color:main-2' :''"><a href="/fixed" >전체</a></div>
-            <div class="btn btn-size:1 btn:outline" th:classappend="${{param.f}} eq 'false' ? 'btn-color:main-2' :''"><a href="/fixed?f=false">미결제</a></div>
-            <div class="btn btn-size:1 btn:outline" th:classappend="${{param.f}} eq 'true' ? 'btn-color:main-2' :''"><a href="/fixed?f=true">결제완료</a></div>
+            <a href="/fixed"><div class="btn btn-size:1 btn:outline" th:classappend="${{param.f}} eq null ? 'btn-color:main-2' :''">전체</div></a>
+            <a href="/fixed?f=false"><div class="btn btn-size:1 btn:outline" th:classappend="${{param.f}} eq 'false' ? 'btn-color:main-2' :''">미결제</div></a>
+            <a href="/fixed?f=true"><div class="btn btn-size:1 btn:outline" th:classappend="${{param.f}} eq 'true' ? 'btn-color:main-2' :''">결제완료</div></a>
         </div>
         <div class="d:flex fl-dir:column gap:2">
             <div th:each="i:${list}" class="modDiv">

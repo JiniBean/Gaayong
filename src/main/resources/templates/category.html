@@ -49,11 +49,14 @@
 
         <!-- 카테고리 유형 선택 탭 -->
         <div class="d:flex fl-dir:row gap:2 fs:5">
-            <div class="btn btn-size:1 btn:outline" th:classappend="${{param.c}} eq null ? 'btn-color:main-2' :''">
-                <a href="/category"> 전체</a></div>
-            <div th:each="c:${codeList}" class="btn btn-size:1 btn:outline" th:classappend="${{param.c}} eq ${c['DETAIL_CD']} ? 'btn-color:main-2' :''">
-                <a th:href="@{/category(c=${c['DETAIL_CD']})}" th:text="${c['DETAIL_NM']}">수입</a>
-            </div>
+            <a href="/category"> 
+                <div class="btn btn-size:1 btn:outline" th:classappend="${{param.c}} eq null ? 'btn-color:main-2' :''">
+                전체</div>
+            </a>
+            <a th:each="c:${codeList}" th:href="@{/category(c=${c['DETAIL_CD']})}">
+                <div class="btn btn-size:1 btn:outline" th:text="${c['DETAIL_NM']}" th:classappend="${{param.c}} eq ${c['DETAIL_CD']} ? 'btn-color:main-2' :''">
+                수입</div>
+            </a>
         </div>
        <div class="grid gap:2">
            <!-- 수입 카테고리 그룹 -->
