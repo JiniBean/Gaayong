@@ -2,6 +2,7 @@ package com.gaayong.controller;
 
 import com.gaayong.entity.User;
 import com.gaayong.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Map;
 
+@Slf4j
 @Controller
 public class UserController {
 
@@ -38,6 +40,7 @@ public class UserController {
             if(isAdd == 1) return "redirect:/signin?registered=true";
             else return "redirect:/signup?error=" + "회원 등록에 실패했습니다";
         } catch (Exception e) {
+            log.error("Error occurred: {}", e.getMessage(), e);
             return "redirect:/signup?error=" + e.getMessage();
         }
 
