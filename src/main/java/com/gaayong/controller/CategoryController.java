@@ -3,6 +3,7 @@ package com.gaayong.controller;
 import com.gaayong.entity.User;
 import com.gaayong.service.CategoryService;
 import com.gaayong.service.CodeService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Controller
 @RequestMapping("category")
 public class CategoryController {
@@ -47,6 +49,7 @@ public class CategoryController {
             if(isValid) return "redirect:category";
             else return "redirect:category?error=처리 중 오류가 발생했습니다.";
         } catch (Exception e) {
+            log.error("Error occurred: {}", e.getMessage(), e);
             return "redirect:category?error=" + e.getMessage();
         }
     }
