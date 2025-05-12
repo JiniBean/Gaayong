@@ -63,11 +63,11 @@ public class FixedServiceImp implements FixedService{
 
     @Override
     public boolean del(Map<String, String> map) {
-        return false;
+        return repository.del(map);
     }
 
     @Override
     public boolean mod(Map<String, String> map) {
-        return false;
+       return repository.mod(map);
     }
 }
