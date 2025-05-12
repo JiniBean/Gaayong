@@ -16,4 +16,12 @@ public interface ExpenseRepository {
     Integer findCategoryTotal(String id, String category, String year, String month);
 
     List<Map<String, Object>> findList(String id, String category, String year, String month);
+
+    boolean del(Map<String, String> map);
+
+    boolean save(Map<String, String> map);
+
+    Map<String, String> findById(String id);
+
+    boolean mod(Map<String, String> map);
 }

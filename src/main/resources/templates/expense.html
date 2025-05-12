@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/budget.css">
-    <script type="module" src="/js/expnse.js" defer></script>
+    <script type="module" src="/js/expense.js" defer></script>
 </head>
 <body>
 <main layout:fragment="main">
@@ -53,14 +53,19 @@
                 <label>
                     <span>통장</span>
                     <select name="acctId">
+                        <option value="">선택안함</option>
                         <option th:each="a:${accountList}" th:text="${a['NAME']}" th:value="${a['ID']}">통장</option>
                     </select>
                 </label>
                 <label class="d:none">
                     <span>카드</span>
                     <select name="cardId">
+                        <option value="">선택안함</option>
                         <option th:each="c:${cardList}" th:text="${c['NAME']}" th:value="${c['ID']}">카드</option>
                     </select>
+                </label>
+                <label class="d:none"> type
+                    <input type="hidden" name="type" value="VAR">
                 </label>
             </div>
             <div class="d:flex gap:4 mt:4">
@@ -121,11 +126,11 @@
                         </label>
                         <label>
                             <span>금액</span>
-                            <input type="text" name="amt" th:value="${#numbers.formatDecimal(i['AMT'], 0, 'COMMA', 0, 'POINT')}">>
+                            <input type="text" name="amt" th:value="${#numbers.formatDecimal(i['AMT'], 0, 'COMMA', 0, 'POINT')}">
                         </label>
                         <label>
                             <span>결제일</span>
-                            <input type="date" name="dd" style="cursor: pointer" onclick="this.showPicker()" th:value="${#temporals.format(i['DD'], 'yyyy-MM-dd')}">
+                            <input type="date" name="dd" style="cursor: pointer" onclick="this.showPicker()" th:value="${i['DD']}">
                         </label>
                         <div class="pmt d:flex gap:8">
                             <label>
@@ -154,6 +159,9 @@
                                 </select>
                             </label>
                         </div>
+                        <label class="d:none"> id
+                            <input type="hidden" name="id" th:value="${i[ID]}">
+                        </label>
                         <div class="d:flex gap:4 mt:4">
                             <span class="cnclBtn btn btn:outline fl-grow:1">취소</span>
                             <button class="btn fl-grow:1">저장</button>

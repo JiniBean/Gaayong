@@ -26,13 +26,17 @@ window.addEventListener("load", function () {
 
     // -------------- 수정 ----------------------
     const cardList = document.querySelectorAll(".list");
-    cardList.forEach(i => i.onclick = modToggle)
+    cardList.forEach(i => i.onclick = modToggle);
+    cardList.forEach(i => { console.log('d')});
+
 
     function modToggle(e) {
+        console.log(e.target);
         // 삭제 버튼을 클릭한 경우 수정 모드를 열지 않음
         if(e.target.classList.contains('delBtn') || e.target.closest('.delBtn')) {
             return;
         }
+
 
         const card = e.target.closest('.list');
         const modDiv = e.target.closest('.modDiv');

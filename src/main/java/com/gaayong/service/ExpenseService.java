@@ -13,4 +13,10 @@ public interface ExpenseService {
     Integer getCategoryTotal(String id, String category, String year, String month);
 
     List<Map<String, Object>> getList(String id, String category, String year, String month);
+
+    boolean add(Map<String, String> map);
+
+    boolean del(Map<String, String> map);
+
+    boolean mod(Map<String, String> map);
 }
