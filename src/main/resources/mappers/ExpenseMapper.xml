@@ -24,6 +24,12 @@
         </if>
     </select>
 
+    <select id="findById" parameterType="String" resultType="Map">
+        SELECT *
+        FROM EXP
+        WHERE ID = #{id}
+    </select>
+
     <select id="findTotal" parameterType="String" resultType="Integer">
         SELECT IFNULL(sum(AMT),0)
         FROM EXP
@@ -44,7 +50,7 @@
         FROM EXP
         WHERE
             USER_ID = #{id}
-            AND IS_FIXED = FALSE
+            AND TYPE = 'VAR'
         <choose>
             <when test="month != null">AND MONTH(PMT_DD) = #{month}</when>
             <otherwise>AND MONTH(PMT_DD) = MONTH(CURRENT_DATE)</otherwise>
@@ -60,7 +66,7 @@
         FROM EXP
         WHERE
             USER_ID = #{id}
-            AND IS_FIXED = TRUE
+            AND TYPE = 'FIX'
         <choose>
             <when test="month != null">AND MONTH(PMT_DD) = #{month}</when>
             <otherwise>AND MONTH(PMT_DD) = MONTH(CURRENT_DATE)</otherwise>
@@ -86,5 +92,37 @@
             <otherwise>AND YEAR(PMT_DD) = YEAR(CURRENT_DATE)</otherwise>
         </choose>
     </select>
+
+    <insert id="save" parameterType="Map">
+        INSERT INTO EXP (
+            NAME, AMT, CTG_ID, USER_ID, PMT_DD, CARD_ID, ACCT_ID, TYPE
+        ) VALUES (
+            #{name}, #{amt}, #{ctgId}, #{userId}, #{dd}, #{cardId}, #{acctId}, #{type}
+        )
+    </insert>
+
+    <!-- 이용 수정 -->
+    <update id="mod" parameterType="Map">
+        UPDATE EXP
+        SET
+            NAME = #{name},
+            AMT = #{amt},
+            CTG_ID = #{ctgId},
+            MOD_DT = CURRENT_TIMESTAMP
+        <if test="dd != null or dd != '' or dd.length() > 0">
+            , PMT_DD = #{dd}
+        </if>
+        <if test="cardId != null">, CARD_ID = #{cardId}</if>
+        <if test="acctId != null">, ACCT_ID = #{acctId}</if>
+        <if test="type != null">, TYPE = #{type}</if>
+        WHERE
+            ID = #{id} AND USER_ID = #{userId}
+    </update>
+
+    <delete id="del" parameterType="Map">
+        DELETE FROM EXP
+        WHERE
+            ID = #{id} AND USER_ID = #{userId}
+    </delete>
 
 </mapper> 
