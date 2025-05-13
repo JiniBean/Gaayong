@@ -15,5 +15,5 @@ public interface AccountRepository {
     
     boolean del(Map<String, String> map);
 
-    void updateAmount(String acctId, int amount);
+    void updateAmount(String id, int amt);
 } 

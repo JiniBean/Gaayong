@@ -12,9 +12,13 @@
 <main layout:fragment="main">
     <div class="d:flex jc:space-between mt:8">
         <div class="d:flex ai:center gap:6">
-            <div class="icon icon:caret-left icon-color:base-5"><</div>
-            <h1 class="page-title">4월 지출</h1>
-            <div class="icon icon:caret-right icon-color:base-5"><</div>
+            <a class="prev">
+                <div class="icon icon:caret-left icon-color:base-5"><</div>
+            </a>
+            <h1 class="page-title" th:text="${param.m != null ? param.m + '월 지출' : #temporals.format(#temporals.createToday(), 'M') + '월 지출'}">4월 지출</h1>
+            <a class="next">
+                <div class="icon icon:caret-right icon-color:base-5">></div>
+            </a>
         </div>
         <div class="addBtn btn btn-size:1 bg-color:main-2 fs:7">지출추가</div>
     </div>
@@ -53,14 +57,12 @@
                 <label>
                     <span>통장</span>
                     <select name="acctId">
-                        <option value="">선택안함</option>
                         <option th:each="a:${accountList}" th:text="${a['NAME']}" th:value="${a['ID']}">통장</option>
                     </select>
                 </label>
                 <label class="d:none">
                     <span>카드</span>
                     <select name="cardId">
-                        <option value="">선택안함</option>
                         <option th:each="c:${cardList}" th:text="${c['NAME']}" th:value="${c['ID']}">카드</option>
                     </select>
                 </label>
@@ -102,9 +104,9 @@
             </a>
         </div>
         <div class="d:flex fl-dir:column gap:2">
-            <div class="as:end fs:9 pr:4" th:text="${'총 ' + #numbers.formatDecimal(total, 0, 'COMMA', 0, 'POINT')} + '원'">총 60,000원</div>
+            <div class="as:end fs:9 pr:4" th:text="${'총 ' + #numbers.formatDecimal(categoryTotal, 0, 'COMMA', 0, 'POINT')} + '원'">총 60,000원</div>
             <div th:each="i:${list}" class="modDiv">
-                <div class="list card p:4 fl-dir:row ai:center w:10p">
+                <div class="list card p:4 fl-dir:row ai:center w:10p pos:relative">
                     <div class="d:flex fl-dir:column ai:center gap:2" style="width: 12%; max-width: 90px">
                         <div>04/21</div>
                         <div class="fs:4">월</div>
@@ -142,19 +144,19 @@
                             <label>
                                 <span>결제유형</span>
                                 <select name="pmtType">
-                                    <option value="a">통장</option>
-                                    <option value="c">카드</option>
+                                    <option value="a" th:selected="${i['ACCT_ID'] != null && i['ACCT_ID'] != '' }">통장</option>
+                                    <option value="c" th:selected="${i['CARD_ID'] != null && i['CARD_ID'] != '' }">카드</option>
                                 </select>
                             </label>
-                            <label>
+                            <label th:classappend="${i['ACCT_ID'] != null && i['ACCT_ID'] != '' ? '' : 'd:none'}">
                                 <span>통장</span>
-                                <select name="acctId">
+                                <select name="acctId" th:data-id="${i['ACCT_ID']}">
                                     <option th:each="a:${accountList}" th:text="${a['NAME']}" th:value="${a['ID']}" th:selected="${i['ACCT_ID'] == a['ID']}">통장</option>
                                 </select>
                             </label>
-                            <label class="d:none">
+                            <label th:classappend="${i['CARD_ID'] != null && i['CARD_ID'] != '' ? '' : 'd:none'}">
                                 <span>카드</span>
-                                <select name="cardId">
+                                <select name="cardId" th:data-id="${i['CARD_ID']}">
                                     <option th:each="c:${cardList}" th:text="${c['NAME']}" th:value="${c['ID']}" th:selected="${i['CARD_ID'] == c['ID']}">카드</option>
                                 </select>
                             </label>

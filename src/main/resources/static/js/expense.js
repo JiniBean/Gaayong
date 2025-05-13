@@ -25,10 +25,8 @@ window.addEventListener("load", function () {
     });
 
     // -------------- 수정 ----------------------
-    const cardList = document.querySelectorAll(".list");
-    cardList.forEach(i => i.onclick = modToggle);
-    cardList.forEach(i => { console.log('d')});
-
+    const list = document.querySelectorAll(".list");
+    list.forEach(i => i.onclick = modToggle);
 
     function modToggle(e) {
         console.log(e.target);
@@ -54,7 +52,7 @@ window.addEventListener("load", function () {
         if(confirm('삭제하시겠습니까?')) {
             const id = e.target.dataset.id;
             const form = document.createElement('form');
-            form.action = '/fixed?m=del';
+            form.action = '/expense?m=del';
             form.method = 'POST';
 
             const idInput = document.createElement('input');
@@ -71,17 +69,33 @@ window.addEventListener("load", function () {
     // -------------- 결제수단 ----------------------
 
     const pmtType = document.querySelectorAll('select[name=pmtType]');
-    pmtType.forEach(i => i.onchange = function() {
-        const pmtDiv = i.closest('.pmt');
-        const cardList = pmtDiv.querySelector('label:has(select[name=cardId])');
-        const acctList = pmtDiv.querySelector('label:has(select[name=acctId])');
-        if(i.value === 'a') {
-            cardList.classList.add('d:none');
-            acctList.classList.remove('d:none');
-        } else {
-            cardList.classList.remove('d:none');
-            acctList.classList.add('d:none');
+
+    pmtType.forEach(i => {
+        i.onchange = pmtToggle;
+        i.onload = pmtToggle;
+
+        function pmtToggle() {
+            const pmtDiv = i.closest('.pmt');
+            const cardList = pmtDiv.querySelector('label:has(select[name=cardId])');
+            const cardSelect = pmtDiv.querySelector('select[name=cardId]');
+            const acctList = pmtDiv.querySelector('label:has(select[name=acctId])');
+            const acctSelect = pmtDiv.querySelector('select[name=acctId]');
+            const acctIdx = Math.max(0, Array.from(acctSelect.options).findIndex(i => i.value === acctSelect.dataset.id));
+            const cardIdx = Math.max(0, Array.from(cardSelect.options).findIndex(i => i.value === cardSelect.dataset.id));
+
+            if(i.value === 'a') {
+                cardSelect.value= null;
+                acctSelect.selectedIndex = acctIdx;
+                cardList.classList.add('d:none');
+                acctList.classList.remove('d:none');
+            } else {
+                acctSelect.value= null;
+                cardSelect.selectedIndex = cardIdx;
+                cardList.classList.remove('d:none');
+                acctList.classList.add('d:none');
+            }
         }
-    })
+    });
+
 
 });

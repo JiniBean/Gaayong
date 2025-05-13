@@ -21,7 +21,7 @@ public interface ExpenseRepository {
 
     boolean save(Map<String, String> map);
 
-    Map<String, String> findById(String id);
+    Map<String, Object> findById(String id);
 
     boolean mod(Map<String, String> map);
 }
