@@ -98,4 +98,19 @@ window.addEventListener("load", function () {
     });
 
 
+    // -------------- 월 이동 ----------------------
+    const prev = document.querySelector(".prev");
+    const next = document.querySelector(".next");
+
+    const params = new URLSearchParams(window.location.search);
+    const month = params.get('m')? parseInt(params.get('m')) : new Date().getMonth()+1;
+    const year = params.get('y')? parseInt(params.get('y')) : new Date().getFullYear();
+
+    const prevMonth = month === 1 ? 12 : month - 1;
+    const prevYear = month === 1 ? year - 1 : year;
+    const nextMonth = month === 12 ? 1 : month + 1;
+    const nextYear = month === 12 ? year + 1 : year;
+
+    prev.href = `/expense?m=${prevMonth}&y=${prevYear}`;
+    next.href = `/expense?m=${nextMonth}&y=${nextYear}`;
 });
