@@ -6,76 +6,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/budget.css">
+    <script type="module" src="/js/income.js" defer></script>
 </head>
 <body>
 <main layout:fragment="main">
     <div class="d:flex jc:space-between mt:8">
         <div class="d:flex ai:center gap:6">
-            <div class="icon icon:caret-left icon-color:base-5"><</div>
-            <h1 class="page-title">4월 수입</h1>
-            <div class="icon icon:caret-right icon-color:base-5"><</div>
-        </div>
-        <div class="btn btn-size:1 bg-color:main-2 fs:7">수입추가</div>
-    </div>
-
-    <section class="grid">
-       <h1 class="d:none">수입 현황</h1>
-        <div class="card">
-            <div class="title">총 수입</div>
-            <div class="value">2,300,000원</div>
-            <div class="d:flex jc:space-between bd-bottom bd-color:base-3 p:2">
-                <span>추가수입</span>
-                <span>300,000원</span>
-            </div>
-            <a href="/budget">
-                <div class="d:flex jc:space-between bd-bottom bd-color:base-3 p:2">
-                    <span>예산</span>
-                    <span>300,000원</span>
-                </div>
+            <a class="prev">
+                <div class="icon icon:caret-left icon-color:base-5"><</div>
+            </a>
+            <h1 class="page-title" th:text="${param.m != null ? param.m + '월 수입' : #temporals.format(#temporals.createToday(), 'M') + '월 수입'}">4월 수입</h1>
+            <a class="next">
+                <div class="icon icon:caret-right icon-color:base-5">></div>
             </a>
         </div>
-    </section>
-
-    <section class="d:flex fl-dir:column gap:8">
-        <h1 class="d:none">수입 내역</h1>
-        <div class="d:flex fl-dir:row gap:2 fs:5">
-            <div class="btn btn-size:1 btn-color:main-2">전체</div>
-            <div class="btn btn-size:1 btn:outline">급여</div>
-            <div class="btn btn-size:1 btn:outline">용돈</div>
-            <div class="btn btn-size:1 btn:outline">기타</div>
-        </div>
-        <div class="d:flex fl-dir:column gap:2">
-            <div class="card p:4 fl-dir:row ai:center w:10p">
-                <div class="d:flex fl-dir:column ai:center gap:2" style="width: 12%; max-width: 90px">
-                    <div>04/21</div>
-                    <div class="fs:4">월</div>
-                </div>
-                <div class="fl-grow:1 d:flex fl-dir:column gap:4">
-                    <div class=""><span class="p:1 pl:2 pr:2 bg-color:main-1 bd-radius:3 fs:3 color:base-7">급여</span></div>
-                    <div class="title fw:2">월급</div>
-                    <div class="desc fs:5">OK 저축은행</div>
-                </div>
-                <div class="title fw:2">2,000,000원</div>
-            </div>
-
-            <div class="card p:4 fl-dir:row ai:center w:10p">
-                <div class="d:flex fl-dir:column ai:center gap:2" style="width: 12%; max-width: 90px">
-                    <div>04/21</div>
-                    <div class="fs:4">월</div>
-                </div>
-                <div class="fl-grow:1 d:flex fl-dir:column gap:4">
-                    <div class=""><span class="p:1 pl:2 pr:2 bg-color:main-1 bd-radius:3 fs:3 color:base-7">용돈</span></div>
-                    <div class="title fw:2">오빠</div>
-                    <div class="desc fs:5">토스</div>
-                </div>
-                <div class="title fw:2">100,000원</div>
-            </div>
-        </div>
-    </section>
-
-    <section class="card">
+        <div class="addBtn btn btn-size:1 bg-color:main-2 fs:7">수입추가</div>
+    </div>
+    <div th:if="${param.error}" class="error-message" th:text="${param.error}">
+        오류가 발생했습니다.
+    </div>
+    <section class="add card d:none">
         <h1 class="title">수입 추가</h1>
-        <form action="/expense" method="post" class="form form:underline grid">
+        <form action="/income?m=add" method="post" class="form form:underline grid">
             <label>
                 <span>내역</span>
                 <input type="text" name="name">
@@ -91,18 +43,107 @@
             <div class="d:flex gap:8">
                 <label class="fl-grow:1">
                     <span>통장</span>
-                    <select name="cardId">
+                    <select name="acctId">
+                        <option th:each="a:${accountList}" th:text="${a['NAME']}" th:value="${a['ID']}">통장</option>
                     </select>
                 </label>
                 <label class="fl-grow:1">
                     <span>카테고리</span>
                     <select name="ctgId">
+                        <option th:each="c:${categoryList}" th:text="${c['NAME']}" th:value="${c['ID']}">급여</option>
                     </select>
                 </label>
+            </div>
+            <div class="d:flex gap:4 mt:4">
+                <span class="cnclBtn btn btn:outline fl-grow:1">취소</span>
+                <button class="btn fl-grow:1">저장</button>
             </div>
         </form>
     </section>
 
+    <section class="grid">
+       <h1 class="d:none">수입 현황</h1>
+        <div class="card">
+            <div class="title">총 수입</div>
+            <div class="value" th:text="${#numbers.formatDecimal(total, 0, 'COMMA', 0, 'POINT') + '원'}">2,300,000원</div>
+            <div class="d:flex jc:space-between bd-bottom bd-color:base-3 p:2">
+                <span>추가수입</span>
+                <span th:text="${#numbers.formatDecimal(extraTotal, 0, 'COMMA', 0, 'POINT')} + '원'">300,000원</span>
+            </div>
+            <a href="/budget">
+                <div class="d:flex jc:space-between bd-bottom bd-color:base-3 p:2">
+                    <span>예산</span>
+                    <span th:text="${#numbers.formatDecimal(budgetTotal, 0, 'COMMA', 0, 'POINT')} + '원'">300,000원</span>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <section class="d:flex fl-dir:column gap:8">
+        <h1 class="d:none">수입 내역</h1>
+        <div class="d:flex fl-dir:row gap:2 fs:5">
+            <a href="/income"><div class="btn btn-size:1 btn:outline" th:classappend="${{param.c}} eq null ? 'btn-color:main-2' :''">전체</div></a>
+            <a th:each="c:${categoryList}" th:href="@{/income(c=${c['ID']})}">
+                <div th:text="${c['NAME']}" class="btn btn-size:1 btn:outline" th:classappend="${{param.c}} eq ${c['ID']} ? 'btn-color:main-2' :''">급여</div>
+            </a>
+        </div>
+        <div class="d:flex fl-dir:column gap:2">
+            <div class="as:end fs:9 pr:4" th:text="${'총 ' + #numbers.formatDecimal(categoryTotal, 0, 'COMMA', 0, 'POINT')} + '원'">총 60,000원</div>
+            <div th:each="i:${list}" class="modDiv">
+                <div class="list card p:4 fl-dir:row ai:center w:10p pos:relative">
+                    <div class="d:flex fl-dir:column ai:center gap:2" style="width: 12%; max-width: 90px">
+                        <div th:text="${#dates.format(i['DD'], 'MM/dd')}">04/21</div>
+                        <div class="fs:4">월</div>
+                    </div>
+                    <div class="fl-grow:1 d:flex fl-dir:column gap:4">
+                        <div class=""><span class="p:1 pl:2 pr:2 bg-color:main-1 bd-radius:3 fs:3 color:base-7" th:text="${i['CTG']}">급여</span></div>
+                        <div class="title fw:2" th:text="${i['NAME']}">월급</div>
+                        <div class="desc fs:5" th:text="${i['METHOD']}">토스</div>
+                    </div>
+                    <div class="title fw:2" th:text="${#numbers.formatDecimal(i['AMT'], 0, 'COMMA', 0, 'POINT')} + '원'">2,000,000원</div>
+                    <div class="delBtn icon icon:x icon-size:1 as:self-start cursor:pointer pos:absolute top:1 right:1" th:data-id="${i['ID']}">삭제</div>
+                </div>
+                <section class="mod card d:none">
+                    <h1 class="title">수입 수정</h1>
+                    <form action="/income?m=mod" method="post" class="form form:underline grid">
+                        <label>
+                            <span>내역</span>
+                            <input type="text" name="name" th:value="${i['NAME']}">
+                        </label>
+                        <label>
+                            <span>금액</span>
+                            <input type="text" name="amt" th:value="${#numbers.formatDecimal(i['AMT'], 0, 'COMMA', 0, 'POINT')}">
+                        </label>
+                        <label>
+                            <span>일자</span>
+                            <input type="date" name="dd" style="cursor: pointer" onclick="this.showPicker()" th:value="${i['DD']}">
+                        </label>
+                        <div class="d:flex gap:8">
+                            <label class="fl-grow:1">
+                                <span>통장</span>
+                                <select name="acctId" th:data-id="${i['ACCT_ID']}">
+                                    <option th:each="a:${accountList}" th:text="${a['NAME']}" th:value="${a['ID']}" th:selected="${i['ACCT_ID'] == a['ID']}">통장</option>
+                                </select>
+                            </label>
+                            <label class="fl-grow:1">
+                                <span>카테고리</span>
+                                <select name="ctgId">
+                                    <option th:each="c:${categoryList}" th:text="${c['NAME']}" th:value="${c['ID']}" th:selected="${i['CTG_ID'] == c['ID']}">급여</option>
+                                </select>
+                            </label>
+                        </div>
+                        <label class="d:none"> id
+                            <input type="hidden" name="id" th:value="${i['ID']}">
+                        </label>
+                        <div class="d:flex gap:4 mt:4">
+                            <span class="cnclBtn btn btn:outline fl-grow:1">취소</span>
+                            <button class="btn fl-grow:1">저장</button>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </div>
+    </section>
 
 </main>
 </body>

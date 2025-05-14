@@ -58,12 +58,10 @@ public class FixedServiceImp implements FixedService{
     @Transactional
     @Override
     public boolean mod(Map<String, String> map) {
-        System.out.println(map);
         Map<String, Object> pre = repository.findById(map.get("id"));
         repository.mod(map);
 
         boolean isPaid = map.get("isPaid") != null && map.get("isPaid").equals("on");
-        System.out.println("isPaid : " + isPaid);
         boolean preIsPaid = (boolean) pre.get("IS_PAID");
         map.put("dd", LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 

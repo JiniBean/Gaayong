@@ -81,40 +81,38 @@ public class ExpenseServiceImp implements ExpenseService{
     @Transactional
     @Override
     public boolean mod(Map<String, String> map) {
-        Map<String, Object> pre = repository.findById(map.get("id"));
-        String preAcctId = pre.get("ACCT_ID") != null ? pre.get("ACCT_ID").toString() : null;
+        // 기존 지출 정보 조회
+        Map<String, Object> old = repository.findById(map.get("id"));
+        String oldAcctId = old.get("ACCT_ID") != null ? old.get("ACCT_ID").toString() : null;
+        String acctId = map.get("acctId");
+
+        // 기존 금액, 현재 금액
+        int oldAmt = Integer.parseInt(old.get("AMT").toString());
+        int newAmt = Integer.parseInt(map.get("amt"));
+        int dif = oldAmt - newAmt;
 
         // 계좌 연결된 지출인 경우 통장 잔고 처리
-        String acctId = map.get("acctId");
         if (acctId != null && !acctId.isEmpty()) {
-            // 1. 이전 지출과 같은 계좌인 경우
-            if(preAcctId != null && !preAcctId.isEmpty() && pre.get("ACCT_ID").equals(acctId)) {
-                int newAmt = Integer.parseInt(map.get("amt"));
-                int oldAmt = Integer.parseInt(pre.get("AMT").toString());
-                int dif = oldAmt - newAmt;
-
+            // 1. 이전 지출이 카드인 경우
+            if(oldAcctId == null || oldAcctId.isEmpty())
+                //현재 계좌 잔고 차감
+                accountRepository.updateAmount(acctId, -newAmt);
+            // 2. 이전 지출과 같은 계좌인 경우
+            else if(old.get("ACCT_ID").equals(acctId))
                 // 금액 변경이 있는 경우만 계좌 잔액 수정
                 if (dif != 0) accountRepository.updateAmount(acctId, dif);
-            }
-            // 2. 이전 지출과 다른 계좌인 경우
-            else if(preAcctId != null && !preAcctId.isEmpty() && !pre.get("ACCT_ID").equals(acctId)) {
-                //이전 계좌 잔고 복원
-                accountRepository.updateAmount(preAcctId, Integer.parseInt(pre.get("AMT").toString()));
-                //현재 계좌 잔고 차감
-                accountRepository.updateAmount(acctId, -Integer.parseInt(map.get("amt")));
-            }
-            // 3. 이전 지출이 카드인 경우
+            // 3. 이전 지출과 다른 계좌인 경우
             else {
+                //이전 계좌 잔고 복원
+                accountRepository.updateAmount(oldAcctId, oldAmt);
                 //현재 계좌 잔고 차감
-                accountRepository.updateAmount(acctId, -Integer.parseInt(map.get("amt")));
+                accountRepository.updateAmount(acctId, -newAmt);
             }
         }
-        // 5. 이전 지출은 통장, 현재 지출은 카드인 경우
-        if((preAcctId != null && !preAcctId.isEmpty()) && (acctId == null || (acctId != null && acctId.isEmpty()))) {
-            int amt = Integer.parseInt(pre.get("AMT").toString());
+        // 4. 이전 지출은 통장, 현재 지출은 카드인 경우
+        else if(oldAcctId != null && !oldAcctId.isEmpty() && (acctId == null || acctId.isEmpty())) 
             //이전 계좌 잔고 복원
-            accountRepository.updateAmount(preAcctId, amt);
-        }
+            accountRepository.updateAmount(oldAcctId, oldAmt);
 
         return repository.mod(map);
     }

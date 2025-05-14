@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gaayong.repository.IncomeRepository">
+    
+    <select id="findList" parameterType="String" resultType="Map">
+        SELECT i.*, i.INC_DD DD, c.NAME CTG, a.NAME METHOD
+        FROM INC i
+        LEFT JOIN CTG c ON c.ID = i.CTG_ID
+        LEFT JOIN ACCT a ON a.ID = i.ACCT_ID
+        WHERE
+            i.USER_ID = #{id}
+        <choose>
+            <when test="month != null">AND MONTH(i.INC_DD) = #{month}</when>
+            <otherwise>AND MONTH(i.INC_DD) = MONTH(CURRENT_DATE)</otherwise>
+        </choose>
+        <choose>
+            <when test="year != null">AND YEAR(i.INC_DD) = #{year}</when>
+            <otherwise>AND YEAR(i.INC_DD) = YEAR(CURRENT_DATE)</otherwise>
+        </choose>
+        <if test="category != null">
+            AND i.CTG_ID = #{category}
+        </if>
+    </select>
+
+    <select id="findById" parameterType="String" resultType="Map">
+        SELECT *
+        FROM INC
+        WHERE ID = #{id}
+    </select>
+
+    <select id="findTotal" parameterType="String" resultType="Integer">
+        SELECT IFNULL(sum(AMT),0)
+        FROM INC
+        WHERE
+            USER_ID = #{id}
+        <choose>
+            <when test="month != null">AND MONTH(INC_DD) = #{month}</when>
+            <otherwise>AND MONTH(INC_DD) = MONTH(CURRENT_DATE)</otherwise>
+        </choose>
+        <choose>
+            <when test="year != null">AND YEAR(INC_DD) = #{year}</when>
+            <otherwise>AND YEAR(INC_DD) = YEAR(CURRENT_DATE)</otherwise>
+        </choose>
+    </select>
+
+    <select id="findBudgetTotal" parameterType="String" resultType="Integer">
+        SELECT IFNULL(sum(AMT),0)
+        FROM INC
+        WHERE
+            USER_ID = #{id}
+            AND BGT_ID IS NOT NULL
+        <choose>
+            <when test="month != null">AND MONTH(INC_DD) = #{month}</when>
+            <otherwise>AND MONTH(INC_DD) = MONTH(CURRENT_DATE)</otherwise>
+        </choose>
+        <choose>
+            <when test="year != null">AND YEAR(INC_DD) = #{year}</when>
+            <otherwise>AND YEAR(INC_DD) = YEAR(CURRENT_DATE)</otherwise>
+        </choose>
+    </select>
+
+    <select id="findExtraTotal" parameterType="String" resultType="Integer">
+        SELECT IFNULL(sum(AMT),0)
+        FROM INC
+        WHERE
+            USER_ID = #{id}
+            AND BGT_ID IS NULL
+        <choose>
+            <when test="month != null">AND MONTH(INC_DD) = #{month}</when>
+            <otherwise>AND MONTH(INC_DD) = MONTH(CURRENT_DATE)</otherwise>
+        </choose>
+        <choose>
+            <when test="year != null">AND YEAR(INC_DD) = #{year}</when>
+            <otherwise>AND YEAR(INC_DD) = YEAR(CURRENT_DATE)</otherwise>
+        </choose>
+    </select>
+
+    <select id="findCategoryTotal" parameterType="String" resultType="Integer">
+        SELECT IFNULL(sum(AMT),0)
+        FROM INC
+        WHERE
+            USER_ID = #{id}
+            <if test="category != null and category.length() > 0">AND CTG_ID = #{category}</if>
+        <choose>
+            <when test="month != null">AND MONTH(INC_DD) = #{month}</when>
+            <otherwise>AND MONTH(INC_DD) = MONTH(CURRENT_DATE)</otherwise>
+        </choose>
+        <choose>
+            <when test="year != null">AND YEAR(INC_DD) = #{year}</when>
+            <otherwise>AND YEAR(INC_DD) = YEAR(CURRENT_DATE)</otherwise>
+        </choose>
+    </select>
+
+    <insert id="save" parameterType="Map">
+        INSERT INTO INC (
+            NAME, AMT, CTG_ID, USER_ID, INC_DD, ACCT_ID
+        ) VALUES (
+            #{name}, #{amt}, #{ctgId}, #{userId}, #{dd}, #{acctId}
+        )
+    </insert>
+
+    <!-- 수입 수정 -->
+    <update id="mod" parameterType="Map">
+        UPDATE INC
+        SET
+            NAME = #{name},
+            AMT = #{amt},
+            CTG_ID = #{ctgId},
+            MOD_DT = CURRENT_TIMESTAMP
+        <if test="dd != null and dd != '' and dd.length() > 0">
+            , INC_DD = #{dd}
+        </if>
+        <choose>
+          <when test="acctId != null and acctId.length() > 0">, ACCT_ID = #{acctId}</when>
+          <otherwise>, ACCT_ID = null</otherwise>
+        </choose>
+        WHERE
+            ID = #{id} AND USER_ID = #{userId}
+    </update>
+
+    <delete id="del" parameterType="Map">
+        DELETE FROM INC
+        WHERE
+            ID = #{id} AND USER_ID = #{userId}
+    </delete>
+
+</mapper> 

@@ -30,7 +30,7 @@ public class BudgetController {
     public String page(@AuthenticationPrincipal User user, Model model){
         Integer total = service.getTotal(user.getId());
         List<Map<String, Object>> list = service.getList(user.getId());
-        List<Map<String, Object>> categoryList = categoryService.getList(user.getId(), "B");
+        List<Map<String, Object>> categoryList = categoryService.getList(user.getId(), "I");
 
         model.addAttribute("total", total);
         model.addAttribute("list", list);
