@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 @Service
 public class ExpenseServiceImp implements ExpenseService{
@@ -115,5 +114,10 @@ public class ExpenseServiceImp implements ExpenseService{
             accountRepository.updateAmount(oldAcctId, oldAmt);
 
         return repository.mod(map);
+    }
+
+    @Override
+    public List<Map<String, Object>> getCardPmt(String id) {
+        return repository.findCardPmt(id);
     }
 }

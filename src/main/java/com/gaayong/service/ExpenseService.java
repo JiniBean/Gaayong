@@ -19,4 +19,6 @@ public interface ExpenseService {
     boolean del(Map<String, String> map);
 
     boolean mod(Map<String, String> map);
+
+    List<Map<String, Object>> getCardPmt(String id);
 }

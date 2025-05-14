@@ -26,4 +26,5 @@ public interface ExpenseRepository {
 
     boolean mod(Map<String, String> map);
 
+    List<Map<String, Object>> findCardPmt(String id);
 }

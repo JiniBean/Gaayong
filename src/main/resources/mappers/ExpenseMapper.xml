@@ -134,7 +134,27 @@
              AND USER_ID = #{userId}
     </delete>
 
-    <select id="findCardPmt" parameterType="String" resultType="Integer">
+    <select id="findCardPmt" parameterType="String" resultType="Map">
+        SELECT IFNULL(sum(AMT), 0) total, c.NAME
+        FROM EXP e
+        JOIN CARD c ON c.ID = e.CARD_ID
+        WHERE e.USER_ID = #{id}
+          AND e.CARD_ID IS NOT NULL
+          AND (
+              /* 결제일 이전: 이번 달과 지난 달 지출 포함 */
+              (DAY(CURRENT_DATE) &lt; c.PMT_DD AND 
+                  DATE_FORMAT(e.PMT_DD, '%Y%m') IN (
+                      DATE_FORMAT(CURRENT_DATE, '%Y%m'),
+                      DATE_FORMAT(DATE_SUB(CURRENT_DATE, INTERVAL 1 MONTH), '%Y%m')
+                  )
+              )
+              OR
+              /* 결제일 이후: 이번 달 지출만 포함 */
+              (DAY(CURRENT_DATE) &gt;= c.PMT_DD AND
+                  DATE_FORMAT(e.PMT_DD, '%Y%m') = DATE_FORMAT(CURRENT_DATE, '%Y%m')
+              )
+          )
+        GROUP BY c.ID
     </select>
 
 </mapper> 
