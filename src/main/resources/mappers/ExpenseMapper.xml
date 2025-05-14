@@ -9,8 +9,7 @@
         LEFT JOIN CTG c ON c.ID = e.CTG_ID
         LEFT JOIN CARD ca ON ca.ID = e.CARD_ID
         LEFT JOIN ACCT a ON a.ID = e.ACCT_ID
-        WHERE
-            e.USER_ID = #{id}
+        WHERE e.USER_ID = #{id}
         <choose>
             <when test="month != null">AND MONTH(e.PMT_DD) = #{month}</when>
             <otherwise>AND MONTH(e.PMT_DD) = MONTH(CURRENT_DATE)</otherwise>
@@ -39,8 +38,7 @@
     <select id="findTotal" parameterType="String" resultType="Integer">
         SELECT IFNULL(sum(AMT),0)
         FROM EXP
-        WHERE
-            USER_ID = #{id}
+        WHERE USER_ID = #{id}
         <choose>
             <when test="month != null">AND MONTH(PMT_DD) = #{month}</when>
             <otherwise>AND MONTH(PMT_DD) = MONTH(CURRENT_DATE)</otherwise>
@@ -54,9 +52,8 @@
     <select id="findVarTotal" parameterType="String" resultType="Integer">
         SELECT IFNULL(sum(AMT),0)
         FROM EXP
-        WHERE
-            USER_ID = #{id}
-            AND TYPE = 'VAR'
+        WHERE USER_ID = #{id} 
+             AND TYPE = 'VAR'
         <choose>
             <when test="month != null">AND MONTH(PMT_DD) = #{month}</when>
             <otherwise>AND MONTH(PMT_DD) = MONTH(CURRENT_DATE)</otherwise>
@@ -70,9 +67,8 @@
     <select id="findFixedTotal" parameterType="String" resultType="Integer">
         SELECT IFNULL(sum(AMT),0)
         FROM EXP
-        WHERE
-            USER_ID = #{id}
-            AND TYPE = 'FIX'
+        WHERE USER_ID = #{id}
+             AND TYPE = 'FIX'
         <choose>
             <when test="month != null">AND MONTH(PMT_DD) = #{month}</when>
             <otherwise>AND MONTH(PMT_DD) = MONTH(CURRENT_DATE)</otherwise>
@@ -86,8 +82,7 @@
     <select id="findCategoryTotal" parameterType="String" resultType="Integer">
         SELECT IFNULL(sum(AMT),0)
         FROM EXP
-        WHERE
-            USER_ID = #{id}
+        WHERE USER_ID = #{id}
             <if test="category != null and category.length() > 0">AND CTG_ID = #{category}</if>
         <choose>
             <when test="month != null">AND MONTH(PMT_DD) = #{month}</when>
@@ -129,14 +124,17 @@
           <otherwise>, ACCT_ID = null</otherwise>
         </choose>
         <if test="type != null and type.length() > 0">, TYPE = #{type}</if>
-        WHERE
-            ID = #{id} AND USER_ID = #{userId}
+        WHERE ID = #{id} 
+             AND USER_ID = #{userId}
     </update>
 
     <delete id="del" parameterType="Map">
         DELETE FROM EXP
-        WHERE
-            ID = #{id} AND USER_ID = #{userId}
+        WHERE ID = #{id} 
+             AND USER_ID = #{userId}
     </delete>
+
+    <select id="findCardPmt" parameterType="String" resultType="Integer">
+    </select>
 
 </mapper> 

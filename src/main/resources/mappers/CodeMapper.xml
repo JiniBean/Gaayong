@@ -6,8 +6,7 @@
     <select id="findList" parameterType="String" resultType="Map">
         SELECT *
         FROM CODE_DETAIL
-        WHERE
-            GROUP_CD = #{code}
+        WHERE GROUP_CD = #{code}
     </select>
 
 </mapper> 

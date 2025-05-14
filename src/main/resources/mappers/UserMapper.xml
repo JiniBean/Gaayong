@@ -15,8 +15,7 @@
             CXL_DT as cxlDt
         FROM
             USER
-        WHERE
-            USER_NM = #{userNm}
+        WHERE USER_NM = #{userNm}
     </select>
     
     <!-- 새 사용자 저장 -->

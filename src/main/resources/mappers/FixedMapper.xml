@@ -7,8 +7,7 @@
         SELECT f.*, f.PMT_DD DD, c.NAME CTG
         FROM FIXED f
         LEFT JOIN CTG c ON c.ID = f.CTG_ID
-        WHERE
-            f.USER_ID = #{id}
+        WHERE f.USER_ID = #{id}
         <if test="flag != null">
             AND f.IS_PAID = #{flag}
         </if>
@@ -17,15 +16,14 @@
     <select id="findTotal" parameterType="String" resultType="Integer">
         SELECT IFNULL(sum(AMT),0)
         FROM FIXED
-        WHERE
-            USER_ID = #{id}
+        WHERE USER_ID = #{id}
     </select>
 
     <select id="findUnpaid" parameterType="String" resultType="Integer">
         SELECT IFNULL(sum(AMT),0)
         FROM FIXED
         WHERE USER_ID = #{id}
-        AND IS_PAID = false
+             AND IS_PAID = false
     </select>
 
     <select id="findById" parameterType="String" resultType="Map">
@@ -71,14 +69,14 @@
                 <otherwise>IS_PAID = false,</otherwise>
             </choose>
             MOD_DT = CURRENT_TIMESTAMP
-        WHERE
-            ID = #{id} AND USER_ID = #{userId}
+        WHERE ID = #{id} 
+             AND USER_ID = #{userId}
     </update>
     
     <delete id="del" parameterType="Map">
         DELETE FROM FIXED
-        WHERE
-            ID = #{id} AND USER_ID = #{userId}
+        WHERE ID = #{id} 
+             AND USER_ID = #{userId}
     </delete>
     
 </mapper> 

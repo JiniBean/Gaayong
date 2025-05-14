@@ -7,15 +7,13 @@
         SELECT b.*, b.INC_DD DD, c.NAME CTG
         FROM BGT b
         LEFT JOIN CTG c ON c.ID = b.CTG_ID
-        WHERE
-            b.USER_ID = #{id}
+        WHERE b.USER_ID = #{id}
     </select>
 
     <select id="findTotal" parameterType="String" resultType="Integer">
         SELECT IFNULL(sum(AMT),0)
         FROM BGT
-        WHERE
-            USER_ID = #{id}
+        WHERE USER_ID = #{id}
     </select>
     
     <insert id="save" parameterType="Map">
@@ -36,15 +34,15 @@
             INC_DD = #{dd},
             CTG_ID = #{ctgId},
             MOD_DT = CURRENT_TIMESTAMP
-        WHERE
-            ID = #{id} AND USER_ID = #{userId}
+        WHERE ID = #{id} 
+             AND USER_ID = #{userId}
     </update>
     
     <!-- 예산 삭제 -->
     <delete id="del" parameterType="Map">
         DELETE FROM BGT
-        WHERE
-            ID = #{id} AND USER_ID = #{userId}
+        WHERE ID = #{id} 
+             AND USER_ID = #{userId}
     </delete>
     
 </mapper> 

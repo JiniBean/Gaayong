@@ -6,8 +6,7 @@
     <select id="findList" parameterType="String" resultType="Map">
         SELECT *, PMT_DD DD
         FROM CARD
-        WHERE
-            USER_ID = #{id}
+        WHERE USER_ID = #{id}
     </select>
     
     <insert id="save" parameterType="Map">
@@ -26,15 +25,15 @@
             NAME = #{name},
             PMT_DD = #{dd},
             MOD_DT = CURRENT_TIMESTAMP
-        WHERE
-            ID = #{id} AND USER_ID = #{userId}
+        WHERE ID = #{id} 
+             AND USER_ID = #{userId}
     </update>
     
     <!-- 카드 삭제 -->
     <delete id="del" parameterType="Map">
         DELETE FROM CARD
-        WHERE
-            ID = #{id} AND USER_ID = #{userId}
+        WHERE ID = #{id} 
+             AND USER_ID = #{userId}
     </delete>
     
 </mapper> 
