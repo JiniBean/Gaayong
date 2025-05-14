@@ -60,10 +60,16 @@ public class ExpenseServiceImp implements ExpenseService{
     @Override
     public boolean del(Map<String, String> map) {
         // 삭제 전 해당 지출 정보 조회
-        Map<String, Object> expense = repository.findById(map.get("id"));
-        
+        Map<String, Object> expense;
+        if(map.get("fixedId") != null && !map.get("fixedId").isEmpty())
+            expense = repository.findByFixedId(map.get("fixedId"));
+        else
+            expense = repository.findById(map.get("id"));
+
+        map.put("id", expense.get("ID").toString());
+
         // 계좌 연결된 지출인 경우 통장 잔고 복원
-        String acctId = expense.get("ACCT_ID").toString();
+        String acctId = expense.get("ACCT_ID") != null ? expense.get("ACCT_ID").toString() : null;
         if (acctId != null && !acctId.isEmpty()) {
             int amount = Integer.parseInt(expense.get("AMT").toString());
             accountRepository.updateAmount(acctId, amount);
@@ -77,9 +83,7 @@ public class ExpenseServiceImp implements ExpenseService{
     public boolean mod(Map<String, String> map) {
         Map<String, Object> pre = repository.findById(map.get("id"));
         String preAcctId = pre.get("ACCT_ID") != null ? pre.get("ACCT_ID").toString() : null;
-        System.out.println("=============");
-        System.out.println(map);
-        System.out.println(preAcctId);
+
         // 계좌 연결된 지출인 경우 통장 잔고 처리
         String acctId = map.get("acctId");
         if (acctId != null && !acctId.isEmpty()) {

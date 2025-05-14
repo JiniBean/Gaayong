@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
@@ -16,10 +18,8 @@ public class FixedServiceImp implements FixedService{
     private FixedRepository repository;
 
     @Autowired
-    private ExpenseRepository expenseRepository;
+    private ExpenseService expenseService;
 
-    @Autowired
-    private AccountRepository accountRepository;
 
     @Override
     public List<Map<String, Object>> getList(String id, Boolean flag) {
@@ -38,36 +38,39 @@ public class FixedServiceImp implements FixedService{
 
     @Transactional
     @Override
-    public boolean edit(Map<String, String> map, String method) {
-        if(method.equals("add")){
-            if(map.get("isPaid") != null){
-
-            }
-            return repository.save(map);
-        }else if(method.equals("mod")){
-            return repository.mod(map);
-        }else if(method.equals("del")){
-            return repository.del(map);
-        }
-        return false;
-    }
-
-    @Override
     public boolean add(Map<String, String> map) {
-        if(map.get("isPaid") != null){
-
+        int id = repository.save(map);
+        if(map.get("isPaid") != null && map.get("isPaid").equals("on")) {
+            map.put("fixedId", String.valueOf(id));
+            map.put("dd", LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+            expenseService.add(map);
         }
-        return repository.save(map);
+        return true;
 
     }
 
+    @Transactional
     @Override
     public boolean del(Map<String, String> map) {
         return repository.del(map);
     }
 
+    @Transactional
     @Override
     public boolean mod(Map<String, String> map) {
-       return repository.mod(map);
+        System.out.println(map);
+        Map<String, Object> pre = repository.findById(map.get("id"));
+        repository.mod(map);
+
+        boolean isPaid = map.get("isPaid") != null && map.get("isPaid").equals("on");
+        System.out.println("isPaid : " + isPaid);
+        boolean preIsPaid = (boolean) pre.get("IS_PAID");
+        map.put("dd", LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+
+        // 미결제 -> 결제완료
+        if(!preIsPaid && isPaid) expenseService.add(map);
+        // 결제완료 -> 미결제
+        else if (preIsPaid && !isPaid) expenseService.del(map);
+       return true;
     }
 }

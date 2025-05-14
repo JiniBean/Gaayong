@@ -11,11 +11,13 @@ public interface FixedRepository {
 
     Integer findTotal(String id);
 
-    boolean save(Map<String, String> map);
+    int save(Map<String, String> map);
 
     boolean del(Map<String, String> map);
 
     boolean mod(Map<String, String> map);
 
     Integer findUnpaid(String id);
+
+    Map<String, Object> findById(String id);
 }

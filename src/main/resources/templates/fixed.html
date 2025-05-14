@@ -11,14 +11,14 @@
 <body>
 <main layout:fragment="main">
     <div class="d:flex jc:space-between mt:8">
-        <h1 class="page-title">고정 비용</h1>
-        <div class="addBtn btn btn-size:1 btn-color:main-2 fs:7">비용추가</div>
+        <h1 class="page-title">고정 지출</h1>
+        <div class="addBtn btn btn-size:1 btn-color:main-2 fs:7">지출추가</div>
     </div>
     <div th:if="${param.error}" class="error-message" th:text="${param.error}">
         오류가 발생했습니다.
     </div>
     <section class="add card d:none">
-        <h1 class="title">고정 비용 추가</h1>
+        <h1 class="title">고정 지출 추가</h1>
         <form action="/fixed?m=add" method="post" class="form form:underline">
             <label>
                 <span>내역</span>
@@ -94,6 +94,9 @@
                         <option th:each="c:${cardList}" th:text="${c['NAME']}" th:value="${c['ID']}">카드</option>
                     </select>
                 </label>
+                <label class="d:none"> type
+                    <input type="hidden" name="type" value="FIX">
+                </label>
             </div>
             <label>
                 <input type="checkbox" name="isPaid">이번 달 결제 완료된 내역이에요
@@ -106,19 +109,19 @@
     </section>
 
     <section class="grid">
-       <h1 class="d:none">비용 현황</h1>
+       <h1 class="d:none">지출 현황</h1>
         <div class="card">
-            <div class="title">총 고정비용</div>
+            <div class="title">총 고정지출</div>
             <div class="value" th:text="${#numbers.formatDecimal(total, 0, 'COMMA', 0, 'POINT') + '원'}">2,300,000원</div>
             <div class="d:flex jc:space-between bd-bottom bd-color:base-3 p:2">
-                <span>미결제 비용</span>
+                <span>미결제 지출</span>
                 <span th:text="${#numbers.formatDecimal(unpaid, 0, 'COMMA', 0, 'POINT') + '원'}">300,000원</span>
             </div>
         </div>
     </section>
 
     <section class="d:flex fl-dir:column gap:8">
-        <h1 class="d:none">비용 내역</h1>
+        <h1 class="d:none">지출 내역</h1>
         <div class="d:flex fl-dir:row gap:2 fs:5">
             <a href="/fixed"><div class="btn btn-size:1 btn:outline" th:classappend="${{param.f}} eq null ? 'btn-color:main-2' :''">전체</div></a>
             <a href="/fixed?f=false"><div class="btn btn-size:1 btn:outline" th:classappend="${{param.f}} eq 'false' ? 'btn-color:main-2' :''">미결제</div></a>
@@ -134,12 +137,13 @@
                     </div>
                     <div class="title fw:2" th:text="${#numbers.formatDecimal(i['AMT'], 0, 'COMMA', 0, 'POINT')} + '원'">300,000원</div>
                     <div class="delBtn icon icon:x icon-size:1 as:self-start cursor:pointer pos:absolute top:1 right:1" th:data-id="${i['ID']}">삭제</div>
-                    <div class="btn btn-size:1 fs:5" style="width: 65px" th:text="${i['IS_PAID'] == false ? '미결제' : '결제'}"
-                         th:classappend="${i['IS_PAID'] == false ? 'btn-color:sub-1' :''}" >미결제
+                    <div class="pmtMod btn btn-size:1 fs:5" style="width: 65px" th:text="${i['IS_PAID'] == false ? '결제' : '취소'}"
+                         th:classappend="${i['IS_PAID'] == false ? 'btn-color:sub-1' :''}" 
+                         th:data-id="${i['ID']}" th:data-paid="${i['IS_PAID']}" th:data-name="${i['NAME']}" th:data-dd="${i['DD']}" th:data-ctgId="${i['CTG_ID']}" th:data-amt="${i['AMT']}" th:data-acctId="${i['ACCT_ID']}" th:data-cardId="${i['CARD_ID']}">미결제
                     </div>
                 </div>
                 <section class="mod card d:none">
-                    <h1 class="title">고정 비용 수정</h1>
+                    <h1 class="title">고정 지출 수정</h1>
                     <form action="/fixed?m=mod" method="post" class="form form:underline">
                         <label>
                             <span>내역</span>
@@ -200,19 +204,19 @@
                             <label>
                                 <span>결제유형</span>
                                 <select name="pmtType">
-                                    <option value="a">통장</option>
-                                    <option value="c">카드</option>
+                                    <option value="a" th:selected="${i['ACCT_ID'] != null && i['ACCT_ID'] != '' }">통장</option>
+                                    <option value="c" th:selected="${i['CARD_ID'] != null && i['CARD_ID'] != '' }">카드</option>
                                 </select>
                             </label>
-                            <label>
+                            <label th:classappend="${i['ACCT_ID'] != null && i['ACCT_ID'] != '' ? '' : 'd:none'}">
                                 <span>통장</span>
-                                <select name="acctId">
+                                <select name="acctId" th:data-id="${i['ACCT_ID']}">
                                     <option th:each="a:${accountList}" th:text="${a['NAME']}" th:value="${a['ID']}" th:selected="${i['ACCT_ID'] == a['ID']}">통장</option>
                                 </select>
                             </label>
-                            <label class="d:none">
+                            <label th:classappend="${i['CARD_ID'] != null && i['CARD_ID'] != '' ? '' : 'd:none'}">
                                 <span>카드</span>
-                                <select name="cardId">
+                                <select name="cardId" th:data-id="${i['CARD_ID']}">
                                     <option th:each="c:${cardList}" th:text="${c['NAME']}" th:value="${c['ID']}" th:selected="${i['CARD_ID'] == c['ID']}">카드</option>
                                 </select>
                             </label>
@@ -222,6 +226,12 @@
                         </label>
                         <label class="d:none"> id
                             <input type="hidden" name="id" th:value="${i[ID]}">
+                        </label>
+                        <label class="d:none"> id
+                            <input type="hidden" name="fixedId" th:value="${i[ID]}">
+                        </label>
+                        <label class="d:none"> type
+                            <input type="hidden" name="type" value="FIX">
                         </label>
                         <div class="d:flex gap:4 mt:4">
                             <span class="cnclBtn btn btn:outline fl-grow:1">취소</span>

@@ -72,8 +72,7 @@ window.addEventListener("load", function () {
 
     pmtType.forEach(i => {
         i.onchange = pmtToggle;
-        i.onload = pmtToggle;
-
+        pmtToggle();
         function pmtToggle() {
             const pmtDiv = i.closest('.pmt');
             const cardList = pmtDiv.querySelector('label:has(select[name=cardId])');

@@ -62,7 +62,6 @@ public class FixedController {
                        @AuthenticationPrincipal User user){
 
         map.put("userId", user.getId());
-
         try {
             boolean isValid = false;
 
@@ -80,7 +79,8 @@ public class FixedController {
             }
 
             if(isValid) return "redirect:fixed";
-            else return "redirect:fixed?error=" + "고정비용 "+ method + "에 실패했습니다.";
+            else return "redirect:fixed?error=" + "고정지출 "+ method + "에 실패했습니다.";
+
         } catch (Exception e) {
             log.error("Error occurred: {}", e.getMessage(), e);
             return "redirect:fixed?error=" + e.getMessage();

@@ -30,6 +30,12 @@
         WHERE ID = #{id}
     </select>
 
+    <select id="findByFixedId" parameterType="String" resultType="Map">
+        SELECT *
+        FROM EXP
+        WHERE FIXED_ID = #{fixedId}
+    </select>
+
     <select id="findTotal" parameterType="String" resultType="Integer">
         SELECT IFNULL(sum(AMT),0)
         FROM EXP
@@ -96,8 +102,10 @@
     <insert id="save" parameterType="Map">
         INSERT INTO EXP (
             NAME, AMT, CTG_ID, USER_ID, PMT_DD, CARD_ID, ACCT_ID, TYPE
+            <if test="fixedId != null and fixedId.length() > 0">, FIXED_ID</if>
         ) VALUES (
             #{name}, #{amt}, #{ctgId}, #{userId}, #{dd}, #{cardId}, #{acctId}, #{type}
+            <if test="fixedId != null and fixedId.length() > 0">, #{fixedId}</if>
         )
     </insert>
 
