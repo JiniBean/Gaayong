@@ -131,7 +131,7 @@
             <div th:each="i:${list}" class="modDiv">
                 <div class="list card p:4 fl-dir:row ai:center w:10p pos:relative">
                     <div class="fl-grow:1 d:flex fl-dir:column gap:4">
-                        <div><span class="p:1 pl:2 pr:2 bg-color:main-1 bd-radius:3 fs:3 color:base-7" th:text="${i['CTG']}">저축</span></div>
+                        <div><span class="tag" th:text="${i['CTG']}">저축</span></div>
                         <div class="title fw:2" th:text="${i['NAME']}">국민 적금</div>
                         <div class="desc fs:5"  th:text="${i['DD'] != null ? '매달 '+ i['DD'] + '일' : '일자 지정 안함'}">매월 30일</div>
                     </div>

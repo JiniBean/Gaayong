@@ -58,7 +58,7 @@
 }
 
 .dark .btn-color\:main-2 {
-    background-color: var(--color-main-5);
+    background-color: var(--color-main-2);
     color: var(--color-base-2);
 }
 
@@ -81,7 +81,8 @@
 .tag {
     border-radius: 20px;
     padding: 4px 8px;
-    font-size: 10px;
+    font-size: 11px;
+    font-weight: 500;
     background-color: var(--color-base-4);
     color: var(--color-base-1);
 }
