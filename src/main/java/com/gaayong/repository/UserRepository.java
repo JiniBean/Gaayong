@@ -21,4 +21,6 @@ public interface UserRepository {
      * @return 영향받은 행 수
      */
     int saveUser(Map<String, String> user);
-} 
+
+    boolean updateTheme(String id, String mode);
+}

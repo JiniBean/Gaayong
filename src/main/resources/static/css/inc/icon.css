@@ -37,6 +37,17 @@
   cursor: pointer;
 }
 
+.icon\:btn:active {
+  transform: scale(0.98);
+  opacity: 0;
+}
+
+.icon\:btn:active {
+  opacity: 1;
+  transition: opacity 0.2s;
+}
+
+
 
 .icon::before,
 .icon\:btn::before {
@@ -53,7 +64,6 @@
   -webkit-mask-position: center;
   mask-position: center;
   background-color: var(--icon-color);
-
 }
 
 /* ---- deco ------------------------------------------------- */
@@ -291,6 +301,7 @@
 .icon-size\:5 {
   -webkit-mask-size: var(--icon-size-5);
   mask-size: var(--icon-size-5);
+  min-width: var(--icon-size-5);
 }
 
 .icon-size\:6 {
@@ -492,11 +503,18 @@
   mask-image: url("../../icon/favicon.svg");
 }
 
-.icon\:moon ::before,
+.icon\:moon::before,
 .icon\:moon::after {
   -webkit-mask-image: url("../../icon/moon.svg");
   mask-image: url("../../icon/moon.svg");
 }
+
+.icon\:moon-fill::before,
+.icon\:moon-fill::after {
+  -webkit-mask-image: url("../../icon/moon-fill.svg");
+  mask-image: url("../../icon/moon-fill.svg");
+}
+
 
 .icon\:sun::before,
 .icon\:sun::after {

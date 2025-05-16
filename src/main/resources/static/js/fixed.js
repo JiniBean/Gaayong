@@ -93,7 +93,6 @@ window.addEventListener("load", function () {
         paidInput.type = 'hidden';
         paidInput.name = 'isPaid';
         paidInput.value = (e.target.dataset.paid === 'true') ? null : 'on';
-        console.log(paidInput.value)
         form.appendChild(paidInput);
 
         const nameInput = document.createElement('input');

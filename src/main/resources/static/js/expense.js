@@ -29,7 +29,6 @@ window.addEventListener("load", function () {
     list.forEach(i => i.onclick = modToggle);
 
     function modToggle(e) {
-        console.log(e.target);
         // 삭제 버튼을 클릭한 경우 수정 모드를 열지 않음
         if(e.target.classList.contains('delBtn') || e.target.closest('.delBtn')) {
             return;

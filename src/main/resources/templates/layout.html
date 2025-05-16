@@ -5,7 +5,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/svg" sizes="32x32" href="/icon/favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="/icon/favicon.svg">
+    <link rel="alternate icon" href="/favicon.ico">
     <title>가용 - 얼마나 쓸 수 있지?</title>
     <!-- SEO 메타태그 -->
     <meta name="description" content="가용금액 관리 및 예산지출관리 애플리케이션 - 개인 자산관리를 편리하게">
@@ -25,17 +26,16 @@
     <link rel="stylesheet" href="/css/inc/button.css">
     <link rel="stylesheet" href="/css/inc/form.css">
     <link rel="stylesheet" href="/css/inc/layout.css">
-
     <script type="module" src="/js/layout.js" defer></script>
 
 </head>
-<body th:class="${#authorization.expression('isAuthenticated()') ? #authentication.principal.theme : 'light'}">
+<body th:class="${#authorization.expression('isAuthenticated()') ? #authentication.principal.theme : ''}">
     <!-- header -->
     <header class="h:2 md:h:3 w:10p">
         <div class="d:flex gap:11 jc:space-between ai:center w:10p p:8">
             <h1 class="fs:13"><a href="/">가용</a></h1>
             <div class="d:none md:d:flex fl-dir:column gap:3 jc:space-between ai:end fl-grow:1 h:10p">
-                <nav>
+                <div class="d:flex ai:center gap:8">
                     <h1 class="d:none">top</h1>
                     <ul class="d:flex gap:5">
                         <li sec:authorize="isAnonymous()"><a href="/signin">로그인</a></li>
@@ -43,7 +43,11 @@
                         <li sec:authorize="isAuthenticated()" th:text="${#authentication.name + '님'}">Jini님</li>
                         <li sec:authorize="isAuthenticated()"><a href="/signout">로그아웃</a></li>
                     </ul>
-                </nav>
+                    <div class="theme-pc d:none md:d:flex cursor:pointer pl:2" title="테마 변경">
+                        <div class="light-mode fl-grow:1 icon icon:sun icon-color:accent-3">light</div>
+                        <div class="dark-mode fl-grow:1 icon icon:moon-fill icon-color:base-1">dark</div>
+                    </div>
+                </div>
                 <nav class="w:7p">
                     <h1 class="d:none">down</h1>
                     <ul class="d:flex jc:space-between fs:10">
@@ -74,7 +78,7 @@
             <h1 class="fs:13">가용</h1>
             <div class="drawer-close icon icon:x icon-color:base-2">닫기</div>
         </div>
-        <ul class="d:flex fl-dir:column gap:6 fs:9">
+        <ul class="d:flex fl-grow:1 fl-dir:column gap:6 fs:9">
             <li><a href="/">대시보드</a></li>
             <li><a href="/expense">지출</a></li>
             <li><a href="/income">수입</a></li>
@@ -84,7 +88,13 @@
             <li><a href="/card">카드</a></li>
             <li><a href="/category">카테고리</a></li>
         </ul>
-        <div class="theme">테마</div>
+        <div class="theme d:flex as:end w:fit-content bd bd-radius:1 cursor:pointer" th:data-theme="${#authorization.expression('isAuthenticated()')}"
+             th:classappend="${#authorization.expression('isAuthenticated()') ? (#authentication.principal.theme == 'light' ? 'bd-color:base-2' : 'bd-color:base-10') : ''}">
+            <div class="light-mode icon icon:sun icon-size:6"
+                 th:classappend="${#authorization.expression('isAuthenticated()') ? (#authentication.principal.theme == 'light' ? 'icon-color:sub-1 bg-color:base-3' : 'icon-color:base-5') : ''}">light</div>
+            <div class="dark-mode icon icon:moon icon-size:6"
+                 th:classappend="${#authorization.expression('isAuthenticated()') ? (#authentication.principal.theme == 'dark' ? 'icon-color:base-2 bg-color:base-10' : 'icon-color:base-4') : ''}">dark</div>
+        </div>
     </aside>
     <!-- main -->
     <div layout:fragment="main">메인</div>

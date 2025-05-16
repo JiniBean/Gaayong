@@ -12,7 +12,8 @@
             PWD as pwd,
             EMAIL as email,
             JOIN_DT as joinDt,
-            CXL_DT as cxlDt
+            CXL_DT as cxlDt,
+            THEME as theme
         FROM
             USER
         WHERE USER_NM = #{userNm}
@@ -34,5 +35,12 @@
             NOW()
         )
     </insert>
+
+    <update id="updateTheme">
+        UPDATE USER
+        SET
+            THEME = #{mode}
+        WHERE ID = #{id}
+    </update>
     
 </mapper> 

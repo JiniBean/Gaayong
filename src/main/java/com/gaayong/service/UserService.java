@@ -15,14 +15,14 @@ import java.util.Map;
 public class UserService implements UserDetailsService {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserRepository repository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String userNm) throws UsernameNotFoundException {
-        User user = userRepository.findByUserNm(userNm);
+        User user = repository.findByUserNm(userNm);
         
         if (user == null) {
             throw new UsernameNotFoundException("User not found with username: " + userNm);
@@ -34,14 +34,17 @@ public class UserService implements UserDetailsService {
     public int addUser(Map<String, String> user) {
         // 비밀번호 암호화
         user.put("pwd", passwordEncoder.encode(user.get("pwd")));
-        System.out.println(user);
         // 사용자 이름 중복 확인
-        User existingUser = userRepository.findByUserNm(user.get("userNm"));
+        User existingUser = repository.findByUserNm(user.get("userNm"));
         if (existingUser != null) {
             throw new RuntimeException("이미 사용 중인 아이디입니다.");
         }
         
         // 회원 가입 처리
-        return userRepository.saveUser(user);
+        return repository.saveUser(user);
     }
-} 
+
+    public boolean editTheme(String id, String mode) {
+        return repository.updateTheme(id, mode);
+    }
+}

@@ -21,9 +21,9 @@ public class UserController {
 
     @GetMapping("/signin")
     public String signin(@RequestParam(required = false) String error, Model model) {
-        if(error != null) {
+        if(error != null)
             model.addAttribute("error", "아이디 또는 비밀번호가 올바르지 않습니다.");
-        }
+
         return "signin";
     }
 
@@ -43,7 +43,5 @@ public class UserController {
             log.error("Error occurred: {}", e.getMessage(), e);
             return "redirect:/signup?error=" + e.getMessage();
         }
-
-
     }
 } 

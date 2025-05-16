@@ -42,14 +42,14 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((request) -> request
-                        .requestMatchers("/", "/signin", "/signup", "/css/**", "/js/**", "/icon/**")
+                        .requestMatchers("/", "/signin", "/signup", "/css/**", "/js/**", "/icon/**", "/.well-known/**")
                         .permitAll()
                         .anyRequest()
                         .authenticated())
                 .formLogin(form -> form
                         .loginPage("/signin")
                         .loginProcessingUrl("/signin")
-                        .defaultSuccessUrl("/")
+                        .defaultSuccessUrl("/", true)
                         .failureUrl("/signin?error=true")
                         .usernameParameter("userNm")
                         .passwordParameter("pwd")

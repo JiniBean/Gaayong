@@ -83,3 +83,73 @@ header > div {
     color: var(--color-accent-1);
     text-align: center;
 }
+
+.theme .icon{
+    width: 36px;
+    height: 32px;
+}
+
+/*.theme-pc:hover {*/
+/*    background-color: var(--color-base-2);*/
+/*}*/
+
+/*.theme-pc:active {*/
+/*    background-color: var(--color-base-3);*/
+/*}*/
+
+.theme-pc {
+    position: relative;
+    width: 62px;
+    height: 32px;
+    border-radius: 15px;
+    background-color: var(--color-base-3);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    overflow: hidden;
+}
+
+.theme-pc:after {
+    content: '';
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background-color: white;
+    top: 4px;
+    left: 4px;
+    transition: all 0.3s ease;
+    z-index: 1;
+}
+
+.dark .theme-pc {
+    background-color: var(--color-base-8);
+}
+
+.dark .theme-pc:after {
+    left: 32px;
+}
+
+.theme-pc .icon {
+    /*width: 20px;*/
+    /*height: 20px;*/
+    z-index: 0;
+}
+
+.theme-pc .deco {
+    transition: opacity 0.3s ease;
+}
+
+/*.dark .theme-pc .light-mode {*/
+/*    opacity: 0.5;*/
+/*}*/
+
+/*.theme-pc .dark-mode {*/
+/*    opacity: 0.5;*/
+/*}*/
+
+/*.dark .theme-pc .dark-mode {*/
+/*    opacity: 1;*/
+/*}*/

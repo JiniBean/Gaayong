@@ -39,11 +39,56 @@ window.addEventListener("load", function (){
         });
     });
 
-
+    // -------------- 다크모드 ----------------------
+    const body = document.querySelector('body');
+    const themePC = document.querySelector('.theme-pc');
     const theme = document.querySelector('.theme');
-    theme.onclick = function () {
-        const body = document.querySelector('body');
-        body.classList.add('dark');
+    const isLogin = JSON.parse(theme.dataset.theme);
+    const lightBtn = theme.querySelector('.light-mode');
+    const darkBtn = theme.querySelector('.dark-mode');
+
+    //로그인 정보 없을 때
+    const localMode= localStorage.getItem('theme') || null;
+    if (localMode) themeToggle(localMode);
+
+    themePC.onclick = () => setTheme(body.classList.contains('light') ? 'dark' : 'light');
+    lightBtn.onclick = ()=> setTheme('light');
+    darkBtn.onclick = ()=> setTheme('dark');
+
+    function setTheme(mode){
+        isLogin ? localStorage.removeItem('theme') : localStorage.setItem('theme', mode);
+
+        if(!isLogin) {
+            themeToggle(mode);
+            return;
+        }
+
+        fetch(`/api/user/${mode}`, {
+            method: 'GET',
+            credentials: 'same-origin'
+        })
+            .then(response => {
+                if (response.ok) themeToggle(mode);
+            })
+            .catch(error => console.error('오류:', error));
+
+
+    }
+
+    function themeToggle(mode){
+        body.classList.toggle('light', mode === 'light');
+        theme.classList.toggle('bd-color:base-2', mode === 'light');
+        lightBtn.classList.toggle('icon-color:sub-1', mode === 'light');
+        lightBtn.classList.toggle('bg-color:base-3', mode === 'light');
+        lightBtn.classList.toggle('bg-color:base-2', mode === 'light');
+        darkBtn.classList.toggle('icon-color:base-4', mode === 'light');
+
+        body.classList.toggle('dark', mode === 'dark');
+        theme.classList.toggle('bd-color:base-10', mode === 'dark');
+        lightBtn.classList.toggle('icon-color:base-5', mode === 'dark');
+        darkBtn.classList.toggle('bg-color:base-10', mode === 'dark');
+        darkBtn.classList.toggle('icon-color:base-2', mode === 'dark');
+
     }
 })
 

@@ -33,6 +33,20 @@ public class HomeController {
     @RequestMapping("/")
     public String home(@AuthenticationPrincipal User user, Model model){
 
+        if(user == null) {
+            List<Map<String, Object>> cardPmtList = List.of(Map.of("total", 0, "NAME", "카드명"));
+            model.addAttribute("user", 0);
+            model.addAttribute("cash", 0);
+            model.addAttribute("unpaidFixed", 0);
+            model.addAttribute("cardPmtList", cardPmtList);
+            model.addAttribute("cardPmt", 0);
+            model.addAttribute("expenseTotal", 0);
+            model.addAttribute("budgetTotal", 0);
+            model.addAttribute("incomeTotal", 0);
+            model.addAttribute("availAmt", 0);
+            model.addAttribute("expAvailAmt", 0);
+            return "home";
+        }
         int cash = accountService.getTotal(user.getId());
         int unpaidFixed = fixedService.getUnpaid(user.getId());
         List<Map<String, Object>> cardPmtList = expenseService.getCardPmt(user.getId());
