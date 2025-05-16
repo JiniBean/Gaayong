@@ -114,11 +114,10 @@ header > div {
 .theme-pc:after {
     content: '';
     position: absolute;
-    width: 22px;
-    height: 22px;
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
     background-color: white;
-    top: 4px;
     left: 4px;
     transition: all 0.3s ease;
     z-index: 1;
@@ -129,18 +128,14 @@ header > div {
 }
 
 .dark .theme-pc:after {
-    left: 32px;
+    left: 34px;
 }
 
 .theme-pc .icon {
-    /*width: 20px;*/
-    /*height: 20px;*/
     z-index: 0;
-}
-
-.theme-pc .deco {
     transition: opacity 0.3s ease;
 }
+
 
 /*.dark .theme-pc .light-mode {*/
 /*    opacity: 0.5;*/
