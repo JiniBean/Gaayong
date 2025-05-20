@@ -25,6 +25,9 @@ jobs:
       - name: Build with Maven
         run: mvn clean package -DskipTests
 
+      - name: Display files
+        run: ls -la target/
+
       - name: Deploy to server
         uses: appleboy/scp-action@master
         with:
@@ -33,7 +36,8 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.PORT }}
           source: "target/ROOT.war"
-          target: "/tmp"
+          target: "/tmp/"
+          strip_components: 0
 
       - name: Execute deployment script
         uses: appleboy/ssh-action@master
@@ -43,6 +47,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.PORT }}
           script: |
-            ls -la /home/jini/ROOT.war
-            cp -f /home/jini/ROOT.war /tmp/
+            find /tmp -name "*.war" -type f
+            ls -la /tmp/
+            cd /tmp
             /usr/bin/sh /home/jini/gaayong/script/deploy.sh
