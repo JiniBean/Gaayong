@@ -43,4 +43,6 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.PORT }}
           script: |
-            sh /home/jini/gaayong/script/deploy.sh
+            ls -la /home/jini/ROOT.war
+            cp -f /home/jini/ROOT.war /tmp/
+            /usr/bin/sh /home/jini/gaayong/script/deploy.sh
