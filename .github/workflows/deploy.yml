@@ -43,4 +43,4 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.PORT }}
           script: |
-            sudo sh /home/jini/gaayong/script/deploy.sh
+            sh /home/jini/gaayong/script/deploy.sh
