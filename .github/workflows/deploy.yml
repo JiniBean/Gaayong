@@ -15,16 +15,20 @@ jobs:
     
     # 리포지토리 코드 checkout - 로컬 검증용
     - name: Checkout
-      uses: actions/checkout@v3
+      run: |
+        git clone https://github.com/${{ github.repository }}.git
+        cd ${{ github.repository }}
+        git checkout ${{ github.ref_name }}
 
     # SSH 접속 및 배포 스크립트 실행
     - name: SSH Connection for Deploy
-      uses: appleboy/ssh-action@v0.1.10
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        port: ${{ secrets.PORT }}
-        script: |
-          cd /home/jini/gaayong
-          ./script/deploy.sh
+      env:
+        HOST: ${{ secrets.HOST }}
+        USERNAME: ${{ secrets.USERNAME }}
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        PORT: ${{ secrets.PORT }}
+      run: |
+        mkdir -p ~/.ssh
+        echo "${SSH_PRIVATE_KEY}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -p $PORT $USERNAME@$HOST 'cd /home/jini/gaayong && ./script/deploy.sh'
