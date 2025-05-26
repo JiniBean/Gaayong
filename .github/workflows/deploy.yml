@@ -19,12 +19,12 @@ jobs:
 
     # SSH 접속 및 배포 스크립트 실행
     - name: SSH Connection for Deploy
-      uses: easingthemes/ssh-deploy
+      uses: appleboy/ssh-action@v1.0.0
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
-        port: ${{ secrets.PORT }} 
+        port: ${{ secrets.PORT }}
         script: |
           cd /home/jini/gaayong
           ./script/deploy.sh
