@@ -6,6 +6,7 @@ on:
     paths:
       - 'src/**'  # src 디렉토리 내 변경사항만 트리거
       - 'pom.xml' # pom.xml 변경도 트리거
+      - '.github/workflows/deploy.yml' # deploy.yml 변경도 트리거
 
 jobs:
   deploy:
@@ -18,12 +19,12 @@ jobs:
 
     # SSH 접속 및 배포 스크립트 실행
     - name: SSH Connection for Deploy
-      uses: appleboy/ssh-action@master
+      uses: appleboy/ssh-action@v0.1.10
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
-        port: ${{ secrets.PORT }}
+        port: ${{ secrets.PORT }} 
         script: |
           cd /home/jini/gaayong
           ./script/deploy.sh
