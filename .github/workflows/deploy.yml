@@ -19,7 +19,7 @@ jobs:
 
     # SSH 접속 및 배포 스크립트 실행
     - name: SSH Connection for Deploy
-      uses: appleboy/ssh-action@v0.1.10
+      uses: easingthemes/ssh-deploy
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}

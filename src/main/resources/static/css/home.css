@@ -9,6 +9,10 @@
     font-weight: bold;
 }
 
+#install {
+    margin: 0 auto;
+}
+
 @media (min-width: 780px) {
     .grid{
         grid-template-columns: 1fr 1fr 1fr 1fr;

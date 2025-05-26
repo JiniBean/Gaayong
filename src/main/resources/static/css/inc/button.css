@@ -28,6 +28,10 @@
     height: 26px;
 }
 
+.btn-size\:2 {
+    height: 34px;
+}
+
 /* ------- type ---------------------------- */
 .btn\:outline {
     background-color: var(--color-base-1);

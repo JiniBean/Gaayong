@@ -1,5 +1,18 @@
+import PWAInstaller from "/js/PWAInstaller.js";
+
 window.addEventListener("load", function (){
-    //전체 메뉴 토글
+    // -------------- 서비스워커 ----------------------
+    const installBtn = document.querySelector("#install");
+    const pwa = new PWAInstaller(installBtn);
+
+    // service worker 지원여부
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/service-worker.js')
+            .then(r => console.log('ServiceWorker registration successful'))
+            .catch(e => console.error('ServiceWorker registration failed', e));
+    }
+
+    // -------------- 햄버거 버튼 ----------------------
     const drawerBtn = document.querySelector(".drawer-btn");
     const drawerAside = document.querySelector('.drawer');
     const removeIcon = drawerAside.querySelector(".drawer-close");
