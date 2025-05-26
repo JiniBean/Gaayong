@@ -28,7 +28,9 @@ public class UserController {
     }
 
     @GetMapping("/signup")
-    public String signupForm(Model model) {
+    public String signup(@RequestParam(required = false) String error, Model model) {
+        if(error != null)
+            model.addAttribute("error", error);
         return "signup";
     }
 
