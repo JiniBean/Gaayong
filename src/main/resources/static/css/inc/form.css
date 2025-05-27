@@ -48,6 +48,11 @@
     transition: border 0.12s;
 }
 
+.form input[type="date"] {
+    padding: 8px;
+    border-radius: var(--textbox-border-radius);
+}
+
 .form select {
     border: 1px solid var(--textbox-border-color);
     border-radius: var(--textbox-border-radius);
@@ -55,7 +60,7 @@
 }
 
 .dark .form input[type="date"]{
-    background-color: var(--color-base-8);
+    background-color: var(--color-base-7);
 }
 
 .dark .form input{
@@ -117,7 +122,7 @@
 .form label {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 6px;
 }
 
 .form.label\:left label {
