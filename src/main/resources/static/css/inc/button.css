@@ -9,6 +9,7 @@
     background-color: var(--color-base-4);
     color: var(--color-base-1);
     font-weight: 500;
+    white-space: nowrap;
 }
 .dark .btn{
     background-color: var(--color-base-7);

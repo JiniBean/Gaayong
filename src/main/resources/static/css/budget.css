@@ -19,3 +19,10 @@
         font-size: var(--font-size-11);
     }
 }
+
+.ctg-btn {
+    display: flex;
+    gap: var(--gap-2);
+    overflow-x: auto;
+    scroll-behavior: smooth;
+}

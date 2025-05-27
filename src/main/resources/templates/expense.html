@@ -40,33 +40,33 @@
                 <span>결제일</span>
                 <input type="date" name="dd" style="cursor: pointer" onclick="this.showPicker()" th:value="${#temporals.format(#temporals.createToday(), 'yyyy-MM-dd')}">
             </label>
-            <div class="pmt d:flex gap:8">
-                <label>
+            <div class="pmt d:flex gap:8 md:jc:space-between">
+                <label class="fl-grow:1 mr:4 md:mr:8">
                     <span>카테고리</span>
                     <select name="ctgId">
                         <option th:each="c:${categoryList}" th:text="${c['NAME']}" th:value="${c['ID']}">저축</option>
                     </select>
                 </label>
-                <label>
+                <label class="fl-grow:1">
                     <span>결제유형</span>
                     <select name="pmtType">
                         <option value="a">통장</option>
                         <option value="c">카드</option>
                     </select>
                 </label>
-                <label>
+                <label class="fl-grow:1">
                     <span>통장</span>
                     <select name="acctId">
                         <option th:each="a:${accountList}" th:text="${a['NAME']}" th:value="${a['ID']}">통장</option>
                     </select>
                 </label>
-                <label class="d:none">
+                <label class="d:none fl-grow:1">
                     <span>카드</span>
                     <select name="cardId">
                         <option th:each="c:${cardList}" th:text="${c['NAME']}" th:value="${c['ID']}">카드</option>
                     </select>
                 </label>
-                <label class="d:none"> type
+                <label class="d:none fl-grow:1"> type
                     <input type="hidden" name="type" value="VAR">
                 </label>
             </div>
@@ -97,11 +97,15 @@
 
     <section class="d:flex fl-dir:column gap:6">
         <h1 class="d:none">지출 내역</h1>
-        <div class="d:flex fl-dir:row gap:2 fs:5">
-            <a href="/expense"><div class="btn btn-size:1 btn:outline" th:classappend="${{param.c}} eq null ? 'btn-color:main-2' :''">전체</div></a>
-            <a th:each="c:${categoryList}" th:href="@{/expense(c=${c['ID']})}">
-                <div  th:text="${c['NAME']}" class="btn btn-size:1 btn:outline" th:classappend="${{param.c}} eq ${c['ID']} ? 'btn-color:main-2' :''">식비</div>
-            </a>
+        <div class="d:flex ai:center">
+            <div class="scroll-left icon icon:caret-left icon-color:base-5 md:d:none"><</div>
+            <div class="ctg-btn scroll:hidden fs:5">
+                <a href="/expense"><div class="btn btn-size:1 btn:outline" th:classappend="${{param.c}} eq null ? 'btn-color:main-2' :''">전체</div></a>
+                <a th:each="c:${categoryList}" th:href="@{/expense(c=${c['ID']})}">
+                    <div  th:text="${c['NAME']}" class="btn btn-size:1 btn:outline" th:classappend="${{param.c}} eq ${c['ID']} ? 'btn-color:main-2' :''">식비</div>
+                </a>
+            </div>
+            <div class="scroll-right icon icon:caret-right icon-color:base-5 md:d:none">></div>
         </div>
         <div class="d:flex fl-dir:column gap:2">
             <div class="as:end fs:9 pr:4" th:text="${'총 ' + #numbers.formatDecimal(categoryTotal, 0, 'COMMA', 0, 'POINT')} + '원'">총 60,000원</div>

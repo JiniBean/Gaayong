@@ -111,4 +111,44 @@ window.addEventListener("load", function () {
 
     prev.href = `/expense?m=${prevMonth}&y=${prevYear}`;
     next.href = `/expense?m=${nextMonth}&y=${nextYear}`;
+
+    // -------------- 카테고리 ----------------------
+    const ctgBtns = document.querySelector('.ctg-btn');
+    const leftBtn = document.querySelector('.scroll-left');
+    const rightBtn = document.querySelector('.scroll-right');
+
+    // 좌우 스크롤
+    const scrollAmount = ctgBtns.offsetWidth * 0.9; // 컨테이너 너비 80%
+    if (leftBtn && rightBtn) {
+        leftBtn.addEventListener('click', () => {
+            ctgBtns.scrollLeft -= scrollAmount;
+        });
+
+        rightBtn.addEventListener('click', () => {
+            ctgBtns.scrollLeft += scrollAmount;
+        });
+    }
+
+    // 선택된 버튼 스크롤 정렬
+    const selectedBtn = ctgBtns.querySelector('.btn-color\\:main-2');
+    if (selectedBtn) {
+        const containerWidth = ctgBtns.offsetWidth;
+        const scrollWidth = ctgBtns.scrollWidth;
+        const buttonLeft = selectedBtn.offsetLeft;
+        const buttonWidth = selectedBtn.offsetWidth;
+
+        // 스크롤 위치 계산
+        let scrollPosition = buttonLeft - (containerWidth / 2) + (buttonWidth / 2);
+
+        // 시작 부분 제한
+        scrollPosition = Math.max(0, scrollPosition);
+
+        // 끝 부분 제한
+        const maxScroll = scrollWidth - containerWidth;
+        scrollPosition = Math.min(maxScroll, scrollPosition);
+
+        ctgBtns.scrollLeft = scrollPosition;
+    }        
+
+    
 });
