@@ -64,7 +64,7 @@
             </div>
             <div class="d:flex gap:6 md:d:none">
                 <div class="d:flex gap:2">
-                    <div sec:authorize="isAnonymous()"><a href="/signin" class="icon icon:signin">로그인</a></div>
+                    <div sec:authorize="isAnonymous()"><a href="/signin" class="icon icon:signin icon-size:6">로그인</a></div>
                     <div sec:authorize="isAuthenticated()" th:text="${#authentication.name + '님'}" class="fs:9">Jini님</div>
                     <div sec:authorize="isAuthenticated()"><a href="/signout" class="icon icon:signout">로그아웃</a></div>
                 </div>
