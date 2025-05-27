@@ -53,7 +53,7 @@ body{
 
  /*인풋박스 커서 투명*/
  input{
-     caret-color: transparent;
+     caret-color: var(--color-main-3);
  }
 
 
