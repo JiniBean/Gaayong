@@ -13,11 +13,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     
-    # 리포지토리 코드 checkout - 로컬 검증용
+    # 리포지토리 코드 checkout
     - name: Checkout
       run: |
+        REPO_NAME=$(echo ${{ github.repository }} | cut -d'/' -f2)
         git clone https://github.com/${{ github.repository }}.git
-        cd ${{ github.repository }}
+        cd $REPO_NAME
         git checkout ${{ github.ref_name }}
 
     # SSH 접속 및 배포 스크립트 실행
