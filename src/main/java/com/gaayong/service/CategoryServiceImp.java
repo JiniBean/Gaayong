@@ -28,4 +28,9 @@ public class CategoryServiceImp implements CategoryService{
         }
         return false;
     }
+
+    @Override
+    public boolean addDefaultCategory(String userId) {
+        return repository.saveDefaultCategory(userId);
+    }
 }

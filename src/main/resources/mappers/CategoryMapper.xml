@@ -13,11 +13,29 @@
     </select>
 
     <insert id="save" parameterType="Map">
-        INSERT INTO CTG (
-            NAME, DES, USER_ID, CTG_CD
-        ) VALUES (
-            #{name}, #{des}, #{userId}, #{ctgCd}
-        )
+        INSERT INTO CTG (NAME, DES, USER_ID, CTG_CD )
+        VALUES (#{name}, #{des}, #{userId}, #{ctgCd})
+    </insert>
+
+    <insert id="saveDefaultCategory">
+        INSERT INTO CTG (NAME, DES, USER_ID, CTG_CD)
+        VALUES 
+        <!-- 지출 카테고리 -->
+        ('주거', '월세, 전세 대출이자, 공과금', #{userId}, 'E'),
+        ('생활', '식비, 생필품', #{userId}, 'E'),
+        ('교통', '대중교통, 차량 유지비', #{userId}, 'E'),
+        ('통신', '휴대폰, 인터넷', #{userId}, 'E'),
+        ('보험', '실비, 연금 등', #{userId}, 'E'),
+        ('구독', 'OTT, 음악, 운동 등', #{userId}, 'E'),
+        ('미용', '옷, 헤어, 피부, 네일', #{userId}, 'E'),
+        ('여가', '여행, 게임, 독서, 운동', #{userId}, 'E'),
+        ('기부/후원', '정기후원, 기부금', #{userId}, 'E'),
+        ('저축', '적금, 예금, 정약', #{userId}, 'E'),
+        ('금융', '대출, 할부, 은행 수수료', #{userId}, 'E'),
+        <!-- 수입 카테고리 -->
+        ('급여', '월급, 상여금', #{userId}, 'I'),
+        ('투자', '주식, 배당금', #{userId}, 'I'),
+        ('기타', '용돈, 경조사, 환급금', #{userId}, 'I')
     </insert>
     
     <update id="mod" parameterType="Map">

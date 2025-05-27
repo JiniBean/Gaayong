@@ -14,4 +14,6 @@ public interface CategoryRepository {
     boolean del(Map<String, String> map);
 
     boolean mod(Map<String, String> map);
+
+    boolean saveDefaultCategory(String userId);
 }

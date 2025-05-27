@@ -38,8 +38,8 @@ public class UserController {
     public String signup(@RequestParam Map<String, String> user) {
 
         try {
-            int isAdd = userService.addUser(user);
-            if(isAdd == 1) return "redirect:/signin?registered=true";
+            boolean isAdd = userService.addUser(user);
+            if(isAdd) return "redirect:/signin?registered=true";
             else return "redirect:/signup?error=" + "회원 등록에 실패했습니다";
         } catch (Exception e) {
             log.error("Error occurred: {}", e.getMessage(), e);

@@ -20,7 +20,7 @@ public interface UserRepository {
      * @param Map<String, String> 사용자 정보
      * @return 영향받은 행 수
      */
-    int saveUser(Map<String, String> user);
+    boolean saveUser(Map<String, String> user);
 
     boolean updateTheme(String id, String mode);
 }

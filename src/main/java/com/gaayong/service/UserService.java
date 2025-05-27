@@ -18,6 +18,9 @@ public class UserService implements UserDetailsService {
     private UserRepository repository;
 
     @Autowired
+    private CategoryService categoryService;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Override
@@ -31,7 +34,7 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    public int addUser(Map<String, String> user) {
+    public boolean addUser(Map<String, String> user) {
         // 비밀번호 암호화
         user.put("pwd", passwordEncoder.encode(user.get("pwd")));
         // 사용자 이름 중복 확인
@@ -41,7 +44,7 @@ public class UserService implements UserDetailsService {
         }
         
         // 회원 가입 처리
-        return repository.saveUser(user);
+        return repository.saveUser(user) && categoryService.addDefaultCategory(user.get("id"));
     }
 
     public boolean editTheme(String id, String mode) {
