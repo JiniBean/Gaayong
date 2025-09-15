@@ -4,6 +4,7 @@ import com.gaayong.entity.User;
 import com.gaayong.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,8 +30,15 @@ public class UserController {
 
     @GetMapping("/signup")
     public String signup(@RequestParam(required = false) String error, Model model) {
-        if(error != null)
-            model.addAttribute("error", error);
+        if(error != null) {
+            String msg = switch (error) {
+                case "1" -> "회원가입에 실패했습니다";
+                case "2" -> "이미 사용하고 있는 아이디입니다";
+                case "3" -> "오류가 발생했습니다";
+                default -> null;
+            };
+            model.addAttribute("error", msg);
+        }
         return "signup";
     }
 
@@ -40,10 +48,14 @@ public class UserController {
         try {
             boolean isAdd = userService.addUser(user);
             if(isAdd) return "redirect:/signin?registered=true";
-            else return "redirect:/signup?error=" + "회원 등록에 실패했습니다";
-        } catch (Exception e) {
+            else return "/signup?error=1";
+        } catch (IllegalStateException e){
             log.error("Error occurred: {}", e.getMessage(), e);
-            return "redirect:/signup?error=" + e.getMessage();
+            return "redirect:/signup?error=2";
+        }
+        catch (Exception e) {
+            log.error("Error occurred: {}", e.getMessage(), e);
+            return "redirect:/signup?error=3";
         }
     }
 } 

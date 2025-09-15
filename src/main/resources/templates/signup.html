@@ -11,7 +11,7 @@
 <main layout:fragment="main" class="pt:10">
     <section class="mt:8 d:flex fl-dir:column ai:center gap:10">
         <h1 class="page-title">회원가입</h1>
-        <div th:if="${param.error}" class="error-message" th:text="${param.error}">
+        <div th:if="${error}" class="error-message" th:text="${error}">
             오류가 발생했습니다.
         </div>
         

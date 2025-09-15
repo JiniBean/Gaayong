@@ -40,7 +40,7 @@ public class UserService implements UserDetailsService {
         // 사용자 이름 중복 확인
         User existingUser = repository.findByUserNm(user.get("userNm"));
         if (existingUser != null) {
-            throw new RuntimeException("이미 사용 중인 아이디입니다.");
+            throw new IllegalStateException("이미 사용 중인 아이디입니다.");
         }
         
         // 회원 가입 처리

@@ -21,6 +21,9 @@
     
     <!-- 새 사용자 저장 -->
     <insert id="saveUser" parameterType="Map">
+        <selectKey keyProperty="id" resultType="string" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
         INSERT INTO USER (
             USER_NM,
             NAME,
