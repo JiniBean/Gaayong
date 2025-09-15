@@ -12,7 +12,6 @@
     <section class="mt:8 d:flex fl-dir:column ai:center gap:10">
         <h1 class="page-title">회원가입</h1>
         <div th:if="${error}" class="error-message" th:text="${error}">
-            오류가 발생했습니다.
         </div>
         
         <form action="/signup" method="post" class="form mt:8 form:underline d:flex fl-dir:column gap:10 w:9" onsubmit="return validateForm()">
