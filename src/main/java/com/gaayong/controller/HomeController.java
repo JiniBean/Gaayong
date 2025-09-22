@@ -59,7 +59,7 @@ public class HomeController {
         int incomeTotal = incomeService.getTotal(user.getId(), null, null);
 
         int availAmt = cash - unpaidFixed - cardPmt;
-        int expAvailAmt = cash - fixedTotal;
+        int expAvailAmt = budgetTotal - fixedTotal;
 
         model.addAttribute("cash", cash);
         model.addAttribute("unpaidFixed", unpaidFixed);
