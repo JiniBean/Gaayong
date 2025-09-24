@@ -11,6 +11,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.sql.DataSource;
 
@@ -19,9 +20,11 @@ import javax.sql.DataSource;
 public class SecurityConfig {
 
     private final DataSource dataSource;
+    private final String     rememberMeKey;
 
-    public SecurityConfig(DataSource dataSource) {
+    public SecurityConfig(DataSource dataSource, @Value("${REMEMBER_ME_KEY:change-this-remember-me-key}") String rememberMeKey) {
         this.dataSource = dataSource;
+        this.rememberMeKey = rememberMeKey;
     }
 
     @Bean
@@ -42,7 +45,7 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((request) -> request
-                        .requestMatchers("/", "/signin", "/signup", "/css/**", "/js/**", "/icon/**", "/.well-known/**", "manifest.json", "service-worker.js")
+                        .requestMatchers("/", "/signin", "/signup", "/css/**", "/js/**", "/icon/**", "/.well-known/**", "/manifest.json", "/service-worker.js")
                         .permitAll()
                         .anyRequest()
                         .authenticated())
@@ -55,7 +58,7 @@ public class SecurityConfig {
                         .passwordParameter("pwd")
                         .permitAll())
                 .rememberMe(remember -> remember
-                        .key("uniqueAndSecretKey")
+                        .key(rememberMeKey)
                         .tokenRepository(tokenRepository())
                         .tokenValiditySeconds(60 * 60 * 24 * 30) // 30일간 유효
                         .rememberMeParameter("remember-me"))
@@ -69,9 +72,6 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                         .invalidSessionUrl("/signin?invalid=true")
                         .sessionFixation().migrateSession()
-                        .maximumSessions(1)
-                        .maxSessionsPreventsLogin(false)
-                        .expiredUrl("/signin?expired=true")
                 );
 
         return http.build();

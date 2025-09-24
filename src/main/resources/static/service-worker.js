@@ -10,10 +10,6 @@ const urlsToCache = [
     '/css/inc/icon.css',
     '/css/inc/layout.css',
     '/css/inc/utill.css',
-    '/css/budget.css',
-    '/css/category.css',
-    '/css/fixed.css',
-    '/css/home.css',
     '/css/sign.css',
 
     // 아이콘
@@ -41,15 +37,8 @@ const urlsToCache = [
     // 기본 파일
     '/manifest.json',
     '/',
-    '/home',
     '/signin',
-    '/signup',
-    '/budget',
-    '/category',
-    '/expense',
-    '/income',
-    '/fixed',
-    '/account'
+    '/signup'
 ];
 
 // 설치 단계에서 캐시를 생성하고 필요한 파일들을 캐시에 추가
