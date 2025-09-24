@@ -46,7 +46,7 @@
     <!--                      Production Profile                         -->
     <!-- =============================================================== -->
     <springProfile name="prd">
-        <property name="PRD_LOG_PATH" value="/logs/debug"/>
+        <property name="PRD_LOG_PATH" value="/opt/tomcat/gaayong/log/debug"/>
 
         <appender name="FILE_PRD" class="ch.qos.logback.core.rolling.RollingFileAppender">
              <file>${PRD_LOG_PATH}/latest.log</file>
