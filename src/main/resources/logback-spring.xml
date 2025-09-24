@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!-- Common properties -->
+    <property name="CONSOLE_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"/>
+    <property name="FILE_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"/>
+
+    <!-- Console Appender -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- =============================================================== -->
+    <!--                      Development Profile                        -->
+    <!-- =============================================================== -->
+    <springProfile name="dev">
+        <property name="DEV_LOG_PATH" value="logs"/>
+
+        <appender name="FILE_DEV" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <file>${DEV_LOG_PATH}/gaayong.log</file>
+            <encoder>
+                <pattern>${FILE_LOG_PATTERN}</pattern>
+            </encoder>
+            <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+                <fileNamePattern>${DEV_LOG_PATH}/gaayong-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+                <maxFileSize>10MB</maxFileSize>
+                <maxHistory>30</maxHistory>
+                <totalSizeCap>1GB</totalSizeCap>
+            </rollingPolicy>
+        </appender>
+
+        <logger name="com.gaayong" level="INFO"/>
+        <logger name="com.gaayong.repository" level="TRACE"/>
+        <logger name="org.springframework" level="INFO"/>
+        <logger name="org.mybatis" level="INFO"/>
+
+        <root level="INFO">
+            <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="FILE_DEV"/>
+        </root>
+    </springProfile>
+
+    <!-- =============================================================== -->
+    <!--                      Production Profile                         -->
+    <!-- =============================================================== -->
+    <springProfile name="prd">
+        <property name="PRD_LOG_PATH" value="/logs/debug"/>
+
+        <appender name="FILE_PRD" class="ch.qos.logback.core.rolling.RollingFileAppender">
+             <file>${PRD_LOG_PATH}/latest.log</file>
+            <encoder>
+                <pattern>${FILE_LOG_PATTERN}</pattern>
+            </encoder>
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <fileNamePattern>${PRD_LOG_PATH}/%d{yyyy-MM-dd}.txt</fileNamePattern>
+                <maxHistory>30</maxHistory>
+            </rollingPolicy>
+        </appender>
+
+        <logger name="com.gaayong" level="INFO"/>
+        <logger name="org.springframework" level="WARN"/>
+        <logger name="org.mybatis" level="WARN"/>
+
+        <root level="INFO">
+            <appender-ref ref="FILE_PRD"/>
+        </root>
+    </springProfile>
+
+</configuration>
