@@ -1,15 +1,14 @@
 package com.gaayong.controller;
 
-import com.gaayong.entity.User;
 import com.gaayong.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.Map;
 
@@ -43,18 +42,20 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public String signup(@RequestParam Map<String, String> user) {
+    public String signup(@RequestParam Map<String, String> user, HttpServletRequest request) {
 
         try {
             boolean isAdd = userService.addUser(user);
             if(isAdd) return "redirect:/signin?registered=true";
             else return "/signup?error=1";
         } catch (IllegalStateException e){
-            log.error("Error occurred: {}", e.getMessage(), e);
+            log.error("Request failed uri={} method={} params={} msg={}",
+                    request.getRequestURI(), request.getMethod(), user, e.getMessage(), e);
             return "redirect:/signup?error=2";
         }
         catch (Exception e) {
-            log.error("Error occurred: {}", e.getMessage(), e);
+            log.error("Request failed uri={} method={} params={} msg={}",
+                    request.getRequestURI(), request.getMethod(), user, e.getMessage(), e);
             return "redirect:/signup?error=3";
         }
     }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.List;
 import java.util.Map;
@@ -41,7 +42,8 @@ public class BudgetController {
     @PostMapping()
     public String page(@RequestParam Map<String, String> map,
                        @RequestParam(name = "m") String method,
-                       @AuthenticationPrincipal User user){
+                       @AuthenticationPrincipal User user,
+                       HttpServletRequest request){
 
         map.put("userId", user.getId());
         try {
@@ -49,7 +51,8 @@ public class BudgetController {
             if(isValid) return "redirect:budget";
             else return "redirect:budget?error=" + "예산 변경에 실패했습니다.";
         } catch (Exception e) {
-            log.error("Error occurred: {}", e.getMessage(), e);
+            log.error("Request failed uri={} method={} params={} msg={}",
+                    request.getRequestURI(), request.getMethod(), map, e.getMessage(), e);
             return "redirect:budget?error=" + e.getMessage();
         }
     }

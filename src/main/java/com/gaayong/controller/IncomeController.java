@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.List;
 import java.util.Map;
@@ -59,7 +59,8 @@ public class IncomeController {
     @PostMapping
     public String process(@RequestParam(name = "m", required = false) String method,
                           @RequestParam Map<String, String> map,
-                          @AuthenticationPrincipal User user) {
+                          @AuthenticationPrincipal User user,
+                          HttpServletRequest request) {
 
         map.put("userId", user.getId());
 
@@ -82,7 +83,8 @@ public class IncomeController {
             if(isValid) return "redirect:income";
             else return "redirect:income?error=" + "수입 "+ method + "에 실패했습니다.";
         } catch (Exception e) {
-            log.error("Error occurred: {}", e.getMessage(), e);
+            log.error("Request failed uri={} method={} params={} msg={}",
+                    request.getRequestURI(), request.getMethod(), map, e.getMessage(), e);
             return "redirect:income?error=" + e.getMessage();
         }
     }
