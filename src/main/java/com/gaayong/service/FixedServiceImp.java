@@ -1,8 +1,7 @@
 package com.gaayong.service;
 
-import com.gaayong.repository.AccountRepository;
-import com.gaayong.repository.ExpenseRepository;
 import com.gaayong.repository.FixedRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Service
 public class FixedServiceImp implements FixedService{
     @Autowired
@@ -46,7 +46,6 @@ public class FixedServiceImp implements FixedService{
             expenseService.add(map);
         }
         return true;
-
     }
 
     @Transactional
@@ -69,6 +68,31 @@ public class FixedServiceImp implements FixedService{
         if(!preIsPaid && isPaid) expenseService.add(map);
         // 결제완료 -> 미결제
         else if (preIsPaid && !isPaid) expenseService.del(map);
-       return true;
+        return true;
+    }
+
+    @Override
+    public void resetIsPaid() {
+        int rows = repository.resetIsPaid();
+        if (rows > 0) {
+            log.info("[Scheduler] Reset IS_PAID for {} fixed expenses.", rows);
+        }
+    }
+
+    @Transactional
+    @Override
+    public void processAutoPay() {
+        for (Map<String, String> map : repository.findListByAutoPay()) {
+            if (map.get("expId") != null) {
+                log.info("[Scheduler] Skip auto-pay, expense already exists. fixedId={}", map.get("id"));
+                continue;
+            }
+            map.put("isPaid", "on");
+            map.put("isAutoPay", "on");
+            map.put("fixedId", map.get("id"));
+            map.put("type", "FIX");
+            mod(map);
+            log.info("[Scheduler] Auto-paid fixed expense. fixedId={}", map.get("id"));
+        }
     }
 }

@@ -97,6 +97,10 @@
                 <label class="d:none"> type
                     <input type="hidden" name="type" value="FIX">
                 </label>
+                <label class="auto-pay-row">
+                    <input type="checkbox" name="isAutoPay" disabled>
+                    <span class="auto-pay-label">매달 결제일에 자동 결제</span>
+                </label>
             </div>
             <label>
                 <input type="checkbox" name="isPaid">이번 달 결제 완료된 내역이에요
@@ -131,7 +135,7 @@
             <div th:each="i:${list}" class="modDiv">
                 <div class="list card p:4 fl-dir:row ai:center w:10p pos:relative">
                     <div class="fl-grow:1 d:flex fl-dir:column gap:4">
-                        <div><span class="tag" th:text="${i['CTG']}">저축</span></div>
+                        <div><span class="tag" th:text="${i['CTG']}">저축</span><span class="tag tag-auto" th:if="${i['IS_AUTO_PAY']}">자동</span></div>
                         <div class="title fw:2" th:text="${i['NAME']}">국민 적금</div>
                         <div class="desc fs:5"  th:text="${i['DD'] != null ? '매달 '+ i['DD'] + '일' : '일자 지정 안함'}">매월 30일</div>
                     </div>
@@ -218,6 +222,10 @@
                                 <select name="cardId" th:data-id="${i['CARD_ID']}">
                                     <option th:each="c:${cardList}" th:text="${c['NAME']}" th:value="${c['ID']}" th:selected="${i['CARD_ID'] == c['ID']}">카드</option>
                                 </select>
+                            </label>
+                            <label class="auto-pay-row">
+                                <input type="checkbox" name="isAutoPay" th:checked="${i['IS_AUTO_PAY']}" th:disabled="${i['DD'] == null}">
+                                <span class="auto-pay-label" th:text="${i['DD'] != null ? '매달 ' + i['DD'] + '일에 자동 결제' : '매달 결제일에 자동 결제'}">매달 결제일에 자동 결제</span>
                             </label>
                         </div>
                         <label>

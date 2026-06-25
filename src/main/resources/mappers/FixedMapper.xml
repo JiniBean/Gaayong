@@ -34,7 +34,7 @@
    
     <insert id="save" parameterType="Map" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO FIXED (
-            NAME, AMT, CTG_ID, USER_ID, CARD_ID, ACCT_ID, PMT_DD, IS_PAID
+            NAME, AMT, CTG_ID, USER_ID, CARD_ID, ACCT_ID, PMT_DD, IS_PAID, IS_AUTO_PAY
         ) VALUES (
             #{name}, #{amt}, #{ctgId}, #{userId}, #{cardId}, #{acctId}
         <choose>
@@ -43,6 +43,10 @@
         </choose>
             <if test="isPaid != null">, true</if>
             <if test="isPaid == null">, false</if>
+            <choose>
+                <when test="isAutoPay != null and isAutoPay.equals('on') and dd != null and dd != '' and dd.length() > 0">, true</when>
+                <otherwise>, false</otherwise>
+            </choose>
         )
     </insert>
     
@@ -68,6 +72,10 @@
                 <when test="isPaid != null and isPaid.equals('on')">IS_PAID = true,</when>
                 <otherwise>IS_PAID = false,</otherwise>
             </choose>
+            <choose>
+                <when test="isAutoPay != null and isAutoPay.equals('on') and dd != null and dd != '' and dd.length() > 0">IS_AUTO_PAY = true,</when>
+                <otherwise>IS_AUTO_PAY = false,</otherwise>
+            </choose>
             MOD_DT = CURRENT_TIMESTAMP
         WHERE ID = #{id} 
              AND USER_ID = #{userId}
@@ -78,5 +86,37 @@
         WHERE ID = #{id} 
              AND USER_ID = #{userId}
     </delete>
+
+    <update id="resetIsPaid">
+        UPDATE FIXED
+        SET IS_PAID = false
+        WHERE IS_PAID = true
+    </update>
+
+    <select id="findListByAutoPay" resultType="Map">
+        SELECT f.ID AS id,
+               f.USER_ID AS userId,
+               f.NAME AS name,
+               CAST(f.AMT AS CHAR) AS amt,
+               CAST(f.CTG_ID AS CHAR) AS ctgId,
+               CAST(f.PMT_DD AS CHAR) AS dd,
+               CAST(f.CARD_ID AS CHAR) AS cardId,
+               CAST(f.ACCT_ID AS CHAR) AS acctId,
+               CAST(e.ID AS CHAR) AS expId
+        FROM FIXED f
+        LEFT JOIN EXP e ON e.FIXED_ID = f.ID
+            AND YEAR(e.PMT_DD) = YEAR(CURRENT_DATE)
+            AND MONTH(e.PMT_DD) = MONTH(CURRENT_DATE)
+        WHERE f.IS_AUTO_PAY = true
+          AND f.IS_PAID = false
+          AND f.PMT_DD IS NOT NULL
+          AND (
+              f.PMT_DD = DAY(CURRENT_DATE)
+              OR (
+                  f.PMT_DD &gt; DAY(LAST_DAY(CURRENT_DATE))
+                  AND DAY(CURRENT_DATE) = DAY(LAST_DAY(CURRENT_DATE))
+              )
+          )
+    </select>
     
 </mapper> 

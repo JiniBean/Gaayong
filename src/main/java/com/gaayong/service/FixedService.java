@@ -15,4 +15,8 @@ public interface FixedService {
     boolean del(Map<String, String> map);
 
     boolean mod(Map<String, String> map);
+
+    void resetIsPaid();
+
+    void processAutoPay();
 }

@@ -20,4 +20,8 @@ public interface FixedRepository {
     Integer findUnpaid(String id);
 
     Map<String, Object> findById(String id);
+
+    int resetIsPaid();
+
+    List<Map<String, String>> findListByAutoPay();
 }

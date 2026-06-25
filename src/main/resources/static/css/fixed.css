@@ -38,3 +38,53 @@ input[name="isPaid"]:checked::after {
     grid-template-columns: 1fr 1fr;
     gap: var(--gap-8);
 }
+
+.pmt .auto-pay-row {
+    grid-column: 1 / -1;
+}
+
+label:has(input[name="isAutoPay"]) {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    color: var(--color-base-7);
+}
+
+.dark label:has(input[name="isAutoPay"]) {
+    color: var(--color-base-4);
+}
+
+input[name="isAutoPay"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border: 1px solid var(--color-base-4);
+    border-radius: 3px;
+    transition: background-color 0.2s;
+}
+
+input[name="isAutoPay"]:checked {
+    background-color: var(--color-base-6);
+    color: var(--color-base-1);
+}
+
+input[name="isAutoPay"]:checked::after {
+    content: '✓';
+    display: block;
+    text-align: center;
+    font-size: 12px;
+    color: white;
+}
+
+input[name="isAutoPay"]:disabled {
+    opacity: 0.4;
+}
+
+.tag-auto {
+    margin-left: 4px;
+    background-color: var(--color-sub-1);
+    color: var(--color-base-1);
+}

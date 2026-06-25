@@ -141,6 +141,29 @@ window.addEventListener("load", function () {
         form.submit();
     });
 
+    // -------------- 자동결제 ----------------------
+    document.querySelectorAll('.pmt').forEach(pmtDiv => {
+        const ddSelect = pmtDiv.querySelector('select[name=dd]');
+        const autoPayInput = pmtDiv.querySelector('input[name=isAutoPay]');
+        const autoPayLabel = pmtDiv.querySelector('.auto-pay-label');
+        if (!ddSelect || !autoPayInput) return;
+
+        function syncAutoPay() {
+            const dd = ddSelect.value;
+            if (dd) {
+                autoPayInput.disabled = false;
+                autoPayLabel.textContent = `매달 ${dd}일에 자동 결제`;
+            } else {
+                autoPayInput.checked = false;
+                autoPayInput.disabled = true;
+                autoPayLabel.textContent = '매달 결제일에 자동 결제';
+            }
+        }
+
+        ddSelect.addEventListener('change', syncAutoPay);
+        syncAutoPay();
+    });
+
     // -------------- 결제수단 ----------------------
 
     const pmtType = document.querySelectorAll('select[name=pmtType]');

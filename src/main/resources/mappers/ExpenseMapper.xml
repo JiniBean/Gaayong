@@ -33,6 +33,8 @@
         SELECT *
         FROM EXP
         WHERE FIXED_ID = #{fixedId}
+          AND YEAR(PMT_DD) = YEAR(CURRENT_DATE)
+          AND MONTH(PMT_DD) = MONTH(CURRENT_DATE)
     </select>
 
     <select id="findTotal" parameterType="String" resultType="Integer">
