@@ -135,9 +135,9 @@
             <div th:each="i:${list}" class="modDiv">
                 <div class="list card p:4 fl-dir:row ai:center w:10p pos:relative">
                     <div class="fl-grow:1 d:flex fl-dir:column gap:4">
-                        <div><span class="tag" th:text="${i['CTG']}">저축</span><span class="tag tag-auto" th:if="${i['IS_AUTO_PAY']}">자동</span></div>
+                        <div><span class="tag" th:text="${i['CTG']}">저축</span></div>
                         <div class="title fw:2" th:text="${i['NAME']}">국민 적금</div>
-                        <div class="desc fs:5"  th:text="${i['DD'] != null ? '매달 '+ i['DD'] + '일' : '일자 지정 안함'}">매월 30일</div>
+                        <div class="desc fs:5" th:text="${i['DD'] == null ? '일자 지정 안함' : (i['IS_AUTO_PAY'] ? '매달 ' + i['DD'] + '일 · 자동' : '매달 ' + i['DD'] + '일')}">매월 30일</div>
                     </div>
                     <div class="title fw:2" th:text="${#numbers.formatDecimal(i['AMT'], 0, 'COMMA', 0, 'POINT')} + '원'">300,000원</div>
                     <div class="delBtn icon icon:x icon-size:1 as:self-start cursor:pointer pos:absolute top:1 right:1" th:data-id="${i['ID']}">삭제</div>

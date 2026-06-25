@@ -82,9 +82,3 @@ input[name="isAutoPay"]:checked::after {
 input[name="isAutoPay"]:disabled {
     opacity: 0.4;
 }
-
-.tag-auto {
-    margin-left: 4px;
-    background-color: var(--color-sub-1);
-    color: var(--color-base-1);
-}
