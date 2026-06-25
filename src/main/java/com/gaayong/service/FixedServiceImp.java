@@ -39,9 +39,9 @@ public class FixedServiceImp implements FixedService{
     @Transactional
     @Override
     public boolean add(Map<String, String> map) {
-        int id = repository.save(map);
+        repository.save(map);
         if(map.get("isPaid") != null && map.get("isPaid").equals("on")) {
-            map.put("fixedId", String.valueOf(id));
+            map.put("fixedId", String.valueOf(map.get("id")));
             map.put("dd", LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
             expenseService.add(map);
         }
