@@ -18,10 +18,10 @@ public class SchedulerService {
     }
 
     /**
-     * 매일 밤 10시에 실행되어 만료된 remember-me 토큰을 삭제합니다.
+     * 매월 1일 새벽 3시에 실행되어 만료된 remember-me 토큰을 삭제합니다.
      * (토큰 유효기간: 30일)
      */
-    @Scheduled(cron = "0 0 22 * * ?")
+    @Scheduled(cron = "0 0 3 1 * ?")
     public void cleanupExpiredPersistentTokens() {
         LocalDateTime thirtyDaysAgo = LocalDateTime.now().minusDays(30);
         try {
