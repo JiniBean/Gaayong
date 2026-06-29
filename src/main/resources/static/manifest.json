@@ -2,7 +2,7 @@
   "name": "가용-얼마나 쓸 수 있지?",
   "short_name": "가용",
   "description": "가용금액 관리 및 예산지출관리 앱",
-  "start_url": "/?source=pwa",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#FFF3F7",
   "theme_color": "#292929",

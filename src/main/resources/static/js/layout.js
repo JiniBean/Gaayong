@@ -1,14 +1,10 @@
-import { saveLastRoute, tryRestore } from './lastRoute.js';
-
-tryRestore();
-
-window.addEventListener('pagehide', saveLastRoute);
-document.addEventListener('visibilitychange', function () {
-    if (document.visibilityState === 'hidden') saveLastRoute();
-});
+import { saveLastRoute, tryRestore, initHomeLinks } from './lastRoute.js';
 
 window.addEventListener("load", function (){
-    saveLastRoute();
+    if (!tryRestore()) {
+        saveLastRoute();
+        initHomeLinks();
+    }
     // -------------- 햄버거 버튼 ----------------------
     const drawerBtn = document.querySelector(".drawer-btn");
     const drawerAside = document.querySelector('.drawer');
