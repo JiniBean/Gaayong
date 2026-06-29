@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gaayong.repository.PayRepository">
+
+    <select id="findList" resultType="Map">
+        SELECT p.*, p.PMT_DD DD, c.NAME CTG
+        FROM PAY p
+        LEFT JOIN CTG c ON c.ID = p.CTG_ID
+        WHERE p.USER_ID = #{id}
+        <choose>
+            <when test="month != null and month != '' and month.length() > 0">AND MONTH(p.PMT_DD) = #{month}</when>
+            <otherwise>AND MONTH(p.PMT_DD) = MONTH(CURRENT_DATE)</otherwise>
+        </choose>
+        <choose>
+            <when test="year != null and year != '' and year.length() > 0">AND YEAR(p.PMT_DD) = #{year}</when>
+            <otherwise>AND YEAR(p.PMT_DD) = YEAR(CURRENT_DATE)</otherwise>
+        </choose>
+        <if test="category != null and category != '' and category.length() > 0">
+            AND p.CTG_ID = #{category}
+        </if>
+        ORDER BY p.PMT_DD DESC, p.ID DESC
+    </select>
+
+    <select id="findById" parameterType="String" resultType="Map">
+        SELECT *
+        FROM PAY
+        WHERE ID = #{id}
+    </select>
+
+    <select id="findTotal" resultType="Integer">
+        SELECT IFNULL(SUM(AMT), 0)
+        FROM PAY
+        WHERE USER_ID = #{id}
+        <choose>
+            <when test="month != null and month != '' and month.length() > 0">AND MONTH(PMT_DD) = #{month}</when>
+            <otherwise>AND MONTH(PMT_DD) = MONTH(CURRENT_DATE)</otherwise>
+        </choose>
+        <choose>
+            <when test="year != null and year != '' and year.length() > 0">AND YEAR(PMT_DD) = #{year}</when>
+            <otherwise>AND YEAR(PMT_DD) = YEAR(CURRENT_DATE)</otherwise>
+        </choose>
+    </select>
+
+    <select id="findUnpaid" resultType="Integer">
+        SELECT IFNULL(SUM(AMT), 0)
+        FROM PAY
+        WHERE USER_ID = #{id}
+          AND IS_PAID = false
+        <choose>
+            <when test="month != null and month != '' and month.length() > 0">AND MONTH(PMT_DD) = #{month}</when>
+            <otherwise>AND MONTH(PMT_DD) = MONTH(CURRENT_DATE)</otherwise>
+        </choose>
+        <choose>
+            <when test="year != null and year != '' and year.length() > 0">AND YEAR(PMT_DD) = #{year}</when>
+            <otherwise>AND YEAR(PMT_DD) = YEAR(CURRENT_DATE)</otherwise>
+        </choose>
+    </select>
+
+    <select id="findCategoryTotal" resultType="Integer">
+        SELECT IFNULL(SUM(AMT), 0)
+        FROM PAY
+        WHERE USER_ID = #{id}
+        <if test="category != null and category.length() > 0">AND CTG_ID = #{category}</if>
+        <choose>
+            <when test="month != null and month != '' and month.length() > 0">AND MONTH(PMT_DD) = #{month}</when>
+            <otherwise>AND MONTH(PMT_DD) = MONTH(CURRENT_DATE)</otherwise>
+        </choose>
+        <choose>
+            <when test="year != null and year != '' and year.length() > 0">AND YEAR(PMT_DD) = #{year}</when>
+            <otherwise>AND YEAR(PMT_DD) = YEAR(CURRENT_DATE)</otherwise>
+        </choose>
+    </select>
+
+    <insert id="save" parameterType="Map" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO PAY (
+            NAME, AMT, CTG_ID, USER_ID, PMT_DD, IS_PAID
+        ) VALUES (
+            #{name}, #{amt}, #{ctgId}, #{userId}, #{dd},
+            <choose>
+                <when test="isPaid != null and isPaid.equals('on')">true</when>
+                <otherwise>false</otherwise>
+            </choose>
+        )
+    </insert>
+
+    <update id="mod" parameterType="Map">
+        UPDATE PAY
+        SET
+            NAME = #{name},
+            AMT = #{amt},
+            CTG_ID = #{ctgId},
+            PMT_DD = #{dd},
+            <choose>
+                <when test="isPaid != null and isPaid.equals('on')">IS_PAID = true,</when>
+                <otherwise>IS_PAID = false,</otherwise>
+            </choose>
+            MOD_DT = CURRENT_TIMESTAMP
+        WHERE ID = #{id}
+          AND USER_ID = #{userId}
+    </update>
+
+    <delete id="del" parameterType="Map">
+        DELETE FROM PAY
+        WHERE ID = #{id}
+          AND USER_ID = #{userId}
+    </delete>
+
+</mapper>

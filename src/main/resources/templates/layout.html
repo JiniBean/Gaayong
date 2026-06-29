@@ -35,6 +35,54 @@
     <link rel="stylesheet" href="/css/inc/button.css">
     <link rel="stylesheet" href="/css/inc/form.css">
     <link rel="stylesheet" href="/css/inc/layout.css">
+    <script>
+        (function () {
+            var RESTORED_FLAG = 'gaayong:restored';
+            var RESTORE_FLAG = 'gaayong:restoreRoute';
+            var STORAGE_KEY = 'gaayong:lastRoute';
+            var ALLOWED = ['/', '/expense', '/income', '/fixed', '/pay', '/budget', '/account', '/card', '/category'];
+
+            function isStandalone() {
+                return window.matchMedia('(display-mode: standalone)').matches
+                    || window.navigator.standalone === true;
+            }
+
+            function isValidRoute(path) {
+                if (!path || path.charAt(0) !== '/' || path.indexOf('//') === 0) return false;
+                if (/javascript:/i.test(path)) return false;
+                var pathname = path.split('?')[0];
+                return ALLOWED.indexOf(pathname) !== -1;
+            }
+
+            if (sessionStorage.getItem(RESTORED_FLAG)) return;
+            if (window.location.pathname !== '/') return;
+
+            var params = new URLSearchParams(window.location.search);
+            var isPwaLaunch = params.get('source') === 'pwa' && isStandalone();
+            var loginRestore = sessionStorage.getItem(RESTORE_FLAG);
+            var target = isPwaLaunch ? localStorage.getItem(STORAGE_KEY) : loginRestore;
+
+            if (!target || !isValidRoute(target)) {
+                if (isPwaLaunch && params.has('source')) {
+                    history.replaceState(null, '', '/');
+                }
+                return;
+            }
+
+            var targetPath = target.split('?')[0];
+            if (targetPath === '/') {
+                sessionStorage.removeItem(RESTORE_FLAG);
+                if (isPwaLaunch && params.has('source')) {
+                    history.replaceState(null, '', '/');
+                }
+                return;
+            }
+
+            sessionStorage.setItem(RESTORED_FLAG, '1');
+            sessionStorage.removeItem(RESTORE_FLAG);
+            window.location.replace(target);
+        })();
+    </script>
     <script type="module" src="/js/layout.js" defer></script>
 
 </head>
@@ -62,6 +110,7 @@
                     <ul class="d:flex jc:space-between fs:10">
                         <li><a href="/">대시보드</a></li>
                         <li><a href="/expense">지출</a></li>
+                        <li><a href="/pay">지출현황</a></li>
                         <li><a href="/income">수입</a></li>
                         <li><a href="/fixed">고정지출</a></li>
                         <li><a href="/budget">예산</a></li>
@@ -90,6 +139,7 @@
         <ul class="d:flex fl-grow:1 fl-dir:column gap:6 fs:9">
             <li><a href="/">대시보드</a></li>
             <li><a href="/expense">지출</a></li>
+            <li><a href="/pay">지출현황</a></li>
             <li><a href="/income">수입</a></li>
             <li><a href="/fixed">고정지출</a></li>
             <li><a href="/budget">예산</a></li>
