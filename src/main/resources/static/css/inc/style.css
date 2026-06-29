@@ -29,7 +29,7 @@ body{
      display:flex;
      flex-direction: column;
      flex-grow: 1;
-     gap: var(--gap-10);
+     gap: var(--gap-8);
      padding-left: 20px;
      padding-right: 20px;
 
