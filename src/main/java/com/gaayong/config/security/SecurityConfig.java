@@ -45,7 +45,7 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((request) -> request
-                        .requestMatchers("/", "/signin", "/signup", "/css/**", "/js/**", "/icon/**", "/.well-known/**", "/manifest.json", "/service-worker.js")
+                        .requestMatchers("/signin", "/signup", "/css/**", "/js/**", "/icon/**", "/.well-known/**", "/manifest.json", "/service-worker.js")
                         .permitAll()
                         .anyRequest()
                         .authenticated())
@@ -64,7 +64,7 @@ public class SecurityConfig {
                         .rememberMeParameter("remember-me"))
                 .logout(logout -> logout
                         .logoutUrl("/signout")
-                        .logoutSuccessUrl("/")
+                        .logoutSuccessUrl("/signin")
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID", "remember-me")
                         .permitAll())

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'gaayong-v1';
+const CACHE_NAME = 'gaayong-v2';
 const urlsToCache = [
     // 스타일
     '/css/inc/root.css',
@@ -35,11 +35,13 @@ const urlsToCache = [
     '/icons/x.svg',
 
     // 기본 파일
-    '/manifest.json',
-    '/',
-    '/signin',
-    '/signup'
+    '/manifest.json'
 ];
+
+function isHtmlNavigation(request) {
+    return request.mode === 'navigate' ||
+        (request.headers.get('accept') || '').includes('text/html');
+}
 
 // 설치 단계에서 캐시를 생성하고 필요한 파일들을 캐시에 추가
 self.addEventListener('install', event => {
@@ -50,11 +52,10 @@ self.addEventListener('install', event => {
                 return cache.addAll(urlsToCache);
             })
     );
+    self.skipWaiting();
 });
 
-// fetch 이벤트 핸들러 개선 - 네트워크 우선 전략 적용
 self.addEventListener('fetch', event => {
-    // HTTPS 요청으로 강제 변환
     const secureUrl = event.request.url.replace('http://', 'https://');
     const secureRequest = new Request(secureUrl, {
         method: event.request.method,
@@ -63,6 +64,11 @@ self.addEventListener('fetch', event => {
         credentials: event.request.credentials,
         redirect: event.request.redirect
     });
+
+    if (isHtmlNavigation(secureRequest)) {
+        event.respondWith(fetch(secureRequest));
+        return;
+    }
 
     event.respondWith(
         caches.match(secureRequest)
@@ -82,7 +88,6 @@ self.addEventListener('fetch', event => {
                     });
             })
             .catch(() => {
-                // 오프라인 폴백 처리
                 return new Response('오프라인 상태입니다.', {
                     status: 503,
                     statusText: 'Service Unavailable'
@@ -105,5 +110,6 @@ self.addEventListener('activate', event => {
                     })
                 );
             })
+            .then(() => self.clients.claim())
     );
 });
