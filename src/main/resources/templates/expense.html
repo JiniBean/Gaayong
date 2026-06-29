@@ -15,7 +15,7 @@
             <a class="prev">
                 <div class="icon icon:caret-left icon-color:base-5"><</div>
             </a>
-            <h1 class="page-title" th:text="${param.m != null ? param.m + '월 지출' : #temporals.format(#temporals.createToday(), 'M') + '월 지출'}">4월 지출</h1>
+            <h1 class="page-title" th:text="${month + '월 지출'}">4월 지출</h1>
             <a class="next">
                 <div class="icon icon:caret-right icon-color:base-5">></div>
             </a>
@@ -100,8 +100,8 @@
         <div class="d:flex ai:center">
             <div class="scroll-left icon icon:caret-left icon-color:base-5 md:d:none"><</div>
             <div class="ctg-btn scroll:hidden fs:5">
-                <a href="/expense"><div class="btn btn-size:1 btn:outline" th:classappend="${{param.c}} eq null ? 'btn-color:main-2' :''">전체</div></a>
-                <a th:each="c:${categoryList}" th:href="@{/expense(c=${c['ID']})}">
+                <a th:href="@{/expense(y=${year}, m=${month})}"><div class="btn btn-size:1 btn:outline" th:classappend="${{param.c}} eq null ? 'btn-color:main-2' :''">전체</div></a>
+                <a th:each="c:${categoryList}" th:href="@{/expense(c=${c['ID']}, y=${year}, m=${month})}">
                     <div  th:text="${c['NAME']}" class="btn btn-size:1 btn:outline" th:classappend="${{param.c}} eq ${c['ID']} ? 'btn-color:main-2' :''">식비</div>
                 </a>
             </div>

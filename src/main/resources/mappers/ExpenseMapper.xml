@@ -11,14 +11,14 @@
         LEFT JOIN ACCT a ON a.ID = e.ACCT_ID
         WHERE e.USER_ID = #{id}
         <choose>
-            <when test="month != null">AND MONTH(e.PMT_DD) = #{month}</when>
+            <when test="month != null and month != '' and month.length() > 0">AND MONTH(e.PMT_DD) = #{month}</when>
             <otherwise>AND MONTH(e.PMT_DD) = MONTH(CURRENT_DATE)</otherwise>
         </choose>
         <choose>
-            <when test="year != null">AND YEAR(e.PMT_DD) = #{year}</when>
+            <when test="year != null and year != '' and year.length() > 0">AND YEAR(e.PMT_DD) = #{year}</when>
             <otherwise>AND YEAR(e.PMT_DD) = YEAR(CURRENT_DATE)</otherwise>
         </choose>
-        <if test="category != null">
+        <if test="category != null and category != '' and category.length() > 0">
             AND e.CTG_ID = #{category}
         </if>
     </select>
@@ -42,11 +42,11 @@
         FROM EXP
         WHERE USER_ID = #{id}
         <choose>
-            <when test="month != null">AND MONTH(PMT_DD) = #{month}</when>
+            <when test="month != null and month != '' and month.length() > 0">AND MONTH(PMT_DD) = #{month}</when>
             <otherwise>AND MONTH(PMT_DD) = MONTH(CURRENT_DATE)</otherwise>
         </choose>
         <choose>
-            <when test="year != null">AND YEAR(PMT_DD) = #{year}</when>
+            <when test="year != null and year != '' and year.length() > 0">AND YEAR(PMT_DD) = #{year}</when>
             <otherwise>AND YEAR(PMT_DD) = YEAR(CURRENT_DATE)</otherwise>
         </choose>
     </select>
@@ -57,11 +57,11 @@
         WHERE USER_ID = #{id} 
              AND TYPE = 'VAR'
         <choose>
-            <when test="month != null">AND MONTH(PMT_DD) = #{month}</when>
+            <when test="month != null and month != '' and month.length() > 0">AND MONTH(PMT_DD) = #{month}</when>
             <otherwise>AND MONTH(PMT_DD) = MONTH(CURRENT_DATE)</otherwise>
         </choose>
         <choose>
-            <when test="year != null">AND YEAR(PMT_DD) = #{year}</when>
+            <when test="year != null and year != '' and year.length() > 0">AND YEAR(PMT_DD) = #{year}</when>
             <otherwise>AND YEAR(PMT_DD) = YEAR(CURRENT_DATE)</otherwise>
         </choose>
     </select>
@@ -72,11 +72,11 @@
         WHERE USER_ID = #{id}
              AND TYPE = 'FIX'
         <choose>
-            <when test="month != null">AND MONTH(PMT_DD) = #{month}</when>
+            <when test="month != null and month != '' and month.length() > 0">AND MONTH(PMT_DD) = #{month}</when>
             <otherwise>AND MONTH(PMT_DD) = MONTH(CURRENT_DATE)</otherwise>
         </choose>
         <choose>
-            <when test="year != null">AND YEAR(PMT_DD) = #{year}</when>
+            <when test="year != null and year != '' and year.length() > 0">AND YEAR(PMT_DD) = #{year}</when>
             <otherwise>AND YEAR(PMT_DD) = YEAR(CURRENT_DATE)</otherwise>
         </choose>
     </select>
@@ -85,13 +85,13 @@
         SELECT IFNULL(sum(AMT),0)
         FROM EXP
         WHERE USER_ID = #{id}
-            <if test="category != null and category.length() > 0">AND CTG_ID = #{category}</if>
+            <if test="category != null and category != '' and category.length() > 0">AND CTG_ID = #{category}</if>
         <choose>
-            <when test="month != null">AND MONTH(PMT_DD) = #{month}</when>
+            <when test="month != null and month != '' and month.length() > 0">AND MONTH(PMT_DD) = #{month}</when>
             <otherwise>AND MONTH(PMT_DD) = MONTH(CURRENT_DATE)</otherwise>
         </choose>
         <choose>
-            <when test="year != null">AND YEAR(PMT_DD) = #{year}</when>
+            <when test="year != null and year != '' and year.length() > 0">AND YEAR(PMT_DD) = #{year}</when>
             <otherwise>AND YEAR(PMT_DD) = YEAR(CURRENT_DATE)</otherwise>
         </choose>
     </select>

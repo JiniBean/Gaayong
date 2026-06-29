@@ -10,12 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import jakarta.servlet.http.HttpServletRequest;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -42,6 +44,9 @@ public class ExpenseController {
                        @RequestParam(name = "m", required = false) String month,
                        @AuthenticationPrincipal User user, Model model){
 
+        if (!StringUtils.hasText(year)) year = String.valueOf(LocalDate.now().getYear());
+        if (!StringUtils.hasText(month)) month = String.valueOf(LocalDate.now().getMonthValue());
+
         Integer total = service.getTotal(user.getId(), year, month);
         Integer varTotal = service.getVarTotal(user.getId(), year, month);
         Integer fixedTotal = service.getFixedTotal(user.getId(), year, month);
@@ -53,6 +58,8 @@ public class ExpenseController {
         List<Map<String, String>> cardList = cardService.getList(user.getId());
 
         model.addAttribute("error", error);
+        model.addAttribute("year", year);
+        model.addAttribute("month", month);
         model.addAttribute("total", total);
         model.addAttribute("varTotal", varTotal);
         model.addAttribute("fixedTotal", fixedTotal);

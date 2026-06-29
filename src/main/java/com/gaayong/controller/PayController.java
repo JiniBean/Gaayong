@@ -3,18 +3,19 @@ package com.gaayong.controller;
 import com.gaayong.entity.User;
 import com.gaayong.service.CategoryService;
 import com.gaayong.service.PayService;
-import com.gaayong.util.DateParamUtil;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import jakarta.servlet.http.HttpServletRequest;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -34,18 +35,18 @@ public class PayController {
                        @RequestParam(name = "y", required = false) String year,
                        @RequestParam(name = "m", required = false) String month,
                        @AuthenticationPrincipal User user, Model model) {
-        String resolvedYear = DateParamUtil.resolveYear(year);
-        String resolvedMonth = DateParamUtil.resolveMonth(month);
+        if (!StringUtils.hasText(year)) year = String.valueOf(LocalDate.now().getYear());
+        if (!StringUtils.hasText(month)) month = String.valueOf(LocalDate.now().getMonthValue());
 
-        Integer total = service.getTotal(user.getId(), resolvedYear, resolvedMonth);
-        Integer unpaid = service.getUnpaid(user.getId(), resolvedYear, resolvedMonth);
-        Integer categoryTotal = service.getCategoryTotal(user.getId(), category, resolvedYear, resolvedMonth);
-        List<Map<String, Object>> list = service.getList(user.getId(), category, resolvedYear, resolvedMonth);
+        Integer total = service.getTotal(user.getId(), year, month);
+        Integer unpaid = service.getUnpaid(user.getId(), year, month);
+        Integer categoryTotal = service.getCategoryTotal(user.getId(), category, year, month);
+        List<Map<String, Object>> list = service.getList(user.getId(), category, year, month);
         List<Map<String, Object>> categoryList = categoryService.getList(user.getId(), "E");
 
         model.addAttribute("error", error);
-        model.addAttribute("year", resolvedYear);
-        model.addAttribute("month", resolvedMonth);
+        model.addAttribute("year", year);
+        model.addAttribute("month", month);
         model.addAttribute("total", total);
         model.addAttribute("unpaid", unpaid);
         model.addAttribute("categoryTotal", categoryTotal);
