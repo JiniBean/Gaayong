@@ -25,4 +25,5 @@
     gap: var(--gap-2);
     overflow-x: auto;
     scroll-behavior: smooth;
+    flex-grow: 1;
 }
