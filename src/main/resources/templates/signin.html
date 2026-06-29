@@ -6,6 +6,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/sign.css">
+    <script type="module">
+        import { setRestoreFlag } from '/js/lastRoute.js';
+
+        window.addEventListener('load', function () {
+            document.querySelector('form[action="/signin"]')
+                ?.addEventListener('submit', setRestoreFlag);
+        });
+    </script>
 </head>
 <body>
 <main layout:fragment="main" class="pt:10">
