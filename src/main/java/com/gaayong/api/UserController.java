@@ -11,7 +11,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
 
 @Slf4j
 @RestController("apiUserController")
@@ -20,14 +25,21 @@ public class UserController {
     @Autowired
     private UserService service;
 
-    @GetMapping("/{m}")
-    public ResponseEntity<String> theme(@PathVariable(name = "m") String mode,
-                                        @AuthenticationPrincipal User user, HttpServletRequest request) {
+    @PatchMapping("/theme")
+    public ResponseEntity<Void> theme(@RequestBody Map<String, String> body,
+                                      @AuthenticationPrincipal User user,
+                                      HttpServletRequest request) {
+        String mode = body.get("theme");
 
         try {
-            if (!mode.equals("light") && !mode.equals("dark")) return ResponseEntity.status(422).build();
+            if (!"light".equals(mode) && !"dark".equals(mode)) {
+                return ResponseEntity.unprocessableEntity().build();
+            }
 
             boolean result = service.editTheme(user.getId(), mode);
+            if (!result) {
+                return ResponseEntity.internalServerError().build();
+            }
 
             user.setTheme(mode);
             HttpSession session = request.getSession(false);
@@ -40,10 +52,8 @@ public class UserController {
                         SecurityContextHolder.getContext()
                 );
             }
-            if(!result) return ResponseEntity.status(500).build();
-            else return ResponseEntity.ok().build();
-        }
-        catch (Exception e) {
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
             log.error("Error occurred: {}", e.getMessage(), e);
             return ResponseEntity.badRequest().build();
         }

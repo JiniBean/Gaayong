@@ -38,7 +38,7 @@ public class User implements UserDetails, Serializable {
 
     @Override
     public String getUsername() {
-        return this.name;
+        return this.userNm;
     }
 
     public String getId() {
