@@ -4,9 +4,11 @@ on:
   push:
     branches: [ main ]
     paths:
-      - 'src/**'  # src 디렉토리 내 변경사항만 트리거
-      - 'pom.xml' # pom.xml 변경도 트리거
-      - '.github/workflows/deploy.yml' # deploy.yml 변경도 트리거
+      - 'src/**'
+      - 'frontend/**'
+      - 'pom.xml'
+      - '.nvmrc'
+      - '.github/workflows/deploy.yml'
 
 jobs:
   deploy:

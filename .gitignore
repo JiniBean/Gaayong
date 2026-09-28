@@ -5,6 +5,29 @@ target/
 !**/src/test/**/target/
 logs
 *.yml
+mcp/gaayong-db/.env
+mcp/gaayong-db/node_modules/
+mcp/gaayong-db/dist/
+
+# frontend-maven-plugin local Node
+frontend/node/
+frontend/node_modules/
+frontend/dist/
+
+# Vite SPA build output (maven copies frontend/dist → target/.../static)
+src/main/resources/static/assets/
+src/main/resources/static/index.html
+
+# local Cursor MCP config
+.cursor/
+
+# agent / E2E temp artifacts
+tmp-*
+tmp-json/
+
+# local MCP server (Cursor tooling, not app runtime)
+mcp/
+
 ### STS ###
 .apt_generated
 .classpath
